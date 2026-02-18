@@ -21,6 +21,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            height: 100%;
         }
 
         /* ===== ТИПОГРАФИКА ===== */
@@ -57,7 +58,7 @@
             font-size: 1.1rem;
         }
 
-        /* ===== ПЛАВНЫЙ СКРОЛЛ (как у них) ===== */
+        /* ===== СТРУКТУРА СКРОЛЛА ===== */
         #smooth-wrapper {
             position: fixed;
             top: 0;
@@ -74,7 +75,7 @@
             will-change: transform;
         }
 
-        /* ===== ФОНОВЫЕ ГРАДИЕНТЫ (как у них) ===== */
+        /* ===== ФОНОВЫЕ ГРАДИЕНТЫ ===== */
         .background-gradients {
             position: fixed;
             top: 0;
@@ -92,6 +93,7 @@
             background: radial-gradient(circle at 30% 30%, rgba(100, 100, 255, 0.15) 0%, transparent 70%);
             transform: translate(-900px, -350px);
             filter: blur(60px);
+            transition: transform 0.1s ease-out;
         }
 
         .gradient-2 {
@@ -101,9 +103,10 @@
             background: radial-gradient(circle at 70% 70%, rgba(150, 100, 255, 0.1) 0%, transparent 70%);
             transform: translate(1020px, 699px);
             filter: blur(80px);
+            transition: transform 0.1s ease-out;
         }
 
-        /* ===== ЗЕРНИСТОСТЬ (Grain Overlay) ===== */
+        /* ===== ЗЕРНИСТОСТЬ ===== */
         .grain {
             position: fixed;
             top: 0;
@@ -118,7 +121,17 @@
             mix-blend-mode: multiply;
         }
 
-        /* ===== ПЛЮСЫ (как у них) ===== */
+        /* ===== ПЛЮСЫ С АНИМАЦИЕЙ ===== */
+        .plus-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
         .plus {
             width: 49px;
             height: 49px;
@@ -149,22 +162,12 @@
             transform: translateX(-50%);
         }
 
-        .plus-frame {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 100;
-        }
-
         .plus-1 {
             position: absolute;
             top: 5%;
             left: 5%;
             color: rgba(255, 255, 255, 0.1);
-            animation: rotateSlow 60s linear infinite;
+            animation: rotateSlow 30s linear infinite;
         }
 
         .plus-2 {
@@ -181,7 +184,7 @@
             right: 15%;
             color: rgba(255, 255, 255, 0.05);
             transform: scale(2);
-            animation: rotateSlow 30s linear infinite;
+            animation: rotateSlow 60s linear infinite;
         }
 
         .plus-4 {
@@ -198,7 +201,7 @@
             to { transform: rotate(360deg) scale(var(--scale, 1)); }
         }
 
-        /* ===== КРУГИ (как у них) ===== */
+        /* ===== КРУГИ ===== */
         .circles {
             position: fixed;
             top: 0;
@@ -213,7 +216,8 @@
             position: absolute;
             border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 50%;
-            transition: transform 1.2s ease-out;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
         }
 
         .circle-1 {
@@ -221,7 +225,6 @@
             height: 83.33vh;
             left: calc(-0.5 * 83.33vh + 0px);
             top: calc(-0.5 * 83.33vh + 50vh);
-            transform: rotate(-90deg);
         }
 
         .circle-2 {
@@ -247,6 +250,25 @@
             border-color: rgba(255, 255, 255, 0.02);
         }
 
+        /* ===== АНИМАЦИЯ БУКВ ===== */
+        .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotate(5deg);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .char.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        /* ===== ПАРАЛЛАКС ===== */
+        .parallax {
+            will-change: transform;
+            transition: transform 0.1s ease-out;
+        }
+
         /* ===== КОНТЕЙНЕР ===== */
         .container {
             max-width: 1200px;
@@ -262,10 +284,6 @@
             display: flex;
             align-items: center;
             position: relative;
-        }
-
-        .section-headline {
-            margin-bottom: 4rem;
         }
 
         /* ===== СЕТКА ===== */
@@ -318,57 +336,7 @@
             color: #0a0a0a;
         }
 
-        .button .plus-wrap {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .button:hover .plus-wrap {
-            opacity: 0.1;
-        }
-
-        .button .plus-wrap svg {
-            width: 9px;
-            height: 9px;
-        }
-
-        /* ===== НУМЕРОВАННЫЙ СПИСОК ===== */
-        .numbered-list {
-            display: flex;
-            gap: 3rem;
-            margin-top: 5rem;
-            border-top: 1px solid #333;
-            padding-top: 3rem;
-        }
-
-        .numbered-item {
-            font-size: 1rem;
-            color: #6b6b6b;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .numbered-item:hover {
-            color: #ffffff;
-        }
-
-        .numbered-item span {
-            color: #ffffff;
-            margin-right: 0.5rem;
-            opacity: 0.5;
-        }
-
-        /* ===== ВИДЕО СЕКЦИЯ (как у них) ===== */
+        /* ===== ВИДЕО СЕКЦИЯ ===== */
         .video-section {
             position: relative;
             min-height: 80vh;
@@ -420,95 +388,6 @@
         .play-button svg {
             width: 24px;
             height: 24px;
-        }
-
-        /* ===== КАРТОЧКИ ИНСТАГРАМ ===== */
-        .instagram-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1px;
-            background: #333;
-            margin: 4rem 0;
-        }
-
-        .instagram-card {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 1 / 1;
-        }
-
-        .instagram-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .instagram-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .instagram-card-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
-        }
-
-        .instagram-card-overlay svg {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 1rem;
-        }
-
-        /* ===== НЬЮСЛЕТТЕР ===== */
-        .newsletter {
-            background: #0f0f0f;
-            border: 1px solid #333;
-            padding: 4rem;
-            margin: 4rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .newsletter::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
-            animation: rotateSlow 60s linear infinite;
-        }
-
-        .newsletter-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .newsletter input {
-            background: transparent;
-            border: 1px solid #333;
-            padding: 1rem;
-            color: white;
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-
-        .newsletter input:focus {
-            outline: none;
-            border-color: white;
-        }
-
-        .newsletter .checkbox {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 2rem 0;
         }
 
         /* ===== ФУТЕР ===== */
@@ -573,70 +452,33 @@
             padding-top: 2rem;
         }
 
-        /* ===== АДАПТИВНОСТЬ ===== */
-        @media (max-width: 768px) {
-            .grid-3 {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .numbered-list {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .instagram-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 3rem;
-            }
-            
-            .video-content {
-                padding: 2rem;
-            }
-            
-            .newsletter {
-                padding: 2rem;
-            }
+        /* ===== НУМЕРОВАННЫЙ СПИСОК ===== */
+        .numbered-list {
+            display: flex;
+            gap: 3rem;
+            margin: 5rem 0;
+            border-top: 1px solid #333;
+            padding-top: 3rem;
         }
 
-        /* ===== АНИМАЦИИ ПРИ СКРОЛЛЕ ===== */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+        .numbered-item {
+            font-size: 1rem;
+            color: #6b6b6b;
+            cursor: pointer;
+            transition: color 0.3s;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .numbered-item:hover {
+            color: #ffffff;
         }
 
-        .stagger-item {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+        .numbered-item span {
+            color: #ffffff;
+            margin-right: 0.5rem;
+            opacity: 0.5;
         }
 
-        .stagger-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .stagger-item.visible:nth-child(1) { transition-delay: 0.1s; }
-        .stagger-item.visible:nth-child(2) { transition-delay: 0.2s; }
-        .stagger-item.visible:nth-child(3) { transition-delay: 0.3s; }
-        .stagger-item.visible:nth-child(4) { transition-delay: 0.4s; }
-        .stagger-item.visible:nth-child(5) { transition-delay: 0.5s; }
-
-        /* ===== ЛОУДЕР (как у них) ===== */
+        /* ===== ЛОУДЕР ===== */
         .loader {
             position: fixed;
             top: 0;
@@ -670,6 +512,32 @@
             0% { width: 0%; }
             100% { width: 100%; }
         }
+
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .numbered-list {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .video-content {
+                padding: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -683,8 +551,8 @@
 
     <!-- ФОНОВЫЕ ГРАДИЕНТЫ -->
     <div class="background-gradients">
-        <div class="gradient-1"></div>
-        <div class="gradient-2"></div>
+        <div class="gradient-1" id="gradient1"></div>
+        <div class="gradient-2" id="gradient2"></div>
     </div>
 
     <!-- ПЛЮСЫ -->
@@ -706,21 +574,15 @@
     <!-- ПЛАВНЫЙ СКРОЛЛ -->
     <div id="smooth-wrapper">
         <div id="smooth-content">
-            <!-- ГЛАВНАЯ (Hero) -->
+            <!-- ГЛАВНАЯ -->
             <section>
                 <div class="container">
-                    <div class="fade-in">
+                    <div>
                         <p class="small-text">WELCOME</p>
                         <h1>THE EVOLUTION<br>OF VOICE AI</h1>
-                        <p>MindLang is not just a bot. It's an architectural approach to language learning, engineered for precision and trust. Built on aerospace-grade AI architectures, we deliver a learning experience that evolves with you.</p>
+                        <p class="parallax" data-speed="0.05">MindLang is not just a bot. It's an architectural approach to language learning, engineered for precision and trust. Built on aerospace-grade AI architectures, we deliver a learning experience that evolves with you.</p>
                         <a href="https://t.me/MindLangSpeachbot" class="button">
                             OPEN IN TELEGRAM
-                            <span class="plus-wrap">
-                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                            </span>
                         </a>
                     </div>
                 </div>
@@ -729,10 +591,10 @@
             <!-- PHILOSOPHY -->
             <section>
                 <div class="container">
-                    <div class="fade-in">
+                    <div>
                         <p class="small-text">01 — PHILOSOPHY</p>
                         <h2>PERFORMANCE<br>ENGINEERED</h2>
-                        <p>Performance is more than speed. It's control over every phrase, perfect intonation, and confidence in how you respond across any context. MindLang carries decades of linguistic development and a singular focus on AI engineering. The result is more than a technical advantage. It's a learning experience built on precision and trust.</p>
+                        <p class="parallax" data-speed="0.03">Performance is more than speed. It's control over every phrase, perfect intonation, and confidence in how you respond across any context. MindLang carries decades of linguistic development and a singular focus on AI engineering.</p>
                     </div>
                 </div>
             </section>
@@ -740,10 +602,10 @@
             <!-- CRAFT -->
             <section>
                 <div class="container">
-                    <div class="fade-in">
+                    <div>
                         <p class="small-text">02 — CRAFT</p>
                         <h2>HANDCRAFTED<br>BY AI</h2>
-                        <p>Made from Custom Composite AI using aerospace linguistics and neural architecture. Each interaction is built from voice to text using our Rim-to-Rim monocoque design, engineered for low cognitive load, maximum fluency, and a response that's completely in tune with you.</p>
+                        <p class="parallax" data-speed="0.04">Made from Custom Composite AI using aerospace linguistics and neural architecture. Each interaction is built from voice to text using our Rim-to-Rim monocoque design, engineered for low cognitive load.</p>
                     </div>
                 </div>
             </section>
@@ -751,10 +613,10 @@
             <!-- INNOVATION -->
             <section>
                 <div class="container">
-                    <div class="fade-in">
+                    <div>
                         <p class="small-text">03 — INNOVATION</p>
                         <h2>ALPHA VOICE<br>TECHNOLOGY</h2>
-                        <p>ART (Adaptive Response Tuning) is MindLang's latest innovation, engineered to strengthen your speaking from the inside out. The internal neural structure boosts lateral fluency without adding cognitive weight, so more of your thought goes straight to your speech.</p>
+                        <p class="parallax" data-speed="0.02">ART (Adaptive Response Tuning) is MindLang's latest innovation, engineered to strengthen your speaking from the inside out. The internal neural structure boosts lateral fluency without adding cognitive weight.</p>
                     </div>
                 </div>
             </section>
@@ -763,17 +625,17 @@
             <section>
                 <div class="container">
                     <div class="grid-3">
-                        <div class="grid-item stagger-item">
+                        <div class="grid-item">
                             <span class="number">01</span>
                             <h3>PHILOSOPHY</h3>
                             <p>More than grammar. It's control over every phrase, perfect intonation, and confidence in how you respond across any context.</p>
                         </div>
-                        <div class="grid-item stagger-item">
+                        <div class="grid-item">
                             <span class="number">02</span>
                             <h3>CRAFT</h3>
                             <p>Made from Custom Composite AI using aerospace linguistics and neural architecture. Built for low cognitive load.</p>
                         </div>
-                        <div class="grid-item stagger-item">
+                        <div class="grid-item">
                             <span class="number">03</span>
                             <h3>INNOVATION</h3>
                             <p>ART is MindLang's core — internal neural structure for lateral fluency in speaking. More power goes straight to your vocabulary.</p>
@@ -782,21 +644,15 @@
                 </div>
             </section>
 
-            <!-- EVOLUTION (MEILENSTEIN ART аналог) -->
+            <!-- EVOLUTION -->
             <section>
                 <div class="container">
-                    <div class="fade-in">
+                    <div>
                         <p class="small-text">04 — EVOLUTION</p>
                         <h2>MINDLANG · ART</h2>
-                        <p>The all-new MindLang is a completely re-engineered AI tutor built for greater speech aerodynamics, neural stiffness, and conversational control. First to feature Alpha Voice Technology, it's made to handle small talk, deep discussions, and technical jargon with equal precision.</p>
+                        <p>The all-new MindLang is a completely re-engineered AI tutor built for greater speech aerodynamics, neural stiffness, and conversational control. First to feature Alpha Voice Technology, it's made to handle any conversation with precision.</p>
                         <a href="https://t.me/MindLangSpeachbot" class="button">
                             LEARN MORE
-                            <span class="plus-wrap">
-                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                            </span>
                         </a>
                     </div>
                 </div>
@@ -805,11 +661,10 @@
             <!-- ВИДЕО СЕКЦИЯ -->
             <section class="video-section">
                 <div class="video-wrap">
-                    <!-- Замени на свое видео -->
                     <iframe src="https://player.vimeo.com/video/1129863318?autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div class="container" style="position: relative; z-index: 2;">
-                    <div class="video-content fade-in">
+                    <div class="video-content">
                         <div class="play-button">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
@@ -818,65 +673,6 @@
                         <p class="small-text">WATCH THE STORY</p>
                         <h2>THE ARCHITECTURE<br>OF VOICE</h2>
                         <p>See how MindLang transforms your speech into structured learning.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- INSTAGRAM CARDS -->
-            <section>
-                <div class="container">
-                    <h2 class="fade-in">#mindlang</h2>
-                    <div class="instagram-cards">
-                        <div class="instagram-card stagger-item">
-                            <img src="https://via.placeholder.com/600x600/1a1a1a/ffffff?text=VOICE+AI" alt="Voice AI">
-                            <div class="instagram-card-overlay">
-                                <svg viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/></svg>
-                                <p>The future of language learning is here.</p>
-                            </div>
-                        </div>
-                        <div class="instagram-card stagger-item">
-                            <img src="https://via.placeholder.com/600x600/2a2a2a/ffffff?text=AI+TUTOR" alt="AI Tutor">
-                            <div class="instagram-card-overlay">
-                                <svg viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/></svg>
-                                <p>Speak like a native with AI feedback.</p>
-                            </div>
-                        </div>
-                        <div class="instagram-card stagger-item">
-                            <img src="https://via.placeholder.com/600x600/3a3a3a/ffffff?text=VOICE+BOT" alt="Voice Bot">
-                            <div class="instagram-card-overlay">
-                                <svg viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/></svg>
-                                <p>Your personal AI language architect.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- НЬЮСЛЕТТЕР -->
-            <section>
-                <div class="container">
-                    <div class="newsletter fade-in">
-                        <div class="newsletter-content">
-                            <p class="small-text">STAY UPDATED</p>
-                            <h2>SUBSCRIBE TO OUR<br>NEWSLETTER</h2>
-                            <p>Get the latest updates on MindLang's evolution, AI breakthroughs, and language learning insights.</p>
-                            <form>
-                                <input type="email" placeholder="Your email*" required>
-                                <div class="checkbox">
-                                    <input type="checkbox" id="consent" required>
-                                    <label for="consent">I agree to the collection and processing of my personal data as described in the <a href="#" style="color: white; text-decoration: underline;">Privacy Policy</a>.</label>
-                                </div>
-                                <button type="submit" class="button" style="width: 100%;">
-                                    SIGN UP
-                                    <span class="plus-wrap">
-                                        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0V4.5M4.5 9V4.5M9 4.5H4.5M0 4.5H4.5" stroke="currentColor"/></svg>
-                                    </span>
-                                </button>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -934,7 +730,7 @@
                 </div>
             </footer>
 
-            <!-- НУМЕРОВАННЫЙ СПИСОК ВНИЗУ -->
+            <!-- НУМЕРОВАННЫЙ СПИСОК -->
             <div class="container">
                 <div class="numbered-list">
                     <div class="numbered-item"><span>01</span> philosophy</div>
@@ -946,91 +742,159 @@
         </div>
     </div>
 
+    <!-- ===== ПОЛНЫЙ СКРИПТ СО ВСЕМИ АНИМАЦИЯМИ ===== -->
     <script>
-        // ЛОУДЕР
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('loader').classList.add('hidden');
-            }, 2000);
-        });
+        (function() {
+            // 1. ЛОУДЕР
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    document.getElementById('loader').classList.add('hidden');
+                }, 1500);
+            });
 
-        // ПЛАВНЫЙ СКРОЛЛ (упрощенная версия)
-        class Lenis {
-            constructor(options = {}) {
-                this.duration = options.duration || 1.2;
-                this.easing = options.easing || (t => Math.min(1, 1.001 - Math.pow(2, -10 * t)));
-                this.smoothWheel = options.smoothWheel !== false;
-                this.wheelMultiplier = options.wheelMultiplier || 1;
-                this.wrapper = document.getElementById('smooth-wrapper');
-                this.content = document.getElementById('smooth-content');
-                this.current = 0;
-                this.target = 0;
-                this.isScrolling = false;
-                this.rafId = null;
-                
-                window.addEventListener('wheel', this.onWheel.bind(this));
-                this.animate();
-            }
+            // 2. ОСНОВНЫЕ ЭЛЕМЕНТЫ
+            const wrapper = document.getElementById('smooth-wrapper');
+            const content = document.getElementById('smooth-content');
+            const gradient1 = document.getElementById('gradient1');
+            const gradient2 = document.getElementById('gradient2');
+            const circles = document.querySelectorAll('.circle');
             
-            onWheel(e) {
-                if (!this.smoothWheel) return;
-                e.preventDefault();
-                this.target += e.deltaY * 0.01 * this.wheelMultiplier;
-                this.target = Math.max(0, Math.min(this.target, this.content.offsetHeight - window.innerHeight));
-                if (!this.isScrolling) {
-                    this.isScrolling = true;
-                }
+            // 3. НАСТРОЙКА ВЫСОТЫ
+            function setHeight() {
+                document.body.style.height = content.offsetHeight + 'px';
             }
-            
-            animate() {
-                this.current += (this.target - this.current) * 0.1;
-                if (Math.abs(this.target - this.current) < 0.01) {
-                    this.current = this.target;
-                    this.isScrolling = false;
+            setHeight();
+            window.addEventListener('resize', setHeight);
+
+            // 4. ПЛАВНЫЙ СКРОЛЛ (Lenis style)
+            const smoothScroll = {
+                target: 0,
+                current: 0,
+                ease: 0.075, // 0.03 - медленно, 0.075 - норм, 0.1 - быстро
+                
+                onWheel(e) {
+                    e.preventDefault();
+                    this.target += e.deltaY;
+                    
+                    // Ограничиваем
+                    const max = content.offsetHeight - window.innerHeight;
+                    this.target = Math.max(0, Math.min(this.target, max));
+                },
+                
+                animate() {
+                    // Плавное движение
+                    this.current += (this.target - this.current) * this.ease;
+                    
+                    // Применяем к контенту
+                    content.style.transform = `translateY(-${this.current}px)`;
+                    
+                    // 5. АНИМАЦИЯ КРУГОВ (вращение + движение)
+                    circles.forEach((circle, i) => {
+                        const speed = 0.02 + (i * 0.01);
+                        const rotation = this.current * speed;
+                        const moveX = Math.sin(this.current * 0.002 + i) * 30;
+                        const moveY = Math.cos(this.current * 0.002 + i) * 30;
+                        const scale = 1 + Math.sin(this.current * 0.001) * 0.1;
+                        circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px) scale(${scale})`;
+                    });
+                    
+                    // 6. АНИМАЦИЯ ГРАДИЕНТОВ (движение при скролле)
+                    if (gradient1 && gradient2) {
+                        const maxScroll = content.offsetHeight - window.innerHeight;
+                        const progress = maxScroll > 0 ? this.current / maxScroll : 0;
+                        
+                        gradient1.style.transform = `translate(${-900 + progress * 200}px, ${-350 + progress * 100}px)`;
+                        gradient2.style.transform = `translate(${1020 - progress * 300}px, ${699 - progress * 200}px)`;
+                    }
+                    
+                    // 7. ПАРАЛЛАКС ДЛЯ ЭЛЕМЕНТОВ
+                    document.querySelectorAll('.parallax').forEach(el => {
+                        const speed = parseFloat(el.dataset.speed) || 0.1;
+                        const y = this.current * speed;
+                        el.style.transform = `translateY(${y}px)`;
+                    });
+                    
+                    requestAnimationFrame(this.animate.bind(this));
                 }
-                
-                this.content.style.transform = `translateY(-${this.current}px)`;
-                
-                // Обновляем круги при скролле
-                const circles = document.querySelectorAll('.circle');
-                circles.forEach((circle, i) => {
-                    const speed = 0.05 + (i * 0.02);
-                    circle.style.transform = `rotate(${this.current * speed}deg)`;
+            };
+
+            // Привязываем события
+            window.addEventListener('wheel', (e) => smoothScroll.onWheel(e), { passive: false });
+            
+            // Стартуем анимацию
+            smoothScroll.animate();
+
+            // 8. АНИМАЦИЯ БУКВ (появляются по очереди)
+            function initCharAnimation() {
+                // Разбиваем заголовки на буквы
+                document.querySelectorAll('h1, h2, h3').forEach(headline => {
+                    if (headline.querySelector('.char')) return; // уже разбили
+                    
+                    const text = headline.textContent;
+                    let html = '';
+                    for (let char of text) {
+                        if (char === ' ') {
+                            html += ' ';
+                        } else {
+                            html += `<span class="char">${char}</span>`;
+                        }
+                    }
+                    headline.innerHTML = html;
                 });
                 
-                this.rafId = requestAnimationFrame(this.animate.bind(this));
+                // Наблюдатель для появления
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const chars = entry.target.querySelectorAll('.char');
+                            chars.forEach((char, i) => {
+                                setTimeout(() => {
+                                    char.classList.add('visible');
+                                }, i * 30);
+                            });
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                document.querySelectorAll('h1, h2, h3').forEach(el => observer.observe(el));
             }
-        }
+            
+            // Запускаем через небольшую задержку
+            setTimeout(initCharAnimation, 500);
 
-        // Запускаем плавный скролл
-        const lenis = new Lenis({
-            duration: 1.2,
-            smoothWheel: true,
-            wheelMultiplier: 1
-        });
-
-        // Анимации при скролле (Intersection Observer)
-        const fadeElements = document.querySelectorAll('.fade-in, .stagger-item');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+            // 9. ЭФФЕКТ СЛЕЖЕНИЯ ЗА МЫШЬЮ
+            document.addEventListener('mousemove', (e) => {
+                const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+                
+                circles.forEach((circle, i) => {
+                    const strength = 10 + i * 5;
+                    // Получаем текущую трансформацию
+                    const currentTransform = circle.style.transform;
+                    // Добавляем смещение (но оставляем вращение)
+                    if (currentTransform) {
+                        circle.style.transform = currentTransform + ` translate(${mouseX * strength}px, ${mouseY * strength}px)`;
+                    }
+                });
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px'
-        });
-        
-        fadeElements.forEach(el => observer.observe(el));
 
-        // Плюсы на заднем фоне
-        document.querySelectorAll('.plus').forEach((plus, i) => {
-            plus.style.transform += ` scale(${0.5 + i * 0.2})`;
-        });
+            // 10. ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ ДЛЯ КНОПОК
+            document.querySelectorAll('.button').forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.transform = 'scale(1.05)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'scale(1)';
+                });
+            });
+
+            // 11. ОБНОВЛЕНИЕ ВЫСОТЫ ПРИ ИЗМЕНЕНИИ КОНТЕНТА
+            const resizeObserver = new ResizeObserver(() => {
+                setHeight();
+            });
+            resizeObserver.observe(content);
+            
+        })();
     </script>
-</body>
-</html>
 </body>
 </html>
