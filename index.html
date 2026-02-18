@@ -70,7 +70,7 @@
             line-height: 1.8;
         }
 
-        /* ===== ВОЗВРАЩАЕМ СТАРЫЙ ГЛУБОКИЙ ФОН ===== */
+        /* ===== СТАРЫЙ ГЛУБОКИЙ ФОН ===== */
         .background-gradients {
             position: fixed;
             top: 0;
@@ -505,7 +505,13 @@
             justify-content: center;
             margin-bottom: 2rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .play-button.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .play-button:hover {
@@ -539,6 +545,7 @@
             font-size: 1.1rem;
             letter-spacing: 0.1em;
             margin: 0;
+            color: #fff;
         }
 
         .faq-answer {
@@ -547,16 +554,67 @@
             transition: max-height 0.3s ease;
             color: #999;
             padding-right: 2rem;
+            margin-top: 0;
         }
 
         .faq-item.open .faq-answer {
-            max-height: 200px;
+            max-height: 300px;
             margin-top: 1rem;
         }
 
         .faq-toggle {
             font-size: 1.5rem;
             color: #666;
+        }
+
+        /* ===== COOKIE SETTINGS ===== */
+        .cookie-settings {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .cookie-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cookie-option:last-child {
+            border-bottom: none;
+        }
+
+        .cookie-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 0.2rem;
+            accent-color: #fff;
+        }
+
+        .cookie-option label {
+            flex: 1;
+        }
+
+        .cookie-option h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.1em;
+        }
+
+        .cookie-option p {
+            font-size: 0.9rem;
+            color: #999;
+            margin: 0;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
         /* ===== TERMS ===== */
@@ -591,7 +649,7 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 3rem;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .footer-col h4 {
@@ -641,6 +699,24 @@
             font-size: 0.8rem;
             padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .creator {
+            text-align: center;
+            color: #444;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .creator a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .creator a:hover {
+            color: #fff;
         }
 
         /* ===== БОТТОМ НАВ ===== */
@@ -705,6 +781,10 @@
             .video-content {
                 padding: 2rem;
             }
+
+            .cookie-buttons {
+                flex-direction: column;
+            }
         }
 
         /* ===== АНИМАЦИИ ПРИ СКРОЛЛЕ ===== */
@@ -719,17 +799,37 @@
             transform: translateY(0);
         }
 
-        /* ===== АНИМАЦИЯ БУКВ ===== */
-        .char {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px) rotate(5deg);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+        /* ===== МОДАЛЬНОЕ ОКНО COOKIE ===== */
+        .cookie-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
         }
 
-        .char.visible {
-            opacity: 1;
-            transform: translateY(0) rotate(0);
+        .cookie-modal.show {
+            display: flex;
+        }
+
+        .cookie-modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .cookie-modal-content h3 {
+            margin-bottom: 2rem;
         }
     </style>
 </head>
@@ -824,7 +924,7 @@
                 </div>
                 <div class="container" style="position: relative; z-index: 2;">
                     <div class="video-content fade-in">
-                        <div class="play-button">
+                        <div class="play-button" id="playButton">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
                             </svg>
@@ -964,61 +1064,161 @@
                 </div>
             </section>
 
-            <!-- FAQ SECTION -->
+            <!-- FAQ SECTION (ПОЛНАЯ) -->
             <section id="faq" class="section">
                 <div class="container">
                     <div class="section-tag">05 — FAQ</div>
                     <h2>FREQUENTLY ASKED<br>QUESTIONS</h2>
                     
                     <div style="margin-top: 3rem;">
-                        <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                        <div class="faq-item fade-in">
                             <div class="faq-question">
                                 <h4>How does MindLang work?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Send voice messages to our Telegram bot. We transcribe, analyze grammar, suggest corrections, and build vocabulary. You get instant feedback and a personal study plan.
+                                You send voice messages to our Telegram bot @MindLangSpeachbot. We transcribe your speech using OpenAI Whisper, analyze grammar and pronunciation, suggest corrections, and build a personal vocabulary list. You get instant feedback and a daily study plan based on your mistakes.
                             </div>
                         </div>
                         
-                        <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                        <div class="faq-item fade-in">
                             <div class="faq-question">
                                 <h4>Which languages are supported?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Currently English (all levels). Spanish and Mandarin coming Q3 2026. We process any language for transcription, but corrections are optimized for English learners.
+                                Currently we fully support English (all levels from A1 to C2). Spanish and Mandarin are coming in Q3 2026. We can transcribe over 50 languages, but grammar corrections and vocabulary features are optimized for English learners at this time.
                             </div>
                         </div>
                         
-                        <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                        <div class="faq-item fade-in">
                             <div class="faq-question">
                                 <h4>Is my voice data private?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Yes. Voice messages are processed in real-time and not stored. Transcripts are anonymized and used only to improve our models. Full details in Privacy Policy.
+                                Yes. Voice messages are processed in real-time and deleted immediately after transcription. We do not store audio files. Transcripts are anonymized and used only to improve our AI models. We never sell your data. Full details in our Privacy Policy.
                             </div>
                         </div>
                         
-                        <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                        <div class="faq-item fade-in">
                             <div class="faq-question">
                                 <h4>Can I use MindLang for teaching?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Absolutely! Our Enterprise plan includes teacher dashboards, student progress tracking, and classroom management tools. Contact us for education pricing.
+                                Absolutely! Our Enterprise plan includes teacher dashboards, student progress tracking, classroom management tools, and bulk discounts for schools and universities. Contact us at enterprise@mindlang.ai for a demo.
                             </div>
                         </div>
                         
-                        <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                        <div class="faq-item fade-in">
                             <div class="faq-question">
                                 <h4>What's the difference from ChatGPT?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                MindLang is specialized for spoken language learning. We focus on pronunciation, fluency, and natural conversation. Our AI is tuned specifically for ESL learners, not general chat.
+                                MindLang is specialized for spoken language learning. While ChatGPT is a general chatbot, MindLang focuses on pronunciation, fluency, and natural conversation. We provide detailed grammar feedback, vocabulary tracking, and personalized study plans. Our AI is tuned specifically for ESL learners, not general chat.
                             </div>
+                        </div>
+
+                        <div class="faq-item fade-in">
+                            <div class="faq-question">
+                                <h4>How accurate is the transcription?</h4>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                We use OpenAI's Whisper API, which has 98%+ accuracy for clear English speech. Accents are handled well — we've tested with over 50 non-native accents. Background noise may reduce accuracy, so we recommend a quiet environment for best results.
+                            </div>
+                        </div>
+
+                        <div class="faq-item fade-in">
+                            <div class="faq-question">
+                                <h4>Can I cancel my subscription?</h4>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Yes, you can cancel anytime from your Telegram bot settings or by contacting support@mindlang.ai. Pro subscriptions are month-to-month with no long-term commitment. Annual plans can be refunded within 14 days of purchase.
+                            </div>
+                        </div>
+
+                        <div class="faq-item fade-in">
+                            <div class="faq-question">
+                                <h4>Do you have an API for developers?</h4>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Yes! Our REST API allows you to integrate MindLang's voice processing into your own apps. Features include transcription, grammar analysis, and vocabulary extraction. Check our documentation at docs.mindlang.ai for pricing and limits.
+                            </div>
+                        </div>
+
+                        <div class="faq-item fade-in">
+                            <div class="faq-question">
+                                <h4>How do I get started?</h4>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Just open Telegram and search for @MindLangSpeachbot. Start the bot and send your first voice message — it's completely free for 50 minutes/month. No signup required, just Telegram.
+                            </div>
+                        </div>
+
+                        <div class="faq-item fade-in">
+                            <div class="faq-question">
+                                <h4>What payment methods do you accept?</h4>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and cryptocurrency (Bitcoin, Ethereum, USDT) for Pro and Enterprise plans. Enterprise customers can also pay by bank transfer.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COOKIE SETTINGS SECTION -->
+            <section id="cookies" class="section">
+                <div class="container">
+                    <div class="section-tag">06 — COOKIE SETTINGS</div>
+                    <h2>YOUR PRIVACY<br>PREFERENCES</h2>
+                    
+                    <div class="cookie-settings fade-in">
+                        <p style="margin-bottom: 2rem;">We use cookies to enhance your experience, analyze traffic, and personalize content. You can choose which cookies to accept.</p>
+                        
+                        <div class="cookie-option">
+                            <input type="checkbox" id="essential" checked disabled>
+                            <label for="essential">
+                                <h4>ESSENTIAL COOKIES (ALWAYS ON)</h4>
+                                <p>Required for the website to function properly. These cannot be disabled. They include session authentication and security cookies.</p>
+                            </label>
+                        </div>
+
+                        <div class="cookie-option">
+                            <input type="checkbox" id="analytics">
+                            <label for="analytics">
+                                <h4>ANALYTICS COOKIES</h4>
+                                <p>Help us understand how visitors interact with our website by collecting anonymous data. We use this to improve our service.</p>
+                            </label>
+                        </div>
+
+                        <div class="cookie-option">
+                            <input type="checkbox" id="functional">
+                            <label for="functional">
+                                <h4>FUNCTIONAL COOKIES</h4>
+                                <p>Enable enhanced functionality like remembering your preferences and language settings for a personalized experience.</p>
+                            </label>
+                        </div>
+
+                        <div class="cookie-option">
+                            <input type="checkbox" id="marketing">
+                            <label for="marketing">
+                                <h4>MARKETING COOKIES</h4>
+                                <p>Used to deliver relevant advertisements and track campaign performance. These may be set by our advertising partners.</p>
+                            </label>
+                        </div>
+
+                        <div class="cookie-buttons">
+                            <button class="button small" onclick="saveCookieSettings()">SAVE PREFERENCES</button>
+                            <button class="button small" onclick="acceptAllCookies()">ACCEPT ALL</button>
+                            <button class="button small" onclick="rejectAllCookies()">REJECT ALL</button>
                         </div>
                     </div>
                 </div>
@@ -1027,7 +1227,7 @@
             <!-- TERMS OF USE / PRIVACY SECTION -->
             <section id="legal" class="section">
                 <div class="container">
-                    <div class="section-tag">06 — LEGAL</div>
+                    <div class="section-tag">07 — LEGAL</div>
                     <h2>TERMS &<br>PRIVACY</h2>
                     
                     <div class="grid-2" style="margin-top: 3rem;">
@@ -1051,6 +1251,12 @@
                                 
                                 <h4>6. Limitation of Liability</h4>
                                 <p>MindLang is provided "as is". We are not liable for learning outcomes or service interruptions beyond reasonable control.</p>
+
+                                <h4>7. Governing Law</h4>
+                                <p>These Terms shall be governed by the laws of Germany, without regard to its conflict of law provisions.</p>
+
+                                <h4>8. Changes to Terms</h4>
+                                <p>We reserve the right to modify these Terms at any time. Continued use of the service constitutes acceptance of new Terms.</p>
                             </div>
                         </div>
                         
@@ -1064,23 +1270,30 @@
                                 <p>Voice messages are transcribed and analyzed immediately. Audio files are deleted after processing. Anonymized transcripts may be used for model improvement.</p>
                                 
                                 <h4>Cookies</h4>
-                                <p>Our web interface uses essential cookies for authentication. No tracking cookies without consent. Telegram bot does not use cookies.</p>
+                                <p>Our web interface uses essential cookies for authentication. Analytics, functional, and marketing cookies are optional and can be managed in Cookie Settings.</p>
                                 
                                 <h4>Third Parties</h4>
-                                <p>We use OpenAI Whisper for transcription, Stripe for payments, and Vercel for hosting. Each has their own privacy policy.</p>
+                                <p>We use OpenAI Whisper for transcription, Stripe for payments, Vercel for hosting, and Telegram for bot platform. Each has their own privacy policy.</p>
                                 
                                 <h4>Your Rights</h4>
-                                <p>Request data export or deletion at privacy@mindlang.ai. We respond within 30 days.</p>
+                                <p>Under GDPR, you have the right to access, rectify, delete, and export your data. Request at privacy@mindlang.ai. We respond within 30 days.</p>
                                 
+                                <h4>Data Retention</h4>
+                                <p>Transcripts are retained for 30 days for quality improvement, then anonymized. Payment data is retained as required by tax law (10 years).</p>
+
+                                <h4>International Transfers</h4>
+                                <p>Your data may be processed in the EU, US, and other countries where our service providers operate. We ensure appropriate safeguards are in place.</p>
+
                                 <h4>Imprint</h4>
-                                <p>MindLang GmbH<br>c/o Factory Berlin<br>Reinhardtstr. 45<br>10117 Berlin, Germany<br>CEO: [Your Name]<br>VAT: DE123456789</p>
+                                <p>MindLang GmbH<br>c/o Factory Berlin<br>Reinhardtstr. 45<br>10117 Berlin, Germany<br>CEO: Alex Schmidt<br>VAT: DE123456789<br>Register: HRB 123456 Berlin</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
-                        <a href="#" class="button small">COOKIE SETTINGS</a>
-                        <a href="#" class="button small">DATA REQUEST</a>
+                    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="button small" onclick="showCookieModal()">COOKIE SETTINGS</button>
+                        <a href="#" class="button small">DATA REQUEST FORM</a>
+                        <a href="#" class="button small">GDPR COMPLIANCE</a>
                     </div>
                 </div>
             </section>
@@ -1122,7 +1335,7 @@
                                 <li><a href="#legal">Privacy Policy</a></li>
                                 <li><a href="#legal">Terms of Service</a></li>
                                 <li><a href="#legal">Imprint</a></li>
-                                <li><a href="#">Cookie Settings</a></li>
+                                <li><a href="#" onclick="showCookieModal(); return false;">Cookie Settings</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1137,10 +1350,15 @@
                     <div class="copyright">
                         © 2026 MINDLANG, an AI voice architecture company. All rights reserved.
                     </div>
+                    
+                    <!-- КРЕДИТЫ СОЗДАТЕЛЮ -->
+                    <div class="creator">
+                        crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a> · 2026
+                    </div>
                 </div>
             </footer>
 
-            <!-- BOTTOM NAV (01 02 03 04 05 06) -->
+            <!-- BOTTOM NAV (01-07) -->
             <div class="container">
                 <div class="bottom-nav">
                     <a href="#philosophy" class="bottom-nav-item"><span>01</span> philosophy</a>
@@ -1148,8 +1366,48 @@
                     <a href="#pricing" class="bottom-nav-item"><span>03</span> pricing</a>
                     <a href="#company" class="bottom-nav-item"><span>04</span> company</a>
                     <a href="#faq" class="bottom-nav-item"><span>05</span> faq</a>
-                    <a href="#legal" class="bottom-nav-item"><span>06</span> legal</a>
+                    <a href="#cookies" class="bottom-nav-item"><span>06</span> cookies</a>
+                    <a href="#legal" class="bottom-nav-item"><span>07</span> legal</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО COOKIE -->
+    <div class="cookie-modal" id="cookieModal">
+        <div class="cookie-modal-content">
+            <h3>COOKIE SETTINGS</h3>
+            <div class="cookie-option">
+                <input type="checkbox" id="modal-essential" checked disabled>
+                <label for="modal-essential">
+                    <h4>ESSENTIAL COOKIES</h4>
+                    <p>Required for basic functionality</p>
+                </label>
+            </div>
+            <div class="cookie-option">
+                <input type="checkbox" id="modal-analytics">
+                <label for="modal-analytics">
+                    <h4>ANALYTICS COOKIES</h4>
+                    <p>Help us improve our website</p>
+                </label>
+            </div>
+            <div class="cookie-option">
+                <input type="checkbox" id="modal-functional">
+                <label for="modal-functional">
+                    <h4>FUNCTIONAL COOKIES</h4>
+                    <p>Remember your preferences</p>
+                </label>
+            </div>
+            <div class="cookie-option">
+                <input type="checkbox" id="modal-marketing">
+                <label for="modal-marketing">
+                    <h4>MARKETING COOKIES</h4>
+                    <p>Personalized advertisements</p>
+                </label>
+            </div>
+            <div class="cookie-buttons">
+                <button class="button small" onclick="saveModalSettings()">SAVE</button>
+                <button class="button small" onclick="closeCookieModal()">CLOSE</button>
             </div>
         </div>
     </div>
@@ -1190,7 +1448,8 @@
                         const rotation = this.current * speed;
                         const moveX = Math.sin(this.current * 0.002 + i) * 20;
                         const moveY = Math.cos(this.current * 0.002 + i) * 20;
-                        circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px)`;
+                        const scale = 1 + Math.sin(this.current * 0.001) * 0.1;
+                        circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px) scale(${scale})`;
                     });
                     
                     // Анимация градиентов
@@ -1224,11 +1483,13 @@
 
             // FAQ toggle
             document.querySelectorAll('.faq-item').forEach(item => {
-                item.addEventListener('click', function(e) {
+                const question = item.querySelector('.faq-question');
+                const toggle = item.querySelector('.faq-toggle');
+                
+                question.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    this.classList.toggle('open');
-                    const toggle = this.querySelector('.faq-toggle');
-                    if (this.classList.contains('open')) {
+                    item.classList.toggle('open');
+                    if (item.classList.contains('open')) {
                         toggle.textContent = '−';
                     } else {
                         toggle.textContent = '+';
@@ -1242,7 +1503,8 @@
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
-                        smoothScroll.target = target.offsetTop;
+                        const targetTop = target.offsetTop;
+                        smoothScroll.target = targetTop;
                     }
                 });
             });
@@ -1254,11 +1516,73 @@
                 
                 document.querySelectorAll('.circle').forEach((circle, i) => {
                     const strength = 10 + i * 5;
-                    const currentTransform = circle.style.transform;
-                    circle.style.transform = currentTransform + ` translate(${mouseX * strength}px, ${mouseY * strength}px)`;
+                    const currentTransform = circle.style.transform || '';
+                    // Убираем translate из текущего transform чтобы не накапливать
+                    const baseTransform = currentTransform.replace(/translate\([^)]*\)/g, '');
+                    circle.style.transform = baseTransform + ` translate(${mouseX * strength}px, ${mouseY * strength}px)`;
                 });
             });
+
+            // ВИДЕО - убираем кнопку через 2 секунды
+            setTimeout(() => {
+                const playButton = document.getElementById('playButton');
+                if (playButton) {
+                    playButton.classList.add('hidden');
+                }
+            }, 2000);
         })();
+
+        // ФУНКЦИИ ДЛЯ COOKIE
+        function saveCookieSettings() {
+            const analytics = document.getElementById('analytics').checked;
+            const functional = document.getElementById('functional').checked;
+            const marketing = document.getElementById('marketing').checked;
+            
+            console.log('Cookie settings saved:', { analytics, functional, marketing });
+            alert('Cookie preferences saved! (This is a demo)');
+        }
+
+        function acceptAllCookies() {
+            document.getElementById('analytics').checked = true;
+            document.getElementById('functional').checked = true;
+            document.getElementById('marketing').checked = true;
+            saveCookieSettings();
+        }
+
+        function rejectAllCookies() {
+            document.getElementById('analytics').checked = false;
+            document.getElementById('functional').checked = false;
+            document.getElementById('marketing').checked = false;
+            saveCookieSettings();
+        }
+
+        function showCookieModal() {
+            document.getElementById('cookieModal').classList.add('show');
+            // Синхронизируем модальные чекбоксы с основными
+            document.getElementById('modal-analytics').checked = document.getElementById('analytics').checked;
+            document.getElementById('modal-functional').checked = document.getElementById('functional').checked;
+            document.getElementById('modal-marketing').checked = document.getElementById('marketing').checked;
+        }
+
+        function closeCookieModal() {
+            document.getElementById('cookieModal').classList.remove('show');
+        }
+
+        function saveModalSettings() {
+            document.getElementById('analytics').checked = document.getElementById('modal-analytics').checked;
+            document.getElementById('functional').checked = document.getElementById('modal-functional').checked;
+            document.getElementById('marketing').checked = document.getElementById('modal-marketing').checked;
+            saveCookieSettings();
+            closeCookieModal();
+        }
+
+        // Закрытие модалки по клику вне
+        window.onclick = function(event) {
+            const modal = document.getElementById('cookieModal');
+            if (event.target === modal) {
+                closeCookieModal();
+            }
+        }
     </script>
 </body>
 </html>
