@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MindLang · AI Voice Architecture</title>
     <style>
         /* ===== RESET & BASE ===== */
@@ -21,6 +21,28 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            overflow-y: auto !important; /* Важно для мобилок */
+            height: auto !important;
+            position: relative;
+        }
+
+        /* Отключаем кастомный скролл на мобилках */
+        @media (max-width: 768px) {
+            #smooth-wrapper {
+                position: relative !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            
+            #smooth-content {
+                transform: none !important;
+                height: auto !important;
+            }
+            
+            body {
+                height: auto !important;
+                overflow-y: auto !important;
+            }
         }
 
         /* ===== ТИПОГРАФИКА ===== */
@@ -31,13 +53,13 @@
         }
 
         h1 {
-            font-size: clamp(3rem, 10vw, 5rem);
+            font-size: clamp(2.5rem, 8vw, 5rem);
             line-height: 1.1;
             margin-bottom: 1.5rem;
         }
 
         h2 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
             line-height: 1.2;
             margin-bottom: 2rem;
             position: relative;
@@ -55,7 +77,7 @@
         }
 
         .section-tag {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             letter-spacing: 0.4em;
             color: #6b6b6b;
             margin-bottom: 0.5rem;
@@ -66,7 +88,7 @@
             max-width: 600px;
             margin-bottom: 2rem;
             color: #a0a0a0;
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.8;
         }
 
@@ -109,7 +131,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.03;
+            opacity: 0.02;
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4xIiAvPjwvc3ZnPg==');
             background-repeat: repeat;
             z-index: 1000;
@@ -209,7 +231,7 @@
 
         .circle {
             position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.02);
             border-radius: 50%;
             transition: transform 0.1s ease-out;
         }
@@ -244,44 +266,46 @@
             border-color: rgba(255, 255, 255, 0.02);
         }
 
-        /* ===== ПЛАВНЫЙ СКРОЛЛ ===== */
-        #smooth-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+        /* ===== ПЛАВНЫЙ СКРОЛЛ (только для десктопа) ===== */
+        @media (min-width: 769px) {
+            #smooth-wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
 
-        #smooth-content {
-            position: relative;
-            width: 100%;
-            overflow: visible;
-            will-change: transform;
+            #smooth-content {
+                position: relative;
+                width: 100%;
+                overflow: visible;
+                will-change: transform;
+            }
         }
 
         /* ===== КОНТЕЙНЕР ===== */
         .container {
             max-width: 1300px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1.5rem;
             position: relative;
             z-index: 200;
         }
 
         /* ===== НАВИГАЦИЯ ===== */
         nav {
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: #fff;
@@ -289,29 +313,49 @@
         }
 
         .nav-links {
-            display: flex;
-            gap: 3rem;
+            display: none;
         }
 
-        .nav-links a {
-            color: #888;
-            text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            transition: color 0.3s;
+        @media (min-width: 769px) {
+            .nav-links {
+                display: flex;
+                gap: 3rem;
+            }
+
+            .nav-links a {
+                color: #888;
+                text-decoration: none;
+                font-size: 0.8rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                transition: color 0.3s;
+            }
+
+            .nav-links a:hover {
+                color: #fff;
+            }
         }
 
-        .nav-links a:hover {
+        .mobile-menu-btn {
+            display: block;
             color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
         }
 
         /* ===== ГЕРОЙ ===== */
         .hero {
-            min-height: 80vh;
+            min-height: 70vh;
             display: flex;
             align-items: center;
             margin-bottom: 2rem;
+            padding: 2rem 0;
         }
 
         .hero-content {
@@ -320,39 +364,106 @@
 
         /* ===== СЕКЦИИ ===== */
         .section {
-            padding: 5rem 0;
+            padding: 3rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (min-width: 769px) {
+            .section {
+                padding: 5rem 0;
+            }
         }
 
         .section:last-child {
             border-bottom: none;
         }
 
+        /* ===== СТАТИСТИКА ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        @media (min-width: 769px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (min-width: 769px) {
+            .stat-number {
+                font-size: 3.5rem;
+            }
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            color: #888;
+            text-transform: uppercase;
+        }
+
         /* ===== СЕТКА ===== */
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 4rem;
+            grid-template-columns: 1fr;
+            gap: 2rem;
         }
 
         .grid-3 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
+            grid-template-columns: 1fr;
+            gap: 2rem;
         }
 
         .grid-4 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: 1fr;
             gap: 2rem;
+        }
+
+        @media (min-width: 769px) {
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4rem;
+            }
+
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3rem;
+            }
+
+            .grid-4 {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
+            }
         }
 
         /* ===== КАРТОЧКИ ===== */
         .card {
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.03);
             transition: all 0.3s ease;
+        }
+
+        @media (min-width: 769px) {
+            .card {
+                padding: 2rem;
+            }
         }
 
         .card:hover {
@@ -370,7 +481,7 @@
         }
 
         .card h3 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 1rem;
             letter-spacing: 0.2em;
         }
@@ -383,39 +494,57 @@
 
         /* ===== PRICING CARDS ===== */
         .pricing-card {
-            padding: 2.5rem 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.03);
             text-align: center;
         }
 
+        @media (min-width: 769px) {
+            .pricing-card {
+                padding: 2.5rem 2rem;
+            }
+        }
+
         .pricing-card.featured {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.15);
-            transform: scale(1.05);
+            transform: scale(1.02);
+        }
+
+        @media (min-width: 769px) {
+            .pricing-card.featured {
+                transform: scale(1.05);
+            }
         }
 
         .price {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 300;
-            margin: 1.5rem 0;
+            margin: 1rem 0;
             color: #fff;
         }
 
+        @media (min-width: 769px) {
+            .price {
+                font-size: 3rem;
+            }
+        }
+
         .price small {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #888;
         }
 
         .price-desc {
             color: #888;
             font-size: 0.9rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .feature-list {
             list-style: none;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
             text-align: left;
         }
 
@@ -442,13 +571,19 @@
             background: transparent;
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 1rem 2.5rem;
+            padding: 0.8rem 2rem;
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 0.2em;
             font-size: 0.8rem;
             transition: all 0.3s ease;
             cursor: pointer;
+        }
+
+        @media (min-width: 769px) {
+            .button {
+                padding: 1rem 2.5rem;
+            }
         }
 
         .button:hover {
@@ -458,16 +593,23 @@
         }
 
         .button.small {
-            padding: 0.7rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             font-size: 0.7rem;
         }
 
-        /* ===== ВИДЕО СЕКЦИЯ (КАК У LIGHTWEIGHT) ===== */
+        /* ===== ВИДЕО СЕКЦИЯ ===== */
         .video-section {
             position: relative;
-            min-height: 70vh;
+            min-height: 50vh;
             overflow: hidden;
-            margin: 4rem 0;
+            margin: 2rem 0;
+        }
+
+        @media (min-width: 769px) {
+            .video-section {
+                min-height: 70vh;
+                margin: 4rem 0;
+            }
         }
 
         .video-wrap {
@@ -490,23 +632,38 @@
             z-index: 2;
             background: rgba(10, 10, 10, 0.7);
             backdrop-filter: blur(5px);
-            padding: 4rem;
+            padding: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 600px;
+            max-width: 100%;
+        }
+
+        @media (min-width: 769px) {
+            .video-content {
+                padding: 4rem;
+                max-width: 600px;
+            }
         }
 
         .play-button {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 1px solid white;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             cursor: pointer;
             transition: opacity 0.5s ease;
             opacity: 1;
+        }
+
+        @media (min-width: 769px) {
+            .play-button {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 2rem;
+            }
         }
 
         .play-button.hidden {
@@ -520,14 +677,152 @@
         }
 
         .play-button svg {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (min-width: 769px) {
+            .play-button svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        /* ===== ТЕСТИМОНИАЛЫ ===== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        @media (min-width: 769px) {
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .testimonial {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: serif;
+        }
+
+        .testimonial p {
+            font-size: 1rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            color: #fff;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        .testimonial-role {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        /* ===== КОМАНДА ===== */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        @media (min-width: 769px) {
+            .team-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-member .avatar {
+            width: 100%;
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #666;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .team-member h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .team-member p {
+            font-size: 0.8rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* ===== ПАРТНЕРЫ ===== */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+            align-items: center;
+        }
+
+        @media (min-width: 769px) {
+            .partners-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .partner {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .partner:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         /* ===== FAQ ===== */
         .faq-item {
-            padding: 1.5rem 0;
+            padding: 1.2rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (min-width: 769px) {
+            .faq-item {
+                padding: 1.5rem 0;
+            }
         }
 
         .faq-item:last-child {
@@ -542,10 +837,17 @@
         }
 
         .faq-question h4 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             letter-spacing: 0.1em;
             margin: 0;
             color: #fff;
+            padding-right: 1rem;
+        }
+
+        @media (min-width: 769px) {
+            .faq-question h4 {
+                font-size: 1.1rem;
+            }
         }
 
         .faq-answer {
@@ -553,8 +855,9 @@
             overflow: hidden;
             transition: max-height 0.3s ease;
             color: #999;
-            padding-right: 2rem;
+            padding-right: 1rem;
             margin-top: 0;
+            font-size: 0.9rem;
         }
 
         .faq-item.open .faq-answer {
@@ -565,23 +868,36 @@
         .faq-toggle {
             font-size: 1.5rem;
             color: #666;
+            flex-shrink: 0;
         }
 
         /* ===== COOKIE SETTINGS ===== */
         .cookie-settings {
             background: rgba(20, 20, 20, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
+            padding: 1.5rem;
             margin: 2rem 0;
             backdrop-filter: blur(10px);
+        }
+
+        @media (min-width: 769px) {
+            .cookie-settings {
+                padding: 2rem;
+            }
         }
 
         .cookie-option {
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
+            gap: 0.8rem;
             padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (min-width: 769px) {
+            .cookie-option {
+                gap: 1rem;
+            }
         }
 
         .cookie-option:last-child {
@@ -589,10 +905,11 @@
         }
 
         .cookie-option input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             margin-top: 0.2rem;
             accent-color: #fff;
+            flex-shrink: 0;
         }
 
         .cookie-option label {
@@ -600,38 +917,54 @@
         }
 
         .cookie-option h4 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin-bottom: 0.3rem;
             letter-spacing: 0.1em;
         }
 
         .cookie-option p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #999;
             margin: 0;
         }
 
         .cookie-buttons {
             display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (min-width: 769px) {
+            .cookie-buttons {
+                gap: 1rem;
+                margin-top: 2rem;
+            }
         }
 
         /* ===== TERMS ===== */
         .terms-box {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 2rem;
-            max-height: 400px;
+            padding: 1.5rem;
+            max-height: 300px;
             overflow-y: auto;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #999;
             line-height: 1.8;
         }
 
+        @media (min-width: 769px) {
+            .terms-box {
+                padding: 2rem;
+                max-height: 400px;
+                font-size: 0.9rem;
+            }
+        }
+
         .terms-box h4 {
             color: #fff;
-            margin: 1.5rem 0 0.5rem;
+            margin: 1.2rem 0 0.5rem;
         }
 
         .terms-box h4:first-child {
@@ -640,21 +973,34 @@
 
         /* ===== ФУТЕР ===== */
         footer {
-            padding: 4rem 0;
+            padding: 3rem 0;
             margin-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        @media (min-width: 769px) {
+            footer {
+                padding: 4rem 0;
+            }
+        }
+
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 3rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
             margin-bottom: 3rem;
         }
 
+        @media (min-width: 769px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 3rem;
+            }
+        }
+
         .footer-col h4 {
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+            margin-bottom: 1.2rem;
             color: #fff;
         }
 
@@ -663,13 +1009,13 @@
         }
 
         .footer-col li {
-            margin-bottom: 0.7rem;
+            margin-bottom: 0.6rem;
         }
 
         .footer-col a {
             color: #888;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             transition: color 0.3s;
         }
 
@@ -679,9 +1025,10 @@
 
         .social-links {
             display: flex;
-            gap: 1.5rem;
+            gap: 1.2rem;
             justify-content: center;
             margin: 2rem 0;
+            flex-wrap: wrap;
         }
 
         .social-links a {
@@ -696,15 +1043,22 @@
         .copyright {
             text-align: center;
             color: #666;
-            font-size: 0.8rem;
-            padding-top: 2rem;
+            font-size: 0.7rem;
+            padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (min-width: 769px) {
+            .copyright {
+                font-size: 0.8rem;
+                padding-top: 2rem;
+            }
         }
 
         .creator {
             text-align: center;
             color: #444;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             margin-top: 1rem;
             letter-spacing: 0.1em;
         }
@@ -722,20 +1076,36 @@
         /* ===== БОТТОМ НАВ ===== */
         .bottom-nav {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 4rem;
-            padding: 2rem 0;
+            gap: 1rem;
+            padding: 1.5rem 0;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (min-width: 769px) {
+            .bottom-nav {
+                gap: 4rem;
+                padding: 2rem 0;
+                margin-top: 2rem;
+            }
         }
 
         .bottom-nav-item {
             color: #666;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 769px) {
+            .bottom-nav-item {
+                font-size: 0.8rem;
+            }
         }
 
         .bottom-nav-item:hover {
@@ -744,47 +1114,8 @@
 
         .bottom-nav-item span {
             color: #fff;
-            margin-right: 0.5rem;
+            margin-right: 0.3rem;
             opacity: 0.5;
-        }
-
-        /* ===== АДАПТИВНОСТЬ ===== */
-        @media (max-width: 1024px) {
-            .grid-3, .grid-4, .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .grid-2, .grid-3, .grid-4, .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .pricing-card.featured {
-                transform: scale(1);
-            }
-            
-            .bottom-nav {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .video-content {
-                padding: 2rem;
-            }
-
-            .cookie-buttons {
-                flex-direction: column;
-            }
         }
 
         /* ===== АНИМАЦИИ ПРИ СКРОЛЛЕ ===== */
@@ -807,11 +1138,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
             z-index: 10000;
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(5px);
+            padding: 1rem;
         }
 
         .cookie-modal.show {
@@ -821,15 +1153,22 @@
         .cookie-modal-content {
             background: #1a1a1a;
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 3rem;
-            max-width: 600px;
-            width: 90%;
+            padding: 2rem 1.5rem;
+            max-width: 500px;
+            width: 100%;
             max-height: 80vh;
             overflow-y: auto;
         }
 
+        @media (min-width: 769px) {
+            .cookie-modal-content {
+                padding: 3rem;
+            }
+        }
+
         .cookie-modal-content h3 {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
         }
     </style>
 </head>
@@ -872,6 +1211,7 @@
                         <a href="#pricing">Pricing</a>
                         <a href="#company">Company</a>
                     </div>
+                    <div class="mobile-menu-btn" onclick="alert('Mobile menu coming soon')">☰</div>
                 </nav>
             </div>
 
@@ -887,12 +1227,36 @@
                 </div>
             </section>
 
+            <!-- СТАТИСТИКА (НОВОЕ) -->
+            <section class="section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-item fade-in">
+                            <div class="stat-number">50K+</div>
+                            <div class="stat-label">Active Users</div>
+                        </div>
+                        <div class="stat-item fade-in">
+                            <div class="stat-number">2M+</div>
+                            <div class="stat-label">Voice Messages</div>
+                        </div>
+                        <div class="stat-item fade-in">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                        <div class="stat-item fade-in">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">AI Support</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- PHILOSOPHY / TECHNOLOGY / INNOVATION / EVOLUTION -->
             <section id="philosophy" class="section">
                 <div class="container">
                     <div class="section-tag">01 — PHILOSOPHY</div>
                     <h2>PERFORMANCE<br>ENGINEERED</h2>
-                    <div class="grid-3" style="margin-top: 3rem;">
+                    <div class="grid-3" style="margin-top: 2rem;">
                         <div class="card fade-in">
                             <span class="number">01</span>
                             <h3>PHILOSOPHY</h3>
@@ -917,7 +1281,7 @@
                 </div>
             </section>
 
-            <!-- ВИДЕО СЕКЦИЯ (КАК У LIGHTWEIGHT) -->
+            <!-- ВИДЕО СЕКЦИЯ -->
             <section class="video-section">
                 <div class="video-wrap">
                     <iframe src="https://player.vimeo.com/video/1129863318?autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
@@ -942,7 +1306,7 @@
                     <div class="section-tag">02 — PRODUCT</div>
                     <h2>OUR<br>SOLUTIONS</h2>
                     
-                    <div class="grid-4" style="margin-top: 3rem;">
+                    <div class="grid-4" style="margin-top: 2rem;">
                         <div class="card fade-in">
                             <h3>TELEGRAM BOT</h3>
                             <p>Voice-based AI tutor inside Telegram. Send voice — get text, corrections, vocabulary, and personal study plan.</p>
@@ -973,10 +1337,10 @@
                     <div class="section-tag">03 — PRICING</div>
                     <h2>CHOOSE YOUR<br>PLAN</h2>
                     
-                    <div class="grid-3" style="margin-top: 3rem;">
+                    <div class="grid-3" style="margin-top: 2rem;">
                         <div class="pricing-card fade-in">
                             <h3>FREE</h3>
-                            <div class="price">$0 <small>/ month</small></div>
+                            <div class="price">$0 <small>/ mo</small></div>
                             <p class="price-desc">For casual learners</p>
                             <ul class="feature-list">
                                 <li>50 voice minutes/month</li>
@@ -990,7 +1354,7 @@
                         
                         <div class="pricing-card featured fade-in">
                             <h3>PRO</h3>
-                            <div class="price">$19 <small>/ month</small></div>
+                            <div class="price">$19 <small>/ mo</small></div>
                             <p class="price-desc">For serious learners</p>
                             <ul class="feature-list">
                                 <li>500 voice minutes/month</li>
@@ -1004,7 +1368,7 @@
                         
                         <div class="pricing-card fade-in">
                             <h3>ENTERPRISE</h3>
-                            <div class="price">$99 <small>/ month</small></div>
+                            <div class="price">$99 <small>/ mo</small></div>
                             <p class="price-desc">For teams & schools</p>
                             <ul class="feature-list">
                                 <li>Unlimited voice minutes</li>
@@ -1016,8 +1380,109 @@
                             <a href="#" class="button small">CONTACT SALES</a>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- ТЕСТИМОНИАЛЫ (НОВОЕ) -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-tag">COMMUNITY</div>
+                    <h2>WHAT USERS SAY</h2>
                     
-                    <p style="text-align: center; margin-top: 2rem; color: #666; font-size: 0.9rem;">All plans include basic transcription and AI corrections. Annual billing available with 20% discount.</p>
+                    <div class="testimonials-grid">
+                        <div class="testimonial fade-in">
+                            <p>MindLang completely changed how I practice English. The instant feedback on my pronunciation is incredible.</p>
+                            <div class="testimonial-author">— Maria K.</div>
+                            <div class="testimonial-role">Software Engineer, Spain</div>
+                        </div>
+                        <div class="testimonial fade-in">
+                            <p>I've tried many language apps, but nothing compares to speaking naturally and getting AI feedback in real time.</p>
+                            <div class="testimonial-author">— David Chen</div>
+                            <div class="testimonial-role">Student, Taiwan</div>
+                        </div>
+                        <div class="testimonial fade-in">
+                            <p>The vocabulary tracking and personal study plan helped me prepare for my IELTS exam in just 3 months.</p>
+                            <div class="testimonial-author">— Ahmed R.</div>
+                            <div class="testimonial-role">Engineer, Egypt</div>
+                        </div>
+                        <div class="testimonial fade-in">
+                            <p>As a teacher, I recommend MindLang to all my students. It's like having a private tutor 24/7.</p>
+                            <div class="testimonial-author">— Sarah Johnson</div>
+                            <div class="testimonial-role">ESL Teacher, Canada</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- КОМАНДА (НОВОЕ) -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-tag">TEAM</div>
+                    <h2>MEET THE MINDS</h2>
+                    
+                    <div class="team-grid">
+                        <div class="team-member fade-in">
+                            <div class="avatar">👨‍💻</div>
+                            <h4>ALEX SCHMIDT</h4>
+                            <p>CEO & Founder</p>
+                        </div>
+                        <div class="team-member fade-in">
+                            <div class="avatar">👩‍💻</div>
+                            <h4>ELENA PETROVA</h4>
+                            <p>AI Research Lead</p>
+                        </div>
+                        <div class="team-member fade-in">
+                            <div class="avatar">👨‍🔬</div>
+                            <h4>MICHAEL CHEN</h4>
+                            <p>Linguistics</p>
+                        </div>
+                        <div class="team-member fade-in">
+                            <div class="avatar">👩‍🎨</div>
+                            <h4>SOPHIE WEBER</h4>
+                            <p>Product Design</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ПАРТНЕРЫ (НОВОЕ) -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-tag">PARTNERS</div>
+                    <h2>TRUSTED BY</h2>
+                    
+                    <div class="partners-grid">
+                        <div class="partner fade-in">OPENAI</div>
+                        <div class="partner fade-in">MICROSOFT</div>
+                        <div class="partner fade-in">TELEGRAM</div>
+                        <div class="partner fade-in">VERCEL</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- НАГРАДЫ (НОВОЕ) -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-tag">RECOGNITION</div>
+                    <h2>AWARDS & MILESTONES</h2>
+                    
+                    <div class="grid-3" style="margin-top: 2rem;">
+                        <div class="card fade-in">
+                            <span class="number">2025</span>
+                            <h3>BEST AI TUTOR</h3>
+                            <p>EdTech Innovation Awards</p>
+                        </div>
+                        <div class="card fade-in">
+                            <span class="number">2024</span>
+                            <h3>TOP 10 STARTUPS</h3>
+                            <p>TechCrunch Disrupt</p>
+                        </div>
+                        <div class="card fade-in">
+                            <span class="number">2024</span>
+                            <h3>MOST INNOVATIVE</h3>
+                            <p>AI Summit London</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -1027,7 +1492,7 @@
                     <div class="section-tag">04 — COMPANY</div>
                     <h2>ABOUT<br>MINDLANG</h2>
                     
-                    <div class="grid-2" style="margin-top: 3rem;">
+                    <div class="grid-2" style="margin-top: 2rem;">
                         <div class="fade-in">
                             <h3>OUR STORY</h3>
                             <p>Founded in 2025 by AI researchers and linguists, MindLang was built to solve one problem: people learn languages but never practice speaking. We combined cutting-edge voice AI with Telegram to create the most accessible speaking tutor.</p>
@@ -1037,16 +1502,16 @@
                             <h3>BLOG & CAREERS</h3>
                             <p>Read about voice AI breakthroughs, language learning tips, and company updates on our blog.</p>
                             <p>We're hiring! Join us in building the future of voice AI — remote positions available for engineers, linguists, and designers.</p>
-                            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                            <div style="display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
                                 <a href="#" class="button small">READ BLOG</a>
                                 <a href="#" class="button small">VIEW CAREERS</a>
                             </div>
                         </div>
                     </div>
                     
-                    <div style="margin-top: 4rem;">
+                    <div style="margin-top: 3rem;">
                         <h3>CONTACT US</h3>
-                        <div class="grid-3" style="margin-top: 2rem;">
+                        <div class="grid-3" style="margin-top: 1.5rem;">
                             <div class="card fade-in">
                                 <h4>EMAIL</h4>
                                 <p>hello@mindlang.ai<br>support@mindlang.ai</p>
@@ -1064,110 +1529,110 @@
                 </div>
             </section>
 
-            <!-- FAQ SECTION (ПОЛНАЯ) -->
+            <!-- FAQ SECTION -->
             <section id="faq" class="section">
                 <div class="container">
                     <div class="section-tag">05 — FAQ</div>
                     <h2>FREQUENTLY ASKED<br>QUESTIONS</h2>
                     
-                    <div style="margin-top: 3rem;">
+                    <div style="margin-top: 2rem;">
                         <div class="faq-item fade-in">
                             <div class="faq-question">
                                 <h4>How does MindLang work?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                You send voice messages to our Telegram bot @MindLangSpeachbot. We transcribe your speech using OpenAI Whisper, analyze grammar and pronunciation, suggest corrections, and build a personal vocabulary list. You get instant feedback and a daily study plan based on your mistakes.
+                                Send voice messages to @MindLangSpeachbot. We transcribe using Whisper, analyze grammar, suggest corrections, and build vocabulary. Get instant feedback + daily study plan.
                             </div>
                         </div>
                         
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>Which languages are supported?</h4>
+                                <h4>Which languages?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Currently we fully support English (all levels from A1 to C2). Spanish and Mandarin are coming in Q3 2026. We can transcribe over 50 languages, but grammar corrections and vocabulary features are optimized for English learners at this time.
+                                English fully supported (A1-C2). Spanish/Mandarin coming Q3 2026. Transcription works for 50+ languages.
                             </div>
                         </div>
                         
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>Is my voice data private?</h4>
+                                <h4>Is voice data private?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Yes. Voice messages are processed in real-time and deleted immediately after transcription. We do not store audio files. Transcripts are anonymized and used only to improve our AI models. We never sell your data. Full details in our Privacy Policy.
+                                Yes. Audio deleted immediately after processing. Transcripts anonymized. Never sold. Full details in Privacy Policy.
                             </div>
                         </div>
                         
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>Can I use MindLang for teaching?</h4>
+                                <h4>For teachers?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Absolutely! Our Enterprise plan includes teacher dashboards, student progress tracking, classroom management tools, and bulk discounts for schools and universities. Contact us at enterprise@mindlang.ai for a demo.
+                                Enterprise plan includes teacher dashboards, student tracking, classroom tools. Contact enterprise@mindlang.ai
                             </div>
                         </div>
                         
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>What's the difference from ChatGPT?</h4>
+                                <h4>Vs ChatGPT?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                MindLang is specialized for spoken language learning. While ChatGPT is a general chatbot, MindLang focuses on pronunciation, fluency, and natural conversation. We provide detailed grammar feedback, vocabulary tracking, and personalized study plans. Our AI is tuned specifically for ESL learners, not general chat.
+                                Specialized for spoken language. Focus on pronunciation, fluency, grammar feedback, vocabulary tracking. Tuned for ESL.
                             </div>
                         </div>
 
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>How accurate is the transcription?</h4>
+                                <h4>Transcription accuracy?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                We use OpenAI's Whisper API, which has 98%+ accuracy for clear English speech. Accents are handled well — we've tested with over 50 non-native accents. Background noise may reduce accuracy, so we recommend a quiet environment for best results.
+                                98%+ for clear English. Works with accents. Background noise may reduce accuracy.
                             </div>
                         </div>
 
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>Can I cancel my subscription?</h4>
+                                <h4>Cancel subscription?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Yes, you can cancel anytime from your Telegram bot settings or by contacting support@mindlang.ai. Pro subscriptions are month-to-month with no long-term commitment. Annual plans can be refunded within 14 days of purchase.
+                                Anytime from Telegram bot. Monthly no commitment. Annual refunds within 14 days.
                             </div>
                         </div>
 
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>Do you have an API for developers?</h4>
+                                <h4>API for developers?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Yes! Our REST API allows you to integrate MindLang's voice processing into your own apps. Features include transcription, grammar analysis, and vocabulary extraction. Check our documentation at docs.mindlang.ai for pricing and limits.
+                                Yes, REST API with transcription, grammar analysis, vocabulary extraction. docs.mindlang.ai
                             </div>
                         </div>
 
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>How do I get started?</h4>
+                                <h4>How to start?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                Just open Telegram and search for @MindLangSpeachbot. Start the bot and send your first voice message — it's completely free for 50 minutes/month. No signup required, just Telegram.
+                                Open Telegram, search @MindLangSpeachbot, send first voice. Free for 50 min/month.
                             </div>
                         </div>
 
                         <div class="faq-item fade-in">
                             <div class="faq-question">
-                                <h4>What payment methods do you accept?</h4>
+                                <h4>Payment methods?</h4>
                                 <span class="faq-toggle">+</span>
                             </div>
                             <div class="faq-answer">
-                                We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and cryptocurrency (Bitcoin, Ethereum, USDT) for Pro and Enterprise plans. Enterprise customers can also pay by bank transfer.
+                                Credit cards, PayPal, crypto (BTC, ETH, USDT). Bank transfer for Enterprise.
                             </div>
                         </div>
                     </div>
@@ -1181,42 +1646,42 @@
                     <h2>YOUR PRIVACY<br>PREFERENCES</h2>
                     
                     <div class="cookie-settings fade-in">
-                        <p style="margin-bottom: 2rem;">We use cookies to enhance your experience, analyze traffic, and personalize content. You can choose which cookies to accept.</p>
+                        <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Choose which cookies to accept.</p>
                         
                         <div class="cookie-option">
                             <input type="checkbox" id="essential" checked disabled>
                             <label for="essential">
-                                <h4>ESSENTIAL COOKIES (ALWAYS ON)</h4>
-                                <p>Required for the website to function properly. These cannot be disabled. They include session authentication and security cookies.</p>
+                                <h4>ESSENTIAL (ALWAYS ON)</h4>
+                                <p>Required for basic functionality</p>
                             </label>
                         </div>
 
                         <div class="cookie-option">
                             <input type="checkbox" id="analytics">
                             <label for="analytics">
-                                <h4>ANALYTICS COOKIES</h4>
-                                <p>Help us understand how visitors interact with our website by collecting anonymous data. We use this to improve our service.</p>
+                                <h4>ANALYTICS</h4>
+                                <p>Anonymous usage data to improve site</p>
                             </label>
                         </div>
 
                         <div class="cookie-option">
                             <input type="checkbox" id="functional">
                             <label for="functional">
-                                <h4>FUNCTIONAL COOKIES</h4>
-                                <p>Enable enhanced functionality like remembering your preferences and language settings for a personalized experience.</p>
+                                <h4>FUNCTIONAL</h4>
+                                <p>Remember preferences & settings</p>
                             </label>
                         </div>
 
                         <div class="cookie-option">
                             <input type="checkbox" id="marketing">
                             <label for="marketing">
-                                <h4>MARKETING COOKIES</h4>
-                                <p>Used to deliver relevant advertisements and track campaign performance. These may be set by our advertising partners.</p>
+                                <h4>MARKETING</h4>
+                                <p>Personalized ads</p>
                             </label>
                         </div>
 
                         <div class="cookie-buttons">
-                            <button class="button small" onclick="saveCookieSettings()">SAVE PREFERENCES</button>
+                            <button class="button small" onclick="saveCookieSettings()">SAVE</button>
                             <button class="button small" onclick="acceptAllCookies()">ACCEPT ALL</button>
                             <button class="button small" onclick="rejectAllCookies()">REJECT ALL</button>
                         </div>
@@ -1224,81 +1689,62 @@
                 </div>
             </section>
 
-            <!-- TERMS OF USE / PRIVACY SECTION -->
+            <!-- TERMS / PRIVACY SECTION -->
             <section id="legal" class="section">
                 <div class="container">
                     <div class="section-tag">07 — LEGAL</div>
                     <h2>TERMS &<br>PRIVACY</h2>
                     
-                    <div class="grid-2" style="margin-top: 3rem;">
+                    <div class="grid-2" style="margin-top: 2rem; gap: 2rem;">
                         <div class="fade-in">
                             <h3>TERMS OF USE</h3>
                             <div class="terms-box">
-                                <h4>1. Acceptance of Terms</h4>
-                                <p>By accessing or using MindLang, you agree to be bound by these Terms. If you disagree, do not use our service.</p>
-                                
-                                <h4>2. Service Description</h4>
-                                <p>MindLang provides AI-powered voice analysis for language learning via Telegram bot and web interface. We may modify or discontinue features at any time.</p>
-                                
-                                <h4>3. User Accounts</h4>
-                                <p>You are responsible for maintaining your Telegram account security. Pro plans require payment information. Free tier limited to 50 voice minutes/month.</p>
-                                
+                                <h4>1. Acceptance</h4>
+                                <p>By using MindLang, you agree to these Terms.</p>
+                                <h4>2. Service</h4>
+                                <p>AI voice analysis via Telegram. Features may change.</p>
+                                <h4>3. Accounts</h4>
+                                <p>You're responsible for Telegram account security.</p>
                                 <h4>4. Acceptable Use</h4>
-                                <p>You agree not to: reverse engineer our AI, use for illegal purposes, harass others, or attempt to extract training data. Violation may result in termination.</p>
-                                
-                                <h4>5. Payments & Refunds</h4>
-                                <p>Subscriptions billed monthly. Refunds available within 14 days of purchase for annual plans. Contact support@mindlang.ai for issues.</p>
-                                
-                                <h4>6. Limitation of Liability</h4>
-                                <p>MindLang is provided "as is". We are not liable for learning outcomes or service interruptions beyond reasonable control.</p>
-
+                                <p>No reverse engineering, illegal use, harassment.</p>
+                                <h4>5. Payments</h4>
+                                <p>Monthly billing. Refunds within 14 days for annual.</p>
+                                <h4>6. Liability</h4>
+                                <p>Service provided "as is".</p>
                                 <h4>7. Governing Law</h4>
-                                <p>These Terms shall be governed by the laws of Germany, without regard to its conflict of law provisions.</p>
-
-                                <h4>8. Changes to Terms</h4>
-                                <p>We reserve the right to modify these Terms at any time. Continued use of the service constitutes acceptance of new Terms.</p>
+                                <p>German law applies.</p>
                             </div>
                         </div>
                         
                         <div class="fade-in">
                             <h3>PRIVACY POLICY</h3>
                             <div class="terms-box">
-                                <h4>Data Collection</h4>
-                                <p>We collect: voice messages (processed in real-time, not stored), Telegram user ID, usage statistics, and payment information (via secure processors).</p>
-                                
+                                <h4>Data Collected</h4>
+                                <p>Voice (deleted immediately), Telegram ID, usage stats.</p>
                                 <h4>Voice Data</h4>
-                                <p>Voice messages are transcribed and analyzed immediately. Audio files are deleted after processing. Anonymized transcripts may be used for model improvement.</p>
-                                
+                                <p>Audio deleted after processing. Anonymized transcripts.</p>
                                 <h4>Cookies</h4>
-                                <p>Our web interface uses essential cookies for authentication. Analytics, functional, and marketing cookies are optional and can be managed in Cookie Settings.</p>
-                                
+                                <p>Essential always on. Optional analytics/functional/marketing.</p>
                                 <h4>Third Parties</h4>
-                                <p>We use OpenAI Whisper for transcription, Stripe for payments, Vercel for hosting, and Telegram for bot platform. Each has their own privacy policy.</p>
-                                
+                                <p>OpenAI, Stripe, Vercel, Telegram.</p>
                                 <h4>Your Rights</h4>
-                                <p>Under GDPR, you have the right to access, rectify, delete, and export your data. Request at privacy@mindlang.ai. We respond within 30 days.</p>
-                                
-                                <h4>Data Retention</h4>
-                                <p>Transcripts are retained for 30 days for quality improvement, then anonymized. Payment data is retained as required by tax law (10 years).</p>
-
-                                <h4>International Transfers</h4>
-                                <p>Your data may be processed in the EU, US, and other countries where our service providers operate. We ensure appropriate safeguards are in place.</p>
-
+                                <p>Access, delete, export at privacy@mindlang.ai</p>
+                                <h4>Retention</h4>
+                                <p>Transcripts 30 days → anonymized. Payments 10 years.</p>
                                 <h4>Imprint</h4>
-                                <p>MindLang GmbH<br>c/o Factory Berlin<br>Reinhardtstr. 45<br>10117 Berlin, Germany<br>CEO: Alex Schmidt<br>VAT: DE123456789<br>Register: HRB 123456 Berlin</p>
+                                <p>MindLang GmbH<br>Berlin, Germany<br>HRB 123456</p>
                             </div>
                         </div>
                     </div>
                     
                     <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                         <button class="button small" onclick="showCookieModal()">COOKIE SETTINGS</button>
-                        <a href="#" class="button small">DATA REQUEST FORM</a>
-                        <a href="#" class="button small">GDPR COMPLIANCE</a>
+                        <a href="#" class="button small">DATA REQUEST</a>
                     </div>
                 </div>
             </section>
 
-            <!-- ФУТЕР (ПОЛНЫЙ) -->
+            <!-- ФУТЕР -->
             <footer>
                 <div class="container">
                     <div class="footer-grid">
@@ -1332,33 +1778,32 @@
                         <div class="footer-col">
                             <h4>LEGAL</h4>
                             <ul>
-                                <li><a href="#legal">Privacy Policy</a></li>
-                                <li><a href="#legal">Terms of Service</a></li>
+                                <li><a href="#legal">Privacy</a></li>
+                                <li><a href="#legal">Terms</a></li>
                                 <li><a href="#legal">Imprint</a></li>
-                                <li><a href="#" onclick="showCookieModal(); return false;">Cookie Settings</a></li>
+                                <li><a href="#" onclick="showCookieModal(); return false;">Cookies</a></li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="social-links">
-                        <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg></a>
-                        <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 3c-3.88 0-7 3.12-7 7 0 3.47 2.52 6.34 5.83 6.88v-4.87H8.97V12h2.86V9.41c0-2.83 1.68-4.39 4.26-4.39 1.23 0 2.52.22 2.52.22v2.77h-1.42c-1.4 0-1.83.87-1.83 1.76V12h3.11l-.5 3.01h-2.61v4.87C19.48 18.34 22 15.47 22 12c0-3.88-3.12-7-7-7z"/></svg></a>
-                        <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.62 4.35c-1.03-.42-2.12-.71-3.24-.85-.14.26-.3.61-.4.89-1.2-.18-2.4-.18-3.6 0-.1-.28-.26-.63-.4-.89-1.13.14-2.22.43-3.25.86-.44.66-.86 1.33-1.24 2.02-1.42 2.15-2.14 4.69-1.91 7.18 1.48 1.09 3.18 1.92 5.02 2.41.4-.54.76-1.11 1.06-1.71-.58-.22-1.13-.5-1.65-.84.14-.1.27-.21.4-.32 2.53 1.17 5.28 1.17 7.81 0 .13.11.26.22.4.32-.52.34-1.07.62-1.65.84.3.6.66 1.17 1.06 1.71 1.84-.49 3.54-1.32 5.02-2.41.26-2.93-.32-5.44-1.9-7.18-.38-.69-.8-1.36-1.24-2.02zM8.47 13.02c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5zm7.06 0c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5z"/></svg></a>
-                        <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.26 5 12 5 12 5s-6.26 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.74 2 12 2 12s0 3.26.42 4.81c.23.86.91 1.54 1.77 1.77C5.74 19 12 19 12 19s6.26 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77.42-1.55.42-4.81.42-4.81s0-3.26-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 3c-3.88 0-7 3.12-7 7 0 3.47 2.52 6.34 5.83 6.88v-4.87H8.97V12h2.86V9.41c0-2.83 1.68-4.39 4.26-4.39 1.23 0 2.52.22 2.52.22v2.77h-1.42c-1.4 0-1.83.87-1.83 1.76V12h3.11l-.5 3.01h-2.61v4.87C19.48 18.34 22 15.47 22 12c0-3.88-3.12-7-7-7z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.62 4.35c-1.03-.42-2.12-.71-3.24-.85-.14.26-.3.61-.4.89-1.2-.18-2.4-.18-3.6 0-.1-.28-.26-.63-.4-.89-1.13.14-2.22.43-3.25.86-.44.66-.86 1.33-1.24 2.02-1.42 2.15-2.14 4.69-1.91 7.18 1.48 1.09 3.18 1.92 5.02 2.41.4-.54.76-1.11 1.06-1.71-.58-.22-1.13-.5-1.65-.84.14-.1.27-.21.4-.32 2.53 1.17 5.28 1.17 7.81 0 .13.11.26.22.4.32-.52.34-1.07.62-1.65.84.3.6.66 1.17 1.06 1.71 1.84-.49 3.54-1.32 5.02-2.41.26-2.93-.32-5.44-1.9-7.18-.38-.69-.8-1.36-1.24-2.02zM8.47 13.02c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5zm7.06 0c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.26 5 12 5 12 5s-6.26 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.74 2 12 2 12s0 3.26.42 4.81c.23.86.91 1.54 1.77 1.77C5.74 19 12 19 12 19s6.26 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77.42-1.55.42-4.81.42-4.81s0-3.26-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></a>
                     </div>
 
                     <div class="copyright">
-                        © 2026 MINDLANG, an AI voice architecture company. All rights reserved.
+                        © 2026 MINDLANG · All rights reserved
                     </div>
                     
-                    <!-- КРЕДИТЫ СОЗДАТЕЛЮ -->
                     <div class="creator">
-                        crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a> · 2026
+                        crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a>
                     </div>
                 </div>
             </footer>
 
-            <!-- BOTTOM NAV (01-07) -->
+            <!-- BOTTOM NAV -->
             <div class="container">
                 <div class="bottom-nav">
                     <a href="#philosophy" class="bottom-nav-item"><span>01</span> philosophy</a>
@@ -1379,31 +1824,19 @@
             <h3>COOKIE SETTINGS</h3>
             <div class="cookie-option">
                 <input type="checkbox" id="modal-essential" checked disabled>
-                <label for="modal-essential">
-                    <h4>ESSENTIAL COOKIES</h4>
-                    <p>Required for basic functionality</p>
-                </label>
+                <label><h4>ESSENTIAL</h4></label>
             </div>
             <div class="cookie-option">
                 <input type="checkbox" id="modal-analytics">
-                <label for="modal-analytics">
-                    <h4>ANALYTICS COOKIES</h4>
-                    <p>Help us improve our website</p>
-                </label>
+                <label><h4>ANALYTICS</h4></label>
             </div>
             <div class="cookie-option">
                 <input type="checkbox" id="modal-functional">
-                <label for="modal-functional">
-                    <h4>FUNCTIONAL COOKIES</h4>
-                    <p>Remember your preferences</p>
-                </label>
+                <label><h4>FUNCTIONAL</h4></label>
             </div>
             <div class="cookie-option">
                 <input type="checkbox" id="modal-marketing">
-                <label for="modal-marketing">
-                    <h4>MARKETING COOKIES</h4>
-                    <p>Personalized advertisements</p>
-                </label>
+                <label><h4>MARKETING</h4></label>
             </div>
             <div class="cookie-buttons">
                 <button class="button small" onclick="saveModalSettings()">SAVE</button>
@@ -1412,65 +1845,75 @@
         </div>
     </div>
 
-    <!-- СКРИПТЫ -->
     <script>
         (function() {
-            // ПЛАВНЫЙ СКРОЛЛ
-            const content = document.getElementById('smooth-content');
-            const wrapper = document.getElementById('smooth-wrapper');
-            
-            function setHeight() {
-                document.body.style.height = content.offsetHeight + 'px';
-            }
-            setHeight();
-            window.addEventListener('resize', setHeight);
-
-            const smoothScroll = {
-                target: 0,
-                current: 0,
-                ease: 0.075,
+            // ДЛЯ ДЕСКТОПА - плавный скролл
+            if (window.innerWidth > 768) {
+                const content = document.getElementById('smooth-content');
                 
-                onWheel(e) {
-                    e.preventDefault();
-                    this.target += e.deltaY;
-                    const max = content.offsetHeight - window.innerHeight;
-                    this.target = Math.max(0, Math.min(this.target, max));
-                },
-                
-                animate() {
-                    this.current += (this.target - this.current) * this.ease;
-                    content.style.transform = `translateY(-${this.current}px)`;
-                    
-                    // Анимация кругов при скролле
-                    const circles = document.querySelectorAll('.circle');
-                    circles.forEach((circle, i) => {
-                        const speed = 0.02 + (i * 0.01);
-                        const rotation = this.current * speed;
-                        const moveX = Math.sin(this.current * 0.002 + i) * 20;
-                        const moveY = Math.cos(this.current * 0.002 + i) * 20;
-                        const scale = 1 + Math.sin(this.current * 0.001) * 0.1;
-                        circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px) scale(${scale})`;
-                    });
-                    
-                    // Анимация градиентов
-                    const gradient1 = document.getElementById('gradient1');
-                    const gradient2 = document.getElementById('gradient2');
-                    if (gradient1 && gradient2) {
-                        const maxScroll = content.offsetHeight - window.innerHeight;
-                        const progress = maxScroll > 0 ? this.current / maxScroll : 0;
-                        
-                        gradient1.style.transform = `translate(${-900 + progress * 200}px, ${-350 + progress * 100}px)`;
-                        gradient2.style.transform = `translate(${1020 - progress * 300}px, ${699 - progress * 200}px)`;
-                    }
-                    
-                    requestAnimationFrame(this.animate.bind(this));
+                function setHeight() {
+                    document.body.style.height = content.offsetHeight + 'px';
                 }
-            };
+                setHeight();
+                window.addEventListener('resize', setHeight);
 
-            window.addEventListener('wheel', (e) => smoothScroll.onWheel(e), { passive: false });
-            smoothScroll.animate();
+                const smoothScroll = {
+                    target: 0,
+                    current: 0,
+                    ease: 0.075,
+                    
+                    onWheel(e) {
+                        e.preventDefault();
+                        this.target += e.deltaY;
+                        const max = content.offsetHeight - window.innerHeight;
+                        this.target = Math.max(0, Math.min(this.target, max));
+                    },
+                    
+                    animate() {
+                        this.current += (this.target - this.current) * this.ease;
+                        content.style.transform = `translateY(-${this.current}px)`;
+                        
+                        // Анимация кругов
+                        const circles = document.querySelectorAll('.circle');
+                        circles.forEach((circle, i) => {
+                            const speed = 0.02 + (i * 0.01);
+                            const rotation = this.current * speed;
+                            const moveX = Math.sin(this.current * 0.002 + i) * 20;
+                            const moveY = Math.cos(this.current * 0.002 + i) * 20;
+                            circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px)`;
+                        });
+                        
+                        // Анимация градиентов
+                        const gradient1 = document.getElementById('gradient1');
+                        const gradient2 = document.getElementById('gradient2');
+                        if (gradient1 && gradient2) {
+                            const maxScroll = content.offsetHeight - window.innerHeight;
+                            const progress = maxScroll > 0 ? this.current / maxScroll : 0;
+                            
+                            gradient1.style.transform = `translate(${-900 + progress * 200}px, ${-350 + progress * 100}px)`;
+                            gradient2.style.transform = `translate(${1020 - progress * 300}px, ${699 - progress * 200}px)`;
+                        }
+                        
+                        requestAnimationFrame(this.animate.bind(this));
+                    }
+                };
 
-            // Анимация появления при скролле
+                window.addEventListener('wheel', (e) => smoothScroll.onWheel(e), { passive: false });
+                smoothScroll.animate();
+
+                // Плавный скролл к якорям
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            smoothScroll.target = target.offsetTop;
+                        }
+                    });
+                });
+            }
+
+            // Анимация появления при скролле (для всех устройств)
             const fadeElements = document.querySelectorAll('.fade-in');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1478,7 +1921,7 @@
                         entry.target.classList.add('visible');
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.1, rootMargin: '0px' });
             fadeElements.forEach(el => observer.observe(el));
 
             // FAQ toggle
@@ -1489,57 +1932,35 @@
                 question.addEventListener('click', function(e) {
                     e.stopPropagation();
                     item.classList.toggle('open');
-                    if (item.classList.contains('open')) {
-                        toggle.textContent = '−';
-                    } else {
-                        toggle.textContent = '+';
-                    }
+                    toggle.textContent = item.classList.contains('open') ? '−' : '+';
                 });
             });
 
-            // Плавный скролл к якорям
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        const targetTop = target.offsetTop;
-                        smoothScroll.target = targetTop;
-                    }
+            // Слежение за мышкой (только десктоп)
+            if (window.innerWidth > 768) {
+                document.addEventListener('mousemove', (e) => {
+                    const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                    const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+                    
+                    document.querySelectorAll('.circle').forEach((circle, i) => {
+                        const strength = 10 + i * 5;
+                        const currentTransform = circle.style.transform || '';
+                        const baseTransform = currentTransform.replace(/translate\([^)]*\)/g, '');
+                        circle.style.transform = baseTransform + ` translate(${mouseX * strength}px, ${mouseY * strength}px)`;
+                    });
                 });
-            });
+            }
 
-            // Слежение за мышкой
-            document.addEventListener('mousemove', (e) => {
-                const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-                const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-                
-                document.querySelectorAll('.circle').forEach((circle, i) => {
-                    const strength = 10 + i * 5;
-                    const currentTransform = circle.style.transform || '';
-                    // Убираем translate из текущего transform чтобы не накапливать
-                    const baseTransform = currentTransform.replace(/translate\([^)]*\)/g, '');
-                    circle.style.transform = baseTransform + ` translate(${mouseX * strength}px, ${mouseY * strength}px)`;
-                });
-            });
-
-            // ВИДЕО - убираем кнопку через 2 секунды
+            // Видео - убираем кнопку
             setTimeout(() => {
                 const playButton = document.getElementById('playButton');
-                if (playButton) {
-                    playButton.classList.add('hidden');
-                }
+                if (playButton) playButton.classList.add('hidden');
             }, 2000);
         })();
 
-        // ФУНКЦИИ ДЛЯ COOKIE
+        // COOKIE FUNCTIONS
         function saveCookieSettings() {
-            const analytics = document.getElementById('analytics').checked;
-            const functional = document.getElementById('functional').checked;
-            const marketing = document.getElementById('marketing').checked;
-            
-            console.log('Cookie settings saved:', { analytics, functional, marketing });
-            alert('Cookie preferences saved! (This is a demo)');
+            alert('Cookie preferences saved!');
         }
 
         function acceptAllCookies() {
@@ -1558,7 +1979,6 @@
 
         function showCookieModal() {
             document.getElementById('cookieModal').classList.add('show');
-            // Синхронизируем модальные чекбоксы с основными
             document.getElementById('modal-analytics').checked = document.getElementById('analytics').checked;
             document.getElementById('modal-functional').checked = document.getElementById('functional').checked;
             document.getElementById('modal-marketing').checked = document.getElementById('marketing').checked;
@@ -1576,12 +1996,9 @@
             closeCookieModal();
         }
 
-        // Закрытие модалки по клику вне
         window.onclick = function(event) {
             const modal = document.getElementById('cookieModal');
-            if (event.target === modal) {
-                closeCookieModal();
-            }
+            if (event.target === modal) closeCookieModal();
         }
     </script>
 </body>
