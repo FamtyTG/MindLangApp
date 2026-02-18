@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindLang · AI Voice Architect</title>
+    <title>MindLang · AI Voice Architecture</title>
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #0a0a0a;
+            background-color: #030303;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
@@ -21,89 +21,137 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
-            height: 100%;
         }
 
         /* ===== ТИПОГРАФИКА ===== */
         h1, h2, h3, h4 {
-            font-weight: 400;
+            font-weight: 300;
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
 
         h1 {
-            font-size: clamp(3rem, 10vw, 5rem);
+            font-size: clamp(3rem, 10vw, 5.5rem);
             line-height: 1.1;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         h2 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2rem, 4vw, 3rem);
             line-height: 1.2;
             margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
         }
 
-        .small-text {
-            font-size: 0.9rem;
-            letter-spacing: 0.3em;
-            color: #6b6b6b;
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .section-tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            color: #888;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
         }
 
         p {
             max-width: 600px;
-            margin-bottom: 2rem;
-            color: #a0a0a0;
-            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #b0b0b0;
+            font-size: 1rem;
+            line-height: 1.8;
         }
 
-        /* ===== СТРУКТУРА СКРОЛЛА ===== */
-        #smooth-wrapper {
+        /* ===== УЛУЧШЕННЫЙ ДИНАМИЧЕСКИЙ ФОН ===== */
+        .enhanced-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: -2;
             overflow: hidden;
         }
 
-        #smooth-content {
-            position: relative;
-            width: 100%;
-            overflow: visible;
-            will-change: transform;
-        }
-
-        /* ===== ФОНОВЫЕ ГРАДИЕНТЫ ===== */
-        .background-gradients {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Основной градиент */
+        .bg-gradient-1 {
+            position: absolute;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(60, 40, 100, 0.5) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(40, 60, 120, 0.4) 0%, transparent 45%),
+                        radial-gradient(circle at 40% 80%, rgba(80, 40, 80, 0.3) 0%, transparent 50%);
+            filter: blur(40px);
+            animation: bgMove 30s ease-in-out infinite alternate;
         }
 
-        .gradient-1 {
+        .bg-gradient-2 {
             position: absolute;
-            width: 1650px;
-            height: 1650px;
-            background: radial-gradient(circle at 30% 30%, rgba(100, 100, 255, 0.15) 0%, transparent 70%);
-            transform: translate(-900px, -350px);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 20%, rgba(100, 60, 120, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 30% 90%, rgba(50, 70, 140, 0.4) 0%, transparent 45%);
             filter: blur(60px);
-            transition: transform 0.1s ease-out;
+            animation: bgMove2 25s ease-in-out infinite alternate;
         }
 
-        .gradient-2 {
+        /* Частицы (точки) */
+        .particles {
             position: absolute;
-            width: 1880px;
-            height: 1880px;
-            background: radial-gradient(circle at 70% 70%, rgba(150, 100, 255, 0.1) 0%, transparent 70%);
-            transform: translate(1020px, 699px);
-            filter: blur(80px);
-            transition: transform 0.1s ease-out;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 90% 40%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 30% 70%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 70% 85%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 45% 25%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 85% 15%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 15% 95%, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 200px 200px;
+            animation: particleFloat 40s linear infinite;
+            opacity: 0.5;
+        }
+
+        /* Линии (как на Lightweight) */
+        .grid-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 100px),
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 100px);
+            pointer-events: none;
+        }
+
+        @keyframes bgMove {
+            0% { transform: scale(1) translate(0%, 0%); }
+            100% { transform: scale(1.2) translate(5%, -5%); }
+        }
+
+        @keyframes bgMove2 {
+            0% { transform: scale(1) translate(0%, 0%); }
+            100% { transform: scale(1.3) translate(-5%, 5%); }
+        }
+
+        @keyframes particleFloat {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
         /* ===== ЗЕРНИСТОСТЬ ===== */
@@ -114,14 +162,14 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.03;
+            opacity: 0.02;
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4xIiAvPjwvc3ZnPg==');
             background-repeat: repeat;
             z-index: 1000;
             mix-blend-mode: multiply;
         }
 
-        /* ===== ПЛЮСЫ С АНИМАЦИЕЙ ===== */
+        /* ===== ПЛЮСЫ ===== */
         .plus-frame {
             position: fixed;
             top: 0;
@@ -214,103 +262,199 @@
 
         .circle {
             position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.02);
             border-radius: 50%;
-            transition: transform 0.1s ease-out;
-            will-change: transform;
         }
 
         .circle-1 {
-            width: 83.33vh;
-            height: 83.33vh;
-            left: calc(-0.5 * 83.33vh + 0px);
-            top: calc(-0.5 * 83.33vh + 50vh);
+            width: 80vh;
+            height: 80vh;
+            left: -20vh;
+            top: -10vh;
+            border-color: rgba(255, 255, 255, 0.02);
         }
 
         .circle-2 {
-            width: 64.81vh;
-            height: 64.81vh;
-            left: calc(-0.5 * 64.81vh + 0px);
-            top: calc(-0.5 * 64.81vh + 50vh);
-        }
-
-        .circle-3 {
             width: 120vh;
             height: 120vh;
             right: -40vh;
             bottom: -40vh;
-            border-color: rgba(255, 255, 255, 0.02);
-        }
-
-        .circle-4 {
-            width: 80vh;
-            height: 80vh;
-            left: -30vh;
-            top: -20vh;
-            border-color: rgba(255, 255, 255, 0.02);
-        }
-
-        /* ===== АНИМАЦИЯ БУКВ ===== */
-        .char {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px) rotate(5deg);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        .char.visible {
-            opacity: 1;
-            transform: translateY(0) rotate(0);
-        }
-
-        /* ===== ПАРАЛЛАКС ===== */
-        .parallax {
-            will-change: transform;
-            transition: transform 0.1s ease-out;
+            border-color: rgba(255, 255, 255, 0.01);
         }
 
         /* ===== КОНТЕЙНЕР ===== */
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 0 2rem;
             position: relative;
             z-index: 200;
         }
 
-        /* ===== СЕКЦИИ ===== */
-        section {
-            min-height: 100vh;
+        /* ===== НАВИГАЦИЯ ===== */
+        nav {
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 4rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        /* ===== ГЕРОЙ ===== */
+        .hero {
+            min-height: 80vh;
             display: flex;
             align-items: center;
-            position: relative;
+            margin-bottom: 4rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        /* ===== СЕКЦИИ ===== */
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section:last-child {
+            border-bottom: none;
         }
 
         /* ===== СЕТКА ===== */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+        }
+
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 4rem;
-            margin: 5rem 0;
+            gap: 3rem;
         }
 
-        .grid-item {
-            border-top: 1px solid #333;
-            padding-top: 2rem;
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
         }
 
-        .grid-item .number {
-            font-size: 1rem;
-            color: #6b6b6b;
+        /* ===== КАРТОЧКИ ===== */
+        .card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .card .number {
+            font-size: 0.8rem;
+            color: #666;
             letter-spacing: 0.2em;
             margin-bottom: 1rem;
             display: block;
         }
 
-        .grid-item h3 {
-            font-size: 1.5rem;
+        .card h3 {
+            font-size: 1.2rem;
             margin-bottom: 1rem;
             letter-spacing: 0.2em;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: #999;
+            margin-bottom: 0;
+        }
+
+        /* ===== PRICING CARDS ===== */
+        .pricing-card {
+            padding: 2.5rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            text-align: center;
+        }
+
+        .pricing-card.featured {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 300;
+            margin: 1.5rem 0;
+            color: #fff;
+        }
+
+        .price small {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .price-desc {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '—';
+            margin-right: 1rem;
+            color: #666;
         }
 
         /* ===== КНОПКА ===== */
@@ -318,242 +462,236 @@
             display: inline-block;
             background: transparent;
             color: #ffffff;
-            border: 1px solid #ffffff;
-            padding: 1rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2.5rem;
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 0.2em;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             transition: all 0.3s ease;
-            margin-top: 2rem;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
         }
 
         .button:hover {
             background: #ffffff;
-            color: #0a0a0a;
+            color: #030303;
+            border-color: #ffffff;
         }
 
-        /* ===== ВИДЕО СЕКЦИЯ ===== */
-        .video-section {
-            position: relative;
-            min-height: 80vh;
-            overflow: hidden;
+        .button.small {
+            padding: 0.7rem 1.5rem;
+            font-size: 0.7rem;
         }
 
-        .video-wrap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+        /* ===== FAQ ===== */
+        .faq-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .video-wrap iframe {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .faq-item:last-child {
+            border-bottom: none;
         }
 
-        .video-content {
-            position: relative;
-            z-index: 2;
-            background: rgba(10, 10, 10, 0.5);
-            backdrop-filter: blur(5px);
-            padding: 4rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .play-button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 1px solid white;
+        .faq-question {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
             cursor: pointer;
-            transition: all 0.3s;
         }
 
-        .play-button:hover {
-            background: white;
-            color: black;
+        .faq-question h4 {
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            margin: 0;
         }
 
-        .play-button svg {
-            width: 24px;
-            height: 24px;
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #999;
+            padding-right: 2rem;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            margin-top: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: #666;
+        }
+
+        /* ===== TERMS ===== */
+        .terms-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            color: #999;
+            line-height: 1.8;
+        }
+
+        .terms-box h4 {
+            color: #fff;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .terms-box h4:first-child {
+            margin-top: 0;
         }
 
         /* ===== ФУТЕР ===== */
         footer {
-            border-top: 1px solid #333;
-            padding: 4rem 2rem;
-            margin-top: 4rem;
+            padding: 4rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 4rem;
+            gap: 3rem;
             margin-bottom: 4rem;
         }
 
-        .footer-column h4 {
+        .footer-col h4 {
             font-size: 0.9rem;
-            margin-bottom: 2rem;
-            color: #ffffff;
+            margin-bottom: 1.5rem;
+            color: #fff;
         }
 
-        .footer-column ul {
+        .footer-col ul {
             list-style: none;
         }
 
-        .footer-column li {
-            margin-bottom: 0.5rem;
+        .footer-col li {
+            margin-bottom: 0.7rem;
         }
 
-        .footer-column a {
-            color: #6b6b6b;
+        .footer-col a {
+            color: #888;
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.3s;
         }
 
-        .footer-column a:hover {
-            color: #ffffff;
+        .footer-col a:hover {
+            color: #fff;
         }
 
         .social-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
         }
 
         .social-links a {
-            color: #6b6b6b;
+            color: #666;
             transition: color 0.3s;
         }
 
         .social-links a:hover {
-            color: #ffffff;
+            color: #fff;
         }
 
         .copyright {
             text-align: center;
-            color: #6b6b6b;
+            color: #666;
             font-size: 0.8rem;
-            border-top: 1px solid #333;
             padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* ===== НУМЕРОВАННЫЙ СПИСОК ===== */
-        .numbered-list {
+        /* ===== БОТТОМ НАВ ===== */
+        .bottom-nav {
             display: flex;
-            gap: 3rem;
-            margin: 5rem 0;
-            border-top: 1px solid #333;
-            padding-top: 3rem;
+            justify-content: center;
+            gap: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 2rem;
         }
 
-        .numbered-item {
-            font-size: 1rem;
-            color: #6b6b6b;
-            cursor: pointer;
+        .bottom-nav-item {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
             transition: color 0.3s;
         }
 
-        .numbered-item:hover {
-            color: #ffffff;
+        .bottom-nav-item:hover {
+            color: #fff;
         }
 
-        .numbered-item span {
-            color: #ffffff;
+        .bottom-nav-item span {
+            color: #fff;
             margin-right: 0.5rem;
             opacity: 0.5;
         }
 
-        /* ===== ЛОУДЕР ===== */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease;
-        }
-
-        .loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader-bar {
-            width: 0%;
-            height: 1px;
-            background: white;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            animation: loadBar 2s ease forwards;
-        }
-
-        @keyframes loadBar {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
         /* ===== АДАПТИВНОСТЬ ===== */
-        @media (max-width: 768px) {
-            .grid-3 {
-                grid-template-columns: 1fr;
+        @media (max-width: 1024px) {
+            .grid-3, .grid-4, .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 2rem;
             }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4, .footer-grid {
+                grid-template-columns: 1fr;
+            }
             
-            .numbered-list {
-                flex-direction: column;
+            .nav-links {
+                display: none;
+            }
+            
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+            
+            .bottom-nav {
+                flex-wrap: wrap;
                 gap: 1rem;
             }
             
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
             h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
-            
-            .video-content {
-                padding: 2rem;
-            }
+        }
+
+        /* ===== АНИМАЦИИ ПРИ СКРОЛЛЕ ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- ЛОУДЕР -->
-    <div class="loader" id="loader">
-        <div class="loader-bar"></div>
+    <!-- УЛУЧШЕННЫЙ ФОН -->
+    <div class="enhanced-bg">
+        <div class="bg-gradient-1"></div>
+        <div class="bg-gradient-2"></div>
+        <div class="particles"></div>
+        <div class="grid-lines"></div>
     </div>
 
     <!-- ЗЕРНИСТОСТЬ -->
     <div class="grain"></div>
-
-    <!-- ФОНОВЫЕ ГРАДИЕНТЫ -->
-    <div class="background-gradients">
-        <div class="gradient-1" id="gradient1"></div>
-        <div class="gradient-2" id="gradient2"></div>
-    </div>
 
     <!-- ПЛЮСЫ -->
     <div class="plus-frame">
@@ -565,336 +703,415 @@
 
     <!-- КРУГИ -->
     <div class="circles">
-        <div class="circle circle-1" id="circle1"></div>
-        <div class="circle circle-2" id="circle2"></div>
-        <div class="circle circle-3" id="circle3"></div>
-        <div class="circle circle-4" id="circle4"></div>
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
     </div>
 
-    <!-- ПЛАВНЫЙ СКРОЛЛ -->
-    <div id="smooth-wrapper">
-        <div id="smooth-content">
-            <!-- ГЛАВНАЯ -->
-            <section>
-                <div class="container">
-                    <div>
-                        <p class="small-text">WELCOME</p>
-                        <h1>THE EVOLUTION<br>OF VOICE AI</h1>
-                        <p class="parallax" data-speed="0.05">MindLang is not just a bot. It's an architectural approach to language learning, engineered for precision and trust. Built on aerospace-grade AI architectures, we deliver a learning experience that evolves with you.</p>
-                        <a href="https://t.me/MindLangSpeachbot" class="button">
-                            OPEN IN TELEGRAM
-                        </a>
-                    </div>
-                </div>
-            </section>
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="container">
+        <!-- НАВИГАЦИЯ -->
+        <nav>
+            <a href="#" class="logo">MINDLANG</a>
+            <div class="nav-links">
+                <a href="#philosophy">Philosophy</a>
+                <a href="#product">Product</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#company">Company</a>
+            </div>
+        </nav>
 
-            <!-- PHILOSOPHY -->
-            <section>
-                <div class="container">
-                    <div>
-                        <p class="small-text">01 — PHILOSOPHY</p>
-                        <h2>PERFORMANCE<br>ENGINEERED</h2>
-                        <p class="parallax" data-speed="0.03">Performance is more than speed. It's control over every phrase, perfect intonation, and confidence in how you respond across any context. MindLang carries decades of linguistic development and a singular focus on AI engineering.</p>
-                    </div>
-                </div>
-            </section>
+        <!-- ГЕРОЙ -->
+        <section class="hero">
+            <div class="hero-content fade-in">
+                <div class="section-tag">WELCOME TO THE FUTURE</div>
+                <h1>THE EVOLUTION<br>OF VOICE AI</h1>
+                <p>MindLang is not just a bot. It's an architectural approach to language learning, engineered for precision and trust. Built on aerospace-grade AI architectures, we deliver a learning experience that evolves with you.</p>
+                <a href="https://t.me/MindLangSpeachbot" class="button">OPEN IN TELEGRAM</a>
+            </div>
+        </section>
 
-            <!-- CRAFT -->
-            <section>
-                <div class="container">
-                    <div>
-                        <p class="small-text">02 — CRAFT</p>
-                        <h2>HANDCRAFTED<br>BY AI</h2>
-                        <p class="parallax" data-speed="0.04">Made from Custom Composite AI using aerospace linguistics and neural architecture. Each interaction is built from voice to text using our Rim-to-Rim monocoque design, engineered for low cognitive load.</p>
-                    </div>
+        <!-- PHILOSOPHY / TECHNOLOGY / INNOVATION / EVOLUTION -->
+        <section id="philosophy" class="section">
+            <div class="section-tag">01 — PHILOSOPHY</div>
+            <h2>PERFORMANCE<br>ENGINEERED</h2>
+            <div class="grid-3" style="margin-top: 3rem;">
+                <div class="card fade-in">
+                    <span class="number">01</span>
+                    <h3>PHILOSOPHY</h3>
+                    <p>More than grammar. It's control over every phrase, perfect intonation, and confidence in how you respond across any context. MindLang carries decades of linguistic development.</p>
                 </div>
-            </section>
-
-            <!-- INNOVATION -->
-            <section>
-                <div class="container">
-                    <div>
-                        <p class="small-text">03 — INNOVATION</p>
-                        <h2>ALPHA VOICE<br>TECHNOLOGY</h2>
-                        <p class="parallax" data-speed="0.02">ART (Adaptive Response Tuning) is MindLang's latest innovation, engineered to strengthen your speaking from the inside out. The internal neural structure boosts lateral fluency without adding cognitive weight.</p>
-                    </div>
+                <div class="card fade-in">
+                    <span class="number">02</span>
+                    <h3>TECHNOLOGY</h3>
+                    <p>Built on aerospace-grade AI architectures (Whisper, GPT-4o). Rim-to-Rim approach — from voice to text to deep analysis. Low friction, high precision.</p>
                 </div>
-            </section>
-
-            <!-- GRID 3 КОЛОНКИ -->
-            <section>
-                <div class="container">
-                    <div class="grid-3">
-                        <div class="grid-item">
-                            <span class="number">01</span>
-                            <h3>PHILOSOPHY</h3>
-                            <p>More than grammar. It's control over every phrase, perfect intonation, and confidence in how you respond across any context.</p>
-                        </div>
-                        <div class="grid-item">
-                            <span class="number">02</span>
-                            <h3>CRAFT</h3>
-                            <p>Made from Custom Composite AI using aerospace linguistics and neural architecture. Built for low cognitive load.</p>
-                        </div>
-                        <div class="grid-item">
-                            <span class="number">03</span>
-                            <h3>INNOVATION</h3>
-                            <p>ART is MindLang's core — internal neural structure for lateral fluency in speaking. More power goes straight to your vocabulary.</p>
-                        </div>
-                    </div>
+                <div class="card fade-in">
+                    <span class="number">03</span>
+                    <h3>INNOVATION</h3>
+                    <p>ART (Adaptive Response Tuning) strengthens your speaking from the inside out. Neural structure boosts fluency without adding cognitive weight.</p>
                 </div>
-            </section>
-
-            <!-- EVOLUTION -->
-            <section>
-                <div class="container">
-                    <div>
-                        <p class="small-text">04 — EVOLUTION</p>
-                        <h2>MINDLANG · ART</h2>
-                        <p>The all-new MindLang is a completely re-engineered AI tutor built for greater speech aerodynamics, neural stiffness, and conversational control. First to feature Alpha Voice Technology, it's made to handle any conversation with precision.</p>
-                        <a href="https://t.me/MindLangSpeachbot" class="button">
-                            LEARN MORE
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ВИДЕО СЕКЦИЯ -->
-            <section class="video-section">
-                <div class="video-wrap">
-                    <iframe src="https://player.vimeo.com/video/1129863318?autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="container" style="position: relative; z-index: 2;">
-                    <div class="video-content">
-                        <div class="play-button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <p class="small-text">WATCH THE STORY</p>
-                        <h2>THE ARCHITECTURE<br>OF VOICE</h2>
-                        <p>See how MindLang transforms your speech into structured learning.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ФУТЕР -->
-            <footer>
-                <div class="container">
-                    <div class="footer-grid">
-                        <div class="footer-column">
-                            <h4>MINDLANG</h4>
-                            <ul>
-                                <li><a href="#">Philosophy</a></li>
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Innovation</a></li>
-                                <li><a href="#">Evolution</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-column">
-                            <h4>PRODUCT</h4>
-                            <ul>
-                                <li><a href="https://t.me/MindLangSpeachbot">Telegram Bot</a></li>
-                                <li><a href="#">API</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-column">
-                            <h4>COMPANY</h4>
-                            <ul>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-column">
-                            <h4>LEGAL</h4>
-                            <ul>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms of Service</a></li>
-                                <li><a href="#">Imprint</a></li>
-                                <li><a href="#">Cookie Settings</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="social-links">
-                        <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg></a>
-                        <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 3c-3.88 0-7 3.12-7 7 0 3.47 2.52 6.34 5.83 6.88v-4.87H8.97V12h2.86V9.41c0-2.83 1.68-4.39 4.26-4.39 1.23 0 2.52.22 2.52.22v2.77h-1.42c-1.4 0-1.83.87-1.83 1.76V12h3.11l-.5 3.01h-2.61v4.87C19.48 18.34 22 15.47 22 12c0-3.88-3.12-7-7-7z"/></svg></a>
-                        <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.62 4.35c-1.03-.42-2.12-.71-3.24-.85-.14.26-.3.61-.4.89-1.2-.18-2.4-.18-3.6 0-.1-.28-.26-.63-.4-.89-1.13.14-2.22.43-3.25.86-.44.66-.86 1.33-1.24 2.02-1.42 2.15-2.14 4.69-1.91 7.18 1.48 1.09 3.18 1.92 5.02 2.41.4-.54.76-1.11 1.06-1.71-.58-.22-1.13-.5-1.65-.84.14-.1.27-.21.4-.32 2.53 1.17 5.28 1.17 7.81 0 .13.11.26.22.4.32-.52.34-1.07.62-1.65.84.3.6.66 1.17 1.06 1.71 1.84-.49 3.54-1.32 5.02-2.41.26-2.93-.32-5.44-1.9-7.18-.38-.69-.8-1.36-1.24-2.02zM8.47 13.02c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5zm7.06 0c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5z"/></svg></a>
-                        <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.26 5 12 5 12 5s-6.26 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.74 2 12 2 12s0 3.26.42 4.81c.23.86.91 1.54 1.77 1.77C5.74 19 12 19 12 19s6.26 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77.42-1.55.42-4.81.42-4.81s0-3.26-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></a>
-                    </div>
-                    <div class="copyright">
-                        © 2026 MINDLANG, an AI voice architecture company
-                    </div>
-                </div>
-            </footer>
-
-            <!-- НУМЕРОВАННЫЙ СПИСОК -->
-            <div class="container">
-                <div class="numbered-list">
-                    <div class="numbered-item"><span>01</span> philosophy</div>
-                    <div class="numbered-item"><span>02</span> craft</div>
-                    <div class="numbered-item"><span>03</span> innovation</div>
-                    <div class="numbered-item"><span>04</span> evolution</div>
+                <div class="card fade-in">
+                    <span class="number">04</span>
+                    <h3>EVOLUTION</h3>
+                    <p>The all-new MindLang is a completely re-engineered AI tutor built for greater speech aerodynamics and conversational control. Alpha Voice Technology.</p>
                 </div>
             </div>
+        </section>
+
+        <!-- PRODUCT SECTION -->
+        <section id="product" class="section">
+            <div class="section-tag">02 — PRODUCT</div>
+            <h2>OUR<br>SOLUTIONS</h2>
+            
+            <div class="grid-4" style="margin-top: 3rem;">
+                <div class="card fade-in">
+                    <h3>TELEGRAM BOT</h3>
+                    <p>Voice-based AI tutor inside Telegram. Send voice — get text, corrections, vocabulary, and personal study plan.</p>
+                    <a href="https://t.me/MindLangSpeachbot" class="button small" style="margin-top: 1rem;">TRY BOT</a>
+                </div>
+                <div class="card fade-in">
+                    <h3>API ACCESS</h3>
+                    <p>Integrate MindLang's voice AI into your own applications. REST API with WebSocket support for real-time processing.</p>
+                    <a href="#" class="button small" style="margin-top: 1rem;">DOCS</a>
+                </div>
+                <div class="card fade-in">
+                    <h3>PRICING</h3>
+                    <p>Flexible plans from free tier to enterprise. Pay as you grow. Volume discounts for high-volume users.</p>
+                    <a href="#pricing" class="button small" style="margin-top: 1rem;">VIEW PLANS</a>
+                </div>
+                <div class="card fade-in">
+                    <h3>FAQ</h3>
+                    <p>Answers to common questions about voice processing, privacy, languages supported, and integration.</p>
+                    <a href="#faq" class="button small" style="margin-top: 1rem;">READ FAQ</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING SECTION -->
+        <section id="pricing" class="section">
+            <div class="section-tag">03 — PRICING</div>
+            <h2>CHOOSE YOUR<br>PLAN</h2>
+            
+            <div class="grid-3" style="margin-top: 3rem;">
+                <div class="pricing-card fade-in">
+                    <h3>FREE</h3>
+                    <div class="price">$0 <small>/ month</small></div>
+                    <p class="price-desc">For casual learners</p>
+                    <ul class="feature-list">
+                        <li>50 voice minutes/month</li>
+                        <li>Basic corrections</li>
+                        <li>Text transcription</li>
+                        <li>Telegram bot access</li>
+                        <li>24h support response</li>
+                    </ul>
+                    <a href="https://t.me/MindLangSpeachbot" class="button small">GET STARTED</a>
+                </div>
+                
+                <div class="pricing-card featured fade-in">
+                    <h3>PRO</h3>
+                    <div class="price">$19 <small>/ month</small></div>
+                    <p class="price-desc">For serious learners</p>
+                    <ul class="feature-list">
+                        <li>500 voice minutes/month</li>
+                        <li>Advanced corrections + grammar</li>
+                        <li>Vocabulary tracking</li>
+                        <li>Personal study plan</li>
+                        <li>Priority support (12h)</li>
+                    </ul>
+                    <a href="#" class="button small">SUBSCRIBE</a>
+                </div>
+                
+                <div class="pricing-card fade-in">
+                    <h3>ENTERPRISE</h3>
+                    <div class="price">$99 <small>/ month</small></div>
+                    <p class="price-desc">For teams & schools</p>
+                    <ul class="feature-list">
+                        <li>Unlimited voice minutes</li>
+                        <li>Team management dashboard</li>
+                        <li>API access</li>
+                        <li>Custom AI model tuning</li>
+                        <li>Dedicated support (1h)</li>
+                    </ul>
+                    <a href="#" class="button small">CONTACT SALES</a>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 2rem; color: #666; font-size: 0.9rem;">All plans include basic transcription and AI corrections. Annual billing available with 20% discount.</p>
+        </section>
+
+        <!-- COMPANY SECTION -->
+        <section id="company" class="section">
+            <div class="section-tag">04 — COMPANY</div>
+            <h2>ABOUT<br>MINDLANG</h2>
+            
+            <div class="grid-2" style="margin-top: 3rem;">
+                <div class="fade-in">
+                    <h3>OUR STORY</h3>
+                    <p>Founded in 2025 by AI researchers and linguists, MindLang was built to solve one problem: people learn languages but never practice speaking. We combined cutting-edge voice AI with Telegram to create the most accessible speaking tutor.</p>
+                    <p>Today, thousands of users improve their English daily through natural conversation with our AI.</p>
+                </div>
+                <div class="fade-in">
+                    <h3>BLOG & CAREERS</h3>
+                    <p>Read about voice AI breakthroughs, language learning tips, and company updates on our blog.</p>
+                    <p>We're hiring! Join us in building the future of voice AI — remote positions available for engineers, linguists, and designers.</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <a href="#" class="button small">READ BLOG</a>
+                        <a href="#" class="button small">VIEW CAREERS</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 4rem;">
+                <h3>CONTACT US</h3>
+                <div class="grid-3" style="margin-top: 2rem;">
+                    <div class="card fade-in">
+                        <h4>EMAIL</h4>
+                        <p>hello@mindlang.ai<br>support@mindlang.ai</p>
+                    </div>
+                    <div class="card fade-in">
+                        <h4>TELEGRAM</h4>
+                        <p>@MindLangSupport<br>@MindLangSpeachbot</p>
+                    </div>
+                    <div class="card fade-in">
+                        <h4>OFFICE</h4>
+                        <p>Remote-first<br>Berlin / Singapore / SF</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section id="faq" class="section">
+            <div class="section-tag">05 — FAQ</div>
+            <h2>FREQUENTLY ASKED<br>QUESTIONS</h2>
+            
+            <div style="margin-top: 3rem;">
+                <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        <h4>How does MindLang work?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Send voice messages to our Telegram bot. We transcribe, analyze grammar, suggest corrections, and build vocabulary. You get instant feedback and a personal study plan.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        <h4>Which languages are supported?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Currently English (all levels). Spanish and Mandarin coming Q3 2026. We process any language for transcription, but corrections are optimized for English learners.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        <h4>Is my voice data private?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes. Voice messages are processed in real-time and not stored. Transcripts are anonymized and used only to improve our models. Full details in Privacy Policy.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        <h4>Can I use MindLang for teaching?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! Our Enterprise plan includes teacher dashboards, student progress tracking, and classroom management tools. Contact us for education pricing.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        <h4>What's the difference from ChatGPT?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        MindLang is specialized for spoken language learning. We focus on pronunciation, fluency, and natural conversation. Our AI is tuned specifically for ESL learners, not general chat.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TERMS OF USE / PRIVACY SECTION -->
+        <section id="legal" class="section">
+            <div class="section-tag">06 — LEGAL</div>
+            <h2>TERMS &<br>PRIVACY</h2>
+            
+            <div class="grid-2" style="margin-top: 3rem;">
+                <div class="fade-in">
+                    <h3>TERMS OF USE</h3>
+                    <div class="terms-box">
+                        <h4>1. Acceptance of Terms</h4>
+                        <p>By accessing or using MindLang, you agree to be bound by these Terms. If you disagree, do not use our service.</p>
+                        
+                        <h4>2. Service Description</h4>
+                        <p>MindLang provides AI-powered voice analysis for language learning via Telegram bot and web interface. We may modify or discontinue features at any time.</p>
+                        
+                        <h4>3. User Accounts</h4>
+                        <p>You are responsible for maintaining your Telegram account security. Pro plans require payment information. Free tier limited to 50 voice minutes/month.</p>
+                        
+                        <h4>4. Acceptable Use</h4>
+                        <p>You agree not to: reverse engineer our AI, use for illegal purposes, harass others, or attempt to extract training data. Violation may result in termination.</p>
+                        
+                        <h4>5. Payments & Refunds</h4>
+                        <p>Subscriptions billed monthly. Refunds available within 14 days of purchase for annual plans. Contact support@mindlang.ai for issues.</p>
+                        
+                        <h4>6. Limitation of Liability</h4>
+                        <p>MindLang is provided "as is". We are not liable for learning outcomes or service interruptions beyond reasonable control.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in">
+                    <h3>PRIVACY POLICY</h3>
+                    <div class="terms-box">
+                        <h4>Data Collection</h4>
+                        <p>We collect: voice messages (processed in real-time, not stored), Telegram user ID, usage statistics, and payment information (via secure processors).</p>
+                        
+                        <h4>Voice Data</h4>
+                        <p>Voice messages are transcribed and analyzed immediately. Audio files are deleted after processing. Anonymized transcripts may be used for model improvement.</p>
+                        
+                        <h4>Cookies</h4>
+                        <p>Our web interface uses essential cookies for authentication. No tracking cookies without consent. Telegram bot does not use cookies.</p>
+                        
+                        <h4>Third Parties</h4>
+                        <p>We use OpenAI Whisper for transcription, Stripe for payments, and Vercel for hosting. Each has their own privacy policy.</p>
+                        
+                        <h4>Your Rights</h4>
+                        <p>Request data export or deletion at privacy@mindlang.ai. We respond within 30 days.</p>
+                        
+                        <h4>Imprint</h4>
+                        <p>MindLang GmbH<br>c/o Factory Berlin<br>Reinhardtstr. 45<br>10117 Berlin, Germany<br>CEO: [Your Name]<br>VAT: DE123456789</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <a href="#" class="button small">COOKIE SETTINGS</a>
+                <a href="#" class="button small">DATA REQUEST</a>
+            </div>
+        </section>
+
+        <!-- ФУТЕР (ПОЛНЫЙ) -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>MINDLANG</h4>
+                    <ul>
+                        <li><a href="#philosophy">Philosophy</a></li>
+                        <li><a href="#">Technology</a></li>
+                        <li><a href="#">Innovation</a></li>
+                        <li><a href="#">Evolution</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>PRODUCT</h4>
+                    <ul>
+                        <li><a href="https://t.me/MindLangSpeachbot">Telegram Bot</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>COMPANY</h4>
+                    <ul>
+                        <li><a href="#company">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>LEGAL</h4>
+                    <ul>
+                        <li><a href="#legal">Privacy Policy</a></li>
+                        <li><a href="#legal">Terms of Service</a></li>
+                        <li><a href="#legal">Imprint</a></li>
+                        <li><a href="#">Cookie Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg></a>
+                <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 3c-3.88 0-7 3.12-7 7 0 3.47 2.52 6.34 5.83 6.88v-4.87H8.97V12h2.86V9.41c0-2.83 1.68-4.39 4.26-4.39 1.23 0 2.52.22 2.52.22v2.77h-1.42c-1.4 0-1.83.87-1.83 1.76V12h3.11l-.5 3.01h-2.61v4.87C19.48 18.34 22 15.47 22 12c0-3.88-3.12-7-7-7z"/></svg></a>
+                <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.62 4.35c-1.03-.42-2.12-.71-3.24-.85-.14.26-.3.61-.4.89-1.2-.18-2.4-.18-3.6 0-.1-.28-.26-.63-.4-.89-1.13.14-2.22.43-3.25.86-.44.66-.86 1.33-1.24 2.02-1.42 2.15-2.14 4.69-1.91 7.18 1.48 1.09 3.18 1.92 5.02 2.41.4-.54.76-1.11 1.06-1.71-.58-.22-1.13-.5-1.65-.84.14-.1.27-.21.4-.32 2.53 1.17 5.28 1.17 7.81 0 .13.11.26.22.4.32-.52.34-1.07.62-1.65.84.3.6.66 1.17 1.06 1.71 1.84-.49 3.54-1.32 5.02-2.41.26-2.93-.32-5.44-1.9-7.18-.38-.69-.8-1.36-1.24-2.02zM8.47 13.02c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5zm7.06 0c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5z"/></svg></a>
+                <a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.26 5 12 5 12 5s-6.26 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.74 2 12 2 12s0 3.26.42 4.81c.23.86.91 1.54 1.77 1.77C5.74 19 12 19 12 19s6.26 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77.42-1.55.42-4.81.42-4.81s0-3.26-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></a>
+            </div>
+
+            <div class="copyright">
+                © 2026 MINDLANG, an AI voice architecture company. All rights reserved.
+            </div>
+        </footer>
+
+        <!-- BOTTOM NAV (01 02 03 04) -->
+        <div class="bottom-nav">
+            <a href="#philosophy" class="bottom-nav-item"><span>01</span> philosophy</a>
+            <a href="#product" class="bottom-nav-item"><span>02</span> product</a>
+            <a href="#pricing" class="bottom-nav-item"><span>03</span> pricing</a>
+            <a href="#company" class="bottom-nav-item"><span>04</span> company</a>
+            <a href="#faq" class="bottom-nav-item"><span>05</span> faq</a>
+            <a href="#legal" class="bottom-nav-item"><span>06</span> legal</a>
         </div>
     </div>
 
-    <!-- ===== ПОЛНЫЙ СКРИПТ СО ВСЕМИ АНИМАЦИЯМИ ===== -->
+    <!-- СКРИПТЫ -->
     <script>
-        (function() {
-            // 1. ЛОУДЕР
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    document.getElementById('loader').classList.add('hidden');
-                }, 1500);
-            });
-
-            // 2. ОСНОВНЫЕ ЭЛЕМЕНТЫ
-            const wrapper = document.getElementById('smooth-wrapper');
-            const content = document.getElementById('smooth-content');
-            const gradient1 = document.getElementById('gradient1');
-            const gradient2 = document.getElementById('gradient2');
-            const circles = document.querySelectorAll('.circle');
-            
-            // 3. НАСТРОЙКА ВЫСОТЫ
-            function setHeight() {
-                document.body.style.height = content.offsetHeight + 'px';
-            }
-            setHeight();
-            window.addEventListener('resize', setHeight);
-
-            // 4. ПЛАВНЫЙ СКРОЛЛ (Lenis style)
-            const smoothScroll = {
-                target: 0,
-                current: 0,
-                ease: 0.075, // 0.03 - медленно, 0.075 - норм, 0.1 - быстро
-                
-                onWheel(e) {
-                    e.preventDefault();
-                    this.target += e.deltaY;
-                    
-                    // Ограничиваем
-                    const max = content.offsetHeight - window.innerHeight;
-                    this.target = Math.max(0, Math.min(this.target, max));
-                },
-                
-                animate() {
-                    // Плавное движение
-                    this.current += (this.target - this.current) * this.ease;
-                    
-                    // Применяем к контенту
-                    content.style.transform = `translateY(-${this.current}px)`;
-                    
-                    // 5. АНИМАЦИЯ КРУГОВ (вращение + движение)
-                    circles.forEach((circle, i) => {
-                        const speed = 0.02 + (i * 0.01);
-                        const rotation = this.current * speed;
-                        const moveX = Math.sin(this.current * 0.002 + i) * 30;
-                        const moveY = Math.cos(this.current * 0.002 + i) * 30;
-                        const scale = 1 + Math.sin(this.current * 0.001) * 0.1;
-                        circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px) scale(${scale})`;
-                    });
-                    
-                    // 6. АНИМАЦИЯ ГРАДИЕНТОВ (движение при скролле)
-                    if (gradient1 && gradient2) {
-                        const maxScroll = content.offsetHeight - window.innerHeight;
-                        const progress = maxScroll > 0 ? this.current / maxScroll : 0;
-                        
-                        gradient1.style.transform = `translate(${-900 + progress * 200}px, ${-350 + progress * 100}px)`;
-                        gradient2.style.transform = `translate(${1020 - progress * 300}px, ${699 - progress * 200}px)`;
-                    }
-                    
-                    // 7. ПАРАЛЛАКС ДЛЯ ЭЛЕМЕНТОВ
-                    document.querySelectorAll('.parallax').forEach(el => {
-                        const speed = parseFloat(el.dataset.speed) || 0.1;
-                        const y = this.current * speed;
-                        el.style.transform = `translateY(${y}px)`;
-                    });
-                    
-                    requestAnimationFrame(this.animate.bind(this));
+        // Анимация появления при скролле
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
-            };
-
-            // Привязываем события
-            window.addEventListener('wheel', (e) => smoothScroll.onWheel(e), { passive: false });
-            
-            // Стартуем анимацию
-            smoothScroll.animate();
-
-            // 8. АНИМАЦИЯ БУКВ (появляются по очереди)
-            function initCharAnimation() {
-                // Разбиваем заголовки на буквы
-                document.querySelectorAll('h1, h2, h3').forEach(headline => {
-                    if (headline.querySelector('.char')) return; // уже разбили
-                    
-                    const text = headline.textContent;
-                    let html = '';
-                    for (let char of text) {
-                        if (char === ' ') {
-                            html += ' ';
-                        } else {
-                            html += `<span class="char">${char}</span>`;
-                        }
-                    }
-                    headline.innerHTML = html;
-                });
-                
-                // Наблюдатель для появления
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const chars = entry.target.querySelectorAll('.char');
-                            chars.forEach((char, i) => {
-                                setTimeout(() => {
-                                    char.classList.add('visible');
-                                }, i * 30);
-                            });
-                        }
-                    });
-                }, { threshold: 0.5 });
-                
-                document.querySelectorAll('h1, h2, h3').forEach(el => observer.observe(el));
-            }
-            
-            // Запускаем через небольшую задержку
-            setTimeout(initCharAnimation, 500);
-
-            // 9. ЭФФЕКТ СЛЕЖЕНИЯ ЗА МЫШЬЮ
-            document.addEventListener('mousemove', (e) => {
-                const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-                const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-                
-                circles.forEach((circle, i) => {
-                    const strength = 10 + i * 5;
-                    // Получаем текущую трансформацию
-                    const currentTransform = circle.style.transform;
-                    // Добавляем смещение (но оставляем вращение)
-                    if (currentTransform) {
-                        circle.style.transform = currentTransform + ` translate(${mouseX * strength}px, ${mouseY * strength}px)`;
-                    }
-                });
             });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(el => observer.observe(el));
 
-            // 10. ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ ДЛЯ КНОПОК
-            document.querySelectorAll('.button').forEach(btn => {
-                btn.addEventListener('mouseenter', () => {
-                    btn.style.transform = 'scale(1.05)';
-                });
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.transform = 'scale(1)';
-                });
+        // FAQ toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('open');
+                
+                // Меняем + на -
+                const toggle = this.querySelector('.faq-toggle');
+                if (this.classList.contains('open')) {
+                    toggle.textContent = '−';
+                } else {
+                    toggle.textContent = '+';
+                }
             });
+        });
 
-            // 11. ОБНОВЛЕНИЕ ВЫСОТЫ ПРИ ИЗМЕНЕНИИ КОНТЕНТА
-            const resizeObserver = new ResizeObserver(() => {
-                setHeight();
+        // Плавный скролл к якорям
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             });
-            resizeObserver.observe(content);
+        });
+
+        // Анимация фона (движение за мышкой - легкая)
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
+            const mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
             
-        })();
+            document.querySelectorAll('.circle').forEach(circle => {
+                circle.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+            });
+        });
     </script>
 </body>
 </html>
