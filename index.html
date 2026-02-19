@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MindLang · AI Voice Architecture</title>
+    <title>Pixel Warfare Studio · Roblox Game Development</title>
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -21,7 +21,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
-            overflow-y: auto !important; /* Важно для мобилок */
+            overflow-y: auto !important;
             height: auto !important;
             position: relative;
         }
@@ -305,11 +305,36 @@
         }
 
         .logo {
-            font-size: 1.2rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             text-decoration: none;
+            color: #fff;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        @media (min-width: 769px) {
+            .logo-text {
+                font-size: 1.2rem;
+            }
         }
 
         .nav-links {
@@ -354,50 +379,88 @@
             min-height: 70vh;
             display: flex;
             align-items: center;
-            margin-bottom: 2rem;
             padding: 2rem 0;
         }
 
-        .hero-content {
-            max-width: 800px;
-        }
-
-        /* ===== СЕКЦИИ ===== */
-        .section {
-            padding: 3rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
         }
 
         @media (min-width: 769px) {
-            .section {
-                padding: 5rem 0;
+            .hero-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
             }
         }
 
-        .section:last-child {
-            border-bottom: none;
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-image {
+            position: relative;
+            aspect-ratio: 1;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(135deg, rgba(100,100,255,0.2), rgba(150,100,255,0.2));
+            border-radius: 30px;
+            z-index: -1;
+            filter: blur(20px);
         }
 
         /* ===== СТАТИСТИКА ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+            gap: 1.5rem;
             margin: 3rem 0;
         }
 
         @media (min-width: 769px) {
             .stats-grid {
                 grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
             }
         }
 
         .stat-item {
             text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 300;
             color: #fff;
             margin-bottom: 0.5rem;
@@ -405,7 +468,7 @@
 
         @media (min-width: 769px) {
             .stat-number {
-                font-size: 3.5rem;
+                font-size: 2.5rem;
             }
         }
 
@@ -429,12 +492,6 @@
             gap: 2rem;
         }
 
-        .grid-4 {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
         @media (min-width: 769px) {
             .grid-2 {
                 grid-template-columns: repeat(2, 1fr);
@@ -445,11 +502,6 @@
                 grid-template-columns: repeat(3, 1fr);
                 gap: 3rem;
             }
-
-            .grid-4 {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 2rem;
-            }
         }
 
         /* ===== КАРТОЧКИ ===== */
@@ -457,13 +509,7 @@
             padding: 1.5rem;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.3s ease;
-        }
-
-        @media (min-width: 769px) {
-            .card {
-                padding: 2rem;
-            }
+            transition: all 0.3s;
         }
 
         .card:hover {
@@ -481,9 +527,8 @@
         }
 
         .card h3 {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             margin-bottom: 1rem;
-            letter-spacing: 0.2em;
         }
 
         .card p {
@@ -492,77 +537,135 @@
             margin-bottom: 0;
         }
 
-        /* ===== PRICING CARDS ===== */
-        .pricing-card {
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            text-align: center;
+        /* ===== КОМАНДА ===== */
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
         }
 
         @media (min-width: 769px) {
-            .pricing-card {
-                padding: 2.5rem 2rem;
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 3rem;
             }
         }
 
-        .pricing-card.featured {
-            background: rgba(255, 255, 255, 0.05);
+        .team-card {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .team-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(10px);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .team-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .team-role {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .team-link {
+            color: #666;
+            font-size: 0.8rem;
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        .team-card:hover .team-link {
+            color: #fff;
+        }
+
+        /* ===== ПРОЕКТЫ ===== */
+        .project-card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.03);
             border-color: rgba(255, 255, 255, 0.15);
             transform: scale(1.02);
         }
 
-        @media (min-width: 769px) {
-            .pricing-card.featured {
-                transform: scale(1.05);
-            }
-        }
-
-        .price {
+        .project-icon {
             font-size: 2.5rem;
-            font-weight: 300;
-            margin: 1rem 0;
-            color: #fff;
-        }
-
-        @media (min-width: 769px) {
-            .price {
-                font-size: 3rem;
-            }
-        }
-
-        .price small {
-            font-size: 0.9rem;
-            color: #888;
-        }
-
-        .price-desc {
-            color: #888;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-list {
-            list-style: none;
-            margin: 1.5rem 0;
-            text-align: left;
-        }
-
-        .feature-list li {
-            padding: 0.5rem 0;
-            color: #b0b0b0;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-
-        .feature-list li::before {
-            content: '—';
-            margin-right: 1rem;
+            margin-bottom: 1rem;
             color: #666;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-desc {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .project-tag {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.3rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: #888;
+        }
+
+        /* ===== СТИЛИ LOW POLY ===== */
+        .low-poly-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(100,100,255,0.1), rgba(150,100,255,0.1));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            color: #fff;
+            margin-bottom: 2rem;
         }
 
         /* ===== КНОПКА ===== */
@@ -580,12 +683,6 @@
             cursor: pointer;
         }
 
-        @media (min-width: 769px) {
-            .button {
-                padding: 1rem 2.5rem;
-            }
-        }
-
         .button:hover {
             background: #ffffff;
             color: #0a0a0a;
@@ -597,378 +694,20 @@
             font-size: 0.7rem;
         }
 
-        /* ===== ВИДЕО СЕКЦИЯ ===== */
-        .video-section {
-            position: relative;
-            min-height: 50vh;
-            overflow: hidden;
-            margin: 2rem 0;
-        }
-
-        @media (min-width: 769px) {
-            .video-section {
-                min-height: 70vh;
-                margin: 4rem 0;
-            }
-        }
-
-        .video-wrap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .video-wrap iframe {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .video-content {
-            position: relative;
-            z-index: 2;
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(5px);
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 100%;
-        }
-
-        @media (min-width: 769px) {
-            .video-content {
-                padding: 4rem;
-                max-width: 600px;
-            }
-        }
-
-        .play-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 1px solid white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            cursor: pointer;
-            transition: opacity 0.5s ease;
-            opacity: 1;
-        }
-
-        @media (min-width: 769px) {
-            .play-button {
-                width: 60px;
-                height: 60px;
-                margin-bottom: 2rem;
-            }
-        }
-
-        .play-button.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .play-button:hover {
-            background: white;
-            color: black;
-        }
-
-        .play-button svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        @media (min-width: 769px) {
-            .play-button svg {
-                width: 24px;
-                height: 24px;
-            }
-        }
-
-        /* ===== ТЕСТИМОНИАЛЫ ===== */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        @media (min-width: 769px) {
-            .testimonials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .testimonial {
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            position: relative;
-        }
-
-        .testimonial::before {
-            content: '"';
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            font-size: 4rem;
-            color: rgba(255, 255, 255, 0.1);
-            font-family: serif;
-        }
-
-        .testimonial p {
-            font-size: 1rem;
-            font-style: italic;
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-author {
-            color: #fff;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
-        }
-
-        .testimonial-role {
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        /* ===== КОМАНДА ===== */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin: 3rem 0;
-        }
-
-        @media (min-width: 769px) {
-            .team-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 2rem;
-            }
-        }
-
-        .team-member {
-            text-align: center;
-        }
-
-        .team-member .avatar {
-            width: 100%;
-            aspect-ratio: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: #666;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .team-member h4 {
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .team-member p {
-            font-size: 0.8rem;
-            color: #666;
-            margin: 0;
-        }
-
-        /* ===== ПАРТНЕРЫ ===== */
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin: 3rem 0;
-            align-items: center;
-        }
-
-        @media (min-width: 769px) {
-            .partners-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .partner {
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            font-size: 1.2rem;
-            letter-spacing: 0.1em;
-            color: #666;
-            transition: all 0.3s;
-        }
-
-        .partner:hover {
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        /* ===== FAQ ===== */
-        .faq-item {
-            padding: 1.2rem 0;
+        /* ===== СЕКЦИИ ===== */
+        .section {
+            padding: 3rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         @media (min-width: 769px) {
-            .faq-item {
-                padding: 1.5rem 0;
+            .section {
+                padding: 5rem 0;
             }
         }
 
-        .faq-item:last-child {
+        .section:last-child {
             border-bottom: none;
-        }
-
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .faq-question h4 {
-            font-size: 1rem;
-            letter-spacing: 0.1em;
-            margin: 0;
-            color: #fff;
-            padding-right: 1rem;
-        }
-
-        @media (min-width: 769px) {
-            .faq-question h4 {
-                font-size: 1.1rem;
-            }
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: #999;
-            padding-right: 1rem;
-            margin-top: 0;
-            font-size: 0.9rem;
-        }
-
-        .faq-item.open .faq-answer {
-            max-height: 300px;
-            margin-top: 1rem;
-        }
-
-        .faq-toggle {
-            font-size: 1.5rem;
-            color: #666;
-            flex-shrink: 0;
-        }
-
-        /* ===== COOKIE SETTINGS ===== */
-        .cookie-settings {
-            background: rgba(20, 20, 20, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            backdrop-filter: blur(10px);
-        }
-
-        @media (min-width: 769px) {
-            .cookie-settings {
-                padding: 2rem;
-            }
-        }
-
-        .cookie-option {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        @media (min-width: 769px) {
-            .cookie-option {
-                gap: 1rem;
-            }
-        }
-
-        .cookie-option:last-child {
-            border-bottom: none;
-        }
-
-        .cookie-option input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-top: 0.2rem;
-            accent-color: #fff;
-            flex-shrink: 0;
-        }
-
-        .cookie-option label {
-            flex: 1;
-        }
-
-        .cookie-option h4 {
-            font-size: 0.9rem;
-            margin-bottom: 0.3rem;
-            letter-spacing: 0.1em;
-        }
-
-        .cookie-option p {
-            font-size: 0.8rem;
-            color: #999;
-            margin: 0;
-        }
-
-        .cookie-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
-        }
-
-        @media (min-width: 769px) {
-            .cookie-buttons {
-                gap: 1rem;
-                margin-top: 2rem;
-            }
-        }
-
-        /* ===== TERMS ===== */
-        .terms-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 1.5rem;
-            max-height: 300px;
-            overflow-y: auto;
-            font-size: 0.85rem;
-            color: #999;
-            line-height: 1.8;
-        }
-
-        @media (min-width: 769px) {
-            .terms-box {
-                padding: 2rem;
-                max-height: 400px;
-                font-size: 0.9rem;
-            }
-        }
-
-        .terms-box h4 {
-            color: #fff;
-            margin: 1.2rem 0 0.5rem;
-        }
-
-        .terms-box h4:first-child {
-            margin-top: 0;
         }
 
         /* ===== ФУТЕР ===== */
@@ -978,29 +717,23 @@
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        @media (min-width: 769px) {
-            footer {
-                padding: 4rem 0;
-            }
-        }
-
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 2rem;
             margin-bottom: 3rem;
         }
 
         @media (min-width: 769px) {
             .footer-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 3rem;
             }
         }
 
         .footer-col h4 {
-            font-size: 0.8rem;
-            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
             color: #fff;
         }
 
@@ -1009,13 +742,13 @@
         }
 
         .footer-col li {
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.7rem;
         }
 
         .footer-col a {
             color: #888;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             transition: color 0.3s;
         }
 
@@ -1025,10 +758,9 @@
 
         .social-links {
             display: flex;
-            gap: 1.2rem;
+            gap: 1.5rem;
             justify-content: center;
             margin: 2rem 0;
-            flex-wrap: wrap;
         }
 
         .social-links a {
@@ -1044,15 +776,6 @@
             text-align: center;
             color: #666;
             font-size: 0.7rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        @media (min-width: 769px) {
-            .copyright {
-                font-size: 0.8rem;
-                padding-top: 2rem;
-            }
         }
 
         .creator {
@@ -1081,14 +804,12 @@
             gap: 1rem;
             padding: 1.5rem 0;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
         @media (min-width: 769px) {
             .bottom-nav {
                 gap: 4rem;
-                padding: 2rem 0;
-                margin-top: 2rem;
             }
         }
 
@@ -1099,13 +820,6 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             transition: color 0.3s;
-            white-space: nowrap;
-        }
-
-        @media (min-width: 769px) {
-            .bottom-nav-item {
-                font-size: 0.8rem;
-            }
         }
 
         .bottom-nav-item:hover {
@@ -1130,45 +844,20 @@
             transform: translateY(0);
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО COOKIE ===== */
-        .cookie-modal {
-            display: none;
-            position: fixed;
+        /* ===== LOW POLY ДЕКОР ===== */
+        .low-poly-bg {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-            padding: 1rem;
-        }
-
-        .cookie-modal.show {
-            display: flex;
-        }
-
-        .cookie-modal-content {
-            background: #1a1a1a;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 2rem 1.5rem;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        @media (min-width: 769px) {
-            .cookie-modal-content {
-                padding: 3rem;
-            }
-        }
-
-        .cookie-modal-content h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(45deg, #fff 1px, transparent 1px),
+                linear-gradient(-45deg, #fff 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
         }
     </style>
 </head>
@@ -1204,543 +893,183 @@
             <!-- НАВИГАЦИЯ -->
             <div class="container">
                 <nav>
-                    <a href="#" class="logo">MINDLANG</a>
+                    <a href="#" class="logo">
+                        <div class="logo-icon">
+                            <img src="https://tr.rbxcdn.com/180DAY-c06d23df2002bb35aa6a59eb6e6b8062/150/150/Image/Webp/noFilter" alt="Pixel Warfare Studio">
+                        </div>
+                        <span class="logo-text">PIXEL WARFARE</span>
+                    </a>
                     <div class="nav-links">
-                        <a href="#philosophy">Philosophy</a>
-                        <a href="#product">Product</a>
-                        <a href="#pricing">Pricing</a>
-                        <a href="#company">Company</a>
+                        <a href="#studio">Studio</a>
+                        <a href="#games">Games</a>
+                        <a href="#team">Team</a>
+                        <a href="#contact">Contact</a>
                     </div>
-                    <div class="mobile-menu-btn" onclick="alert('Mobile menu coming soon')">☰</div>
+                    <div class="mobile-menu-btn" onclick="alert('Pixel Warfare Studio · Roblox Game Development')">☰</div>
                 </nav>
             </div>
 
             <!-- ГЕРОЙ -->
             <section class="hero">
                 <div class="container">
-                    <div class="hero-content fade-in">
-                        <div class="section-tag">WELCOME</div>
-                        <h1>THE EVOLUTION<br>OF VOICE AI</h1>
-                        <p>MindLang is not just a bot. It's an architectural approach to language learning, engineered for precision and trust. Built on aerospace-grade AI architectures, we deliver a learning experience that evolves with you.</p>
-                        <a href="https://t.me/MindLangSpeachbot" class="button">OPEN IN TELEGRAM</a>
+                    <div class="hero-grid">
+                        <div class="hero-content fade-in">
+                            <div class="low-poly-badge">LOW POLY · FPS · ROBLOX</div>
+                            <h1>PIXEL WARFARE<br>STUDIO</h1>
+                            <p>Crafting low poly shooter experiences on Roblox. Precision engineering, blocky aesthetics, competitive gameplay. Built by gamers, for gamers.</p>
+                            <a href="https://www.roblox.com/groups/group.aspx?gid=YOUR_GROUP_ID" class="button">JOIN GROUP</a>
+                        </div>
+                        <div class="hero-image fade-in">
+                            <img src="https://tr.rbxcdn.com/180DAY-c06d23df2002bb35aa6a59eb6e6b8062/150/150/Image/Webp/noFilter" alt="Pixel Warfare Studio">
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- СТАТИСТИКА (НОВОЕ) -->
+            <!-- СТАТИСТИКА -->
             <section class="section">
                 <div class="container">
                     <div class="stats-grid">
                         <div class="stat-item fade-in">
-                            <div class="stat-number">50K+</div>
-                            <div class="stat-label">Active Users</div>
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Founders</div>
                         </div>
                         <div class="stat-item fade-in">
-                            <div class="stat-number">2M+</div>
-                            <div class="stat-label">Voice Messages</div>
+                            <div class="stat-number">5+</div>
+                            <div class="stat-label">Games</div>
                         </div>
                         <div class="stat-item fade-in">
-                            <div class="stat-number">98%</div>
-                            <div class="stat-label">Accuracy</div>
+                            <div class="stat-number">1K+</div>
+                            <div class="stat-label">Players</div>
                         </div>
                         <div class="stat-item fade-in">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">AI Support</div>
+                            <div class="stat-number">2023</div>
+                            <div class="stat-label">Founded</div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- PHILOSOPHY / TECHNOLOGY / INNOVATION / EVOLUTION -->
-            <section id="philosophy" class="section">
+            <!-- О СТУДИИ -->
+            <section id="studio" class="section">
                 <div class="container">
-                    <div class="section-tag">01 — PHILOSOPHY</div>
-                    <h2>PERFORMANCE<br>ENGINEERED</h2>
-                    <div class="grid-3" style="margin-top: 2rem;">
-                        <div class="card fade-in">
-                            <span class="number">01</span>
-                            <h3>PHILOSOPHY</h3>
-                            <p>More than grammar. It's control over every phrase, perfect intonation, and confidence in how you respond across any context. MindLang carries decades of linguistic development.</p>
-                        </div>
-                        <div class="card fade-in">
-                            <span class="number">02</span>
-                            <h3>TECHNOLOGY</h3>
-                            <p>Built on aerospace-grade AI architectures (Whisper, GPT-4o). Rim-to-Rim approach — from voice to text to deep analysis. Low friction, high precision.</p>
-                        </div>
-                        <div class="card fade-in">
-                            <span class="number">03</span>
-                            <h3>INNOVATION</h3>
-                            <p>ART (Adaptive Response Tuning) strengthens your speaking from the inside out. Neural structure boosts fluency without adding cognitive weight.</p>
-                        </div>
-                        <div class="card fade-in">
-                            <span class="number">04</span>
-                            <h3>EVOLUTION</h3>
-                            <p>The all-new MindLang is a completely re-engineered AI tutor built for greater speech aerodynamics and conversational control. Alpha Voice Technology.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ВИДЕО СЕКЦИЯ -->
-            <section class="video-section">
-                <div class="video-wrap">
-                    <iframe src="https://player.vimeo.com/video/1129863318?autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="container" style="position: relative; z-index: 2;">
-                    <div class="video-content fade-in">
-                        <div class="play-button" id="playButton">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <div class="section-tag">WATCH THE STORY</div>
-                        <h2 style="margin-top: 0;">THE ARCHITECTURE<br>OF VOICE</h2>
-                        <p>See how MindLang transforms your speech into structured learning.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PRODUCT SECTION -->
-            <section id="product" class="section">
-                <div class="container">
-                    <div class="section-tag">02 — PRODUCT</div>
-                    <h2>OUR<br>SOLUTIONS</h2>
-                    
-                    <div class="grid-4" style="margin-top: 2rem;">
-                        <div class="card fade-in">
-                            <h3>TELEGRAM BOT</h3>
-                            <p>Voice-based AI tutor inside Telegram. Send voice — get text, corrections, vocabulary, and personal study plan.</p>
-                            <a href="https://t.me/MindLangSpeachbot" class="button small" style="margin-top: 1rem;">TRY BOT</a>
-                        </div>
-                        <div class="card fade-in">
-                            <h3>API ACCESS</h3>
-                            <p>Integrate MindLang's voice AI into your own applications. REST API with WebSocket support for real-time processing.</p>
-                            <a href="#" class="button small" style="margin-top: 1rem;">DOCS</a>
-                        </div>
-                        <div class="card fade-in">
-                            <h3>PRICING</h3>
-                            <p>Flexible plans from free tier to enterprise. Pay as you grow. Volume discounts for high-volume users.</p>
-                            <a href="#pricing" class="button small" style="margin-top: 1rem;">VIEW PLANS</a>
-                        </div>
-                        <div class="card fade-in">
-                            <h3>FAQ</h3>
-                            <p>Answers to common questions about voice processing, privacy, languages supported, and integration.</p>
-                            <a href="#faq" class="button small" style="margin-top: 1rem;">READ FAQ</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PRICING SECTION -->
-            <section id="pricing" class="section">
-                <div class="container">
-                    <div class="section-tag">03 — PRICING</div>
-                    <h2>CHOOSE YOUR<br>PLAN</h2>
-                    
-                    <div class="grid-3" style="margin-top: 2rem;">
-                        <div class="pricing-card fade-in">
-                            <h3>FREE</h3>
-                            <div class="price">$0 <small>/ mo</small></div>
-                            <p class="price-desc">For casual learners</p>
-                            <ul class="feature-list">
-                                <li>50 voice minutes/month</li>
-                                <li>Basic corrections</li>
-                                <li>Text transcription</li>
-                                <li>Telegram bot access</li>
-                                <li>24h support response</li>
-                            </ul>
-                            <a href="https://t.me/MindLangSpeachbot" class="button small">GET STARTED</a>
-                        </div>
-                        
-                        <div class="pricing-card featured fade-in">
-                            <h3>PRO</h3>
-                            <div class="price">$19 <small>/ mo</small></div>
-                            <p class="price-desc">For serious learners</p>
-                            <ul class="feature-list">
-                                <li>500 voice minutes/month</li>
-                                <li>Advanced corrections + grammar</li>
-                                <li>Vocabulary tracking</li>
-                                <li>Personal study plan</li>
-                                <li>Priority support (12h)</li>
-                            </ul>
-                            <a href="#" class="button small">SUBSCRIBE</a>
-                        </div>
-                        
-                        <div class="pricing-card fade-in">
-                            <h3>ENTERPRISE</h3>
-                            <div class="price">$99 <small>/ mo</small></div>
-                            <p class="price-desc">For teams & schools</p>
-                            <ul class="feature-list">
-                                <li>Unlimited voice minutes</li>
-                                <li>Team management dashboard</li>
-                                <li>API access</li>
-                                <li>Custom AI model tuning</li>
-                                <li>Dedicated support (1h)</li>
-                            </ul>
-                            <a href="#" class="button small">CONTACT SALES</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ТЕСТИМОНИАЛЫ (НОВОЕ) -->
-            <section class="section">
-                <div class="container">
-                    <div class="section-tag">COMMUNITY</div>
-                    <h2>WHAT USERS SAY</h2>
-                    
-                    <div class="testimonials-grid">
-                        <div class="testimonial fade-in">
-                            <p>MindLang completely changed how I practice English. The instant feedback on my pronunciation is incredible.</p>
-                            <div class="testimonial-author">— Maria K.</div>
-                            <div class="testimonial-role">Software Engineer, Spain</div>
-                        </div>
-                        <div class="testimonial fade-in">
-                            <p>I've tried many language apps, but nothing compares to speaking naturally and getting AI feedback in real time.</p>
-                            <div class="testimonial-author">— David Chen</div>
-                            <div class="testimonial-role">Student, Taiwan</div>
-                        </div>
-                        <div class="testimonial fade-in">
-                            <p>The vocabulary tracking and personal study plan helped me prepare for my IELTS exam in just 3 months.</p>
-                            <div class="testimonial-author">— Ahmed R.</div>
-                            <div class="testimonial-role">Engineer, Egypt</div>
-                        </div>
-                        <div class="testimonial fade-in">
-                            <p>As a teacher, I recommend MindLang to all my students. It's like having a private tutor 24/7.</p>
-                            <div class="testimonial-author">— Sarah Johnson</div>
-                            <div class="testimonial-role">ESL Teacher, Canada</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- КОМАНДА (НОВОЕ) -->
-            <section class="section">
-                <div class="container">
-                    <div class="section-tag">TEAM</div>
-                    <h2>MEET THE MINDS</h2>
-                    
-                    <div class="team-grid">
-                        <div class="team-member fade-in">
-                            <div class="avatar">👨‍💻</div>
-                            <h4>ALEX SCHMIDT</h4>
-                            <p>CEO & Founder</p>
-                        </div>
-                        <div class="team-member fade-in">
-                            <div class="avatar">👩‍💻</div>
-                            <h4>ELENA PETROVA</h4>
-                            <p>AI Research Lead</p>
-                        </div>
-                        <div class="team-member fade-in">
-                            <div class="avatar">👨‍🔬</div>
-                            <h4>MICHAEL CHEN</h4>
-                            <p>Linguistics</p>
-                        </div>
-                        <div class="team-member fade-in">
-                            <div class="avatar">👩‍🎨</div>
-                            <h4>SOPHIE WEBER</h4>
-                            <p>Product Design</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ПАРТНЕРЫ (НОВОЕ) -->
-            <section class="section">
-                <div class="container">
-                    <div class="section-tag">PARTNERS</div>
-                    <h2>TRUSTED BY</h2>
-                    
-                    <div class="partners-grid">
-                        <div class="partner fade-in">OPENAI</div>
-                        <div class="partner fade-in">MICROSOFT</div>
-                        <div class="partner fade-in">TELEGRAM</div>
-                        <div class="partner fade-in">VERCEL</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- НАГРАДЫ (НОВОЕ) -->
-            <section class="section">
-                <div class="container">
-                    <div class="section-tag">RECOGNITION</div>
-                    <h2>AWARDS & MILESTONES</h2>
-                    
-                    <div class="grid-3" style="margin-top: 2rem;">
-                        <div class="card fade-in">
-                            <span class="number">2025</span>
-                            <h3>BEST AI TUTOR</h3>
-                            <p>EdTech Innovation Awards</p>
-                        </div>
-                        <div class="card fade-in">
-                            <span class="number">2024</span>
-                            <h3>TOP 10 STARTUPS</h3>
-                            <p>TechCrunch Disrupt</p>
-                        </div>
-                        <div class="card fade-in">
-                            <span class="number">2024</span>
-                            <h3>MOST INNOVATIVE</h3>
-                            <p>AI Summit London</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- COMPANY SECTION -->
-            <section id="company" class="section">
-                <div class="container">
-                    <div class="section-tag">04 — COMPANY</div>
-                    <h2>ABOUT<br>MINDLANG</h2>
+                    <div class="section-tag">01 — STUDIO</div>
+                    <h2>LOW POLY<br>WARFARE</h2>
                     
                     <div class="grid-2" style="margin-top: 2rem;">
                         <div class="fade-in">
-                            <h3>OUR STORY</h3>
-                            <p>Founded in 2025 by AI researchers and linguists, MindLang was built to solve one problem: people learn languages but never practice speaking. We combined cutting-edge voice AI with Telegram to create the most accessible speaking tutor.</p>
-                            <p>Today, thousands of users improve their English daily through natural conversation with our AI.</p>
+                            <p>Pixel Warfare Studio specializes in creating fast-paced shooter experiences with a distinctive low poly aesthetic. Our games combine the charm of blocky graphics with competitive gameplay mechanics.</p>
+                            <p>We believe that great gameplay doesn't need hyper-realistic graphics. Our low poly style allows us to focus on what matters: smooth mechanics, balanced combat, and engaging maps.</p>
                         </div>
                         <div class="fade-in">
-                            <h3>BLOG & CAREERS</h3>
-                            <p>Read about voice AI breakthroughs, language learning tips, and company updates on our blog.</p>
-                            <p>We're hiring! Join us in building the future of voice AI — remote positions available for engineers, linguists, and designers.</p>
-                            <div style="display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
-                                <a href="#" class="button small">READ BLOG</a>
-                                <a href="#" class="button small">VIEW CAREERS</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 3rem;">
-                        <h3>CONTACT US</h3>
-                        <div class="grid-3" style="margin-top: 1.5rem;">
-                            <div class="card fade-in">
-                                <h4>EMAIL</h4>
-                                <p>hello@mindlang.ai<br>support@mindlang.ai</p>
-                            </div>
-                            <div class="card fade-in">
-                                <h4>TELEGRAM</h4>
-                                <p>@MindLangSupport<br>@MindLangSpeachbot</p>
-                            </div>
-                            <div class="card fade-in">
-                                <h4>OFFICE</h4>
-                                <p>Remote-first<br>Berlin / Singapore / SF</p>
-                            </div>
+                            <p>Every weapon, map, and mechanic is crafted with precision. From assault rifles to sniper duels, from close-quarters combat to long-range engagements — we build it all.</p>
+                            <p>Join our community and experience shooters reimagined in low poly glory.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- FAQ SECTION -->
-            <section id="faq" class="section">
+            <!-- ИГРЫ -->
+            <section id="games" class="section">
                 <div class="container">
-                    <div class="section-tag">05 — FAQ</div>
-                    <h2>FREQUENTLY ASKED<br>QUESTIONS</h2>
+                    <div class="section-tag">02 — GAMES</div>
+                    <h2>OUR<br>PROJECTS</h2>
                     
-                    <div style="margin-top: 2rem;">
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>How does MindLang work?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Send voice messages to @MindLangSpeachbot. We transcribe using Whisper, analyze grammar, suggest corrections, and build vocabulary. Get instant feedback + daily study plan.
-                            </div>
+                    <div class="grid-3" style="margin-top: 2rem;">
+                        <div class="project-card fade-in">
+                            <div class="project-icon">🔫</div>
+                            <div class="project-title">BLOCKY BATTLE</div>
+                            <div class="project-desc">Team deathmatch with low poly weapons. 5 unique maps, 10 weapons, fast respawns.</div>
+                            <span class="project-tag">FPS · TEAM</span>
                         </div>
-                        
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>Which languages?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                English fully supported (A1-C2). Spanish/Mandarin coming Q3 2026. Transcription works for 50+ languages.
-                            </div>
+                        <div class="project-card fade-in">
+                            <div class="project-icon">🎯</div>
+                            <div class="project-title">SNIPER ALLEY</div>
+                            <div class="project-desc">Long-range precision combat. One shot, one kill. 3 sniper rifles, wind physics.</div>
+                            <span class="project-tag">SNIPER · COMPETITIVE</span>
                         </div>
-                        
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>Is voice data private?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Yes. Audio deleted immediately after processing. Transcripts anonymized. Never sold. Full details in Privacy Policy.
-                            </div>
-                        </div>
-                        
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>For teachers?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Enterprise plan includes teacher dashboards, student tracking, classroom tools. Contact enterprise@mindlang.ai
-                            </div>
-                        </div>
-                        
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>Vs ChatGPT?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Specialized for spoken language. Focus on pronunciation, fluency, grammar feedback, vocabulary tracking. Tuned for ESL.
-                            </div>
-                        </div>
-
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>Transcription accuracy?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                98%+ for clear English. Works with accents. Background noise may reduce accuracy.
-                            </div>
-                        </div>
-
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>Cancel subscription?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Anytime from Telegram bot. Monthly no commitment. Annual refunds within 14 days.
-                            </div>
-                        </div>
-
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>API for developers?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Yes, REST API with transcription, grammar analysis, vocabulary extraction. docs.mindlang.ai
-                            </div>
-                        </div>
-
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>How to start?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Open Telegram, search @MindLangSpeachbot, send first voice. Free for 50 min/month.
-                            </div>
-                        </div>
-
-                        <div class="faq-item fade-in">
-                            <div class="faq-question">
-                                <h4>Payment methods?</h4>
-                                <span class="faq-toggle">+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Credit cards, PayPal, crypto (BTC, ETH, USDT). Bank transfer for Enterprise.
-                            </div>
+                        <div class="project-card fade-in">
+                            <div class="project-icon">🏃</div>
+                            <div class="project-title">PIXEL RUN</div>
+                            <div class="project-desc">Parkour shooter. Run, jump, and shoot in low poly environments.</div>
+                            <span class="project-tag">PARKOUR · ARCADE</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- COOKIE SETTINGS SECTION -->
-            <section id="cookies" class="section">
+            <!-- КОМАНДА -->
+            <section id="team" class="section">
                 <div class="container">
-                    <div class="section-tag">06 — COOKIE SETTINGS</div>
-                    <h2>YOUR PRIVACY<br>PREFERENCES</h2>
+                    <div class="section-tag">03 — TEAM</div>
+                    <h2>THE FOUNDERS</h2>
                     
-                    <div class="cookie-settings fade-in">
-                        <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Choose which cookies to accept.</p>
+                    <div class="team-grid">
+                        <a href="https://www.roblox.com/users/3216907585/profile" target="_blank" class="team-card fade-in">
+                            <div class="team-avatar">
+                                <img src="https://tr.rbxcdn.com/180DAY-c06d23df2002bb35aa6a59eb6e6b8062/150/150/Image/Webp/noFilter" alt="FamtyTG">
+                            </div>
+                            <div class="team-info">
+                                <div class="team-name">FAMTY</div>
+                                <div class="team-role">Co-Owner · Lead Developer</div>
+                                <div class="team-link">@famtytg</div>
+                            </div>
+                        </a>
                         
-                        <div class="cookie-option">
-                            <input type="checkbox" id="essential" checked disabled>
-                            <label for="essential">
-                                <h4>ESSENTIAL (ALWAYS ON)</h4>
-                                <p>Required for basic functionality</p>
-                            </label>
-                        </div>
+                        <a href="https://www.roblox.com/users/3725520754/profile" target="_blank" class="team-card fade-in">
+                            <div class="team-avatar">
+                                <div style="width:100%;height:100%;background:linear-gradient(135deg,#666,#333);display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;">H</div>
+                            </div>
+                            <div class="team-info">
+                                <div class="team-name">HOCO_INDEV</div>
+                                <div class="team-role">Co-Owner · Game Designer</div>
+                                <div class="team-link">@hoco_indev</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
 
-                        <div class="cookie-option">
-                            <input type="checkbox" id="analytics">
-                            <label for="analytics">
-                                <h4>ANALYTICS</h4>
-                                <p>Anonymous usage data to improve site</p>
-                            </label>
+            <!-- СТИЛЬ -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-tag">04 — AESTHETIC</div>
+                    <h2>LOW POLY<br>PHILOSOPHY</h2>
+                    
+                    <div class="grid-3" style="margin-top: 2rem;">
+                        <div class="card fade-in">
+                            <span class="number">01</span>
+                            <h3>BLOCKY</h3>
+                            <p>Embracing the cube. Our worlds are built from blocks, creating a unique visual identity.</p>
                         </div>
-
-                        <div class="cookie-option">
-                            <input type="checkbox" id="functional">
-                            <label for="functional">
-                                <h4>FUNCTIONAL</h4>
-                                <p>Remember preferences & settings</p>
-                            </label>
+                        <div class="card fade-in">
+                            <span class="number">02</span>
+                            <h3>COLORFUL</h3>
+                            <p>Vibrant palettes that pop. Low poly doesn't mean boring — we use bold colors.</p>
                         </div>
-
-                        <div class="cookie-option">
-                            <input type="checkbox" id="marketing">
-                            <label for="marketing">
-                                <h4>MARKETING</h4>
-                                <p>Personalized ads</p>
-                            </label>
-                        </div>
-
-                        <div class="cookie-buttons">
-                            <button class="button small" onclick="saveCookieSettings()">SAVE</button>
-                            <button class="button small" onclick="acceptAllCookies()">ACCEPT ALL</button>
-                            <button class="button small" onclick="rejectAllCookies()">REJECT ALL</button>
+                        <div class="card fade-in">
+                            <span class="number">03</span>
+                            <h3>SMOOTH</h3>
+                            <p>Rough visuals, buttery gameplay. We prioritize 60 FPS performance.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- TERMS / PRIVACY SECTION -->
-            <section id="legal" class="section">
+            <!-- КОНТАКТЫ -->
+            <section id="contact" class="section">
                 <div class="container">
-                    <div class="section-tag">07 — LEGAL</div>
-                    <h2>TERMS &<br>PRIVACY</h2>
+                    <div class="section-tag">05 — CONNECT</div>
+                    <h2>JOIN THE<br>COMMUNITY</h2>
                     
-                    <div class="grid-2" style="margin-top: 2rem; gap: 2rem;">
-                        <div class="fade-in">
-                            <h3>TERMS OF USE</h3>
-                            <div class="terms-box">
-                                <h4>1. Acceptance</h4>
-                                <p>By using MindLang, you agree to these Terms.</p>
-                                <h4>2. Service</h4>
-                                <p>AI voice analysis via Telegram. Features may change.</p>
-                                <h4>3. Accounts</h4>
-                                <p>You're responsible for Telegram account security.</p>
-                                <h4>4. Acceptable Use</h4>
-                                <p>No reverse engineering, illegal use, harassment.</p>
-                                <h4>5. Payments</h4>
-                                <p>Monthly billing. Refunds within 14 days for annual.</p>
-                                <h4>6. Liability</h4>
-                                <p>Service provided "as is".</p>
-                                <h4>7. Governing Law</h4>
-                                <p>German law applies.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="fade-in">
-                            <h3>PRIVACY POLICY</h3>
-                            <div class="terms-box">
-                                <h4>Data Collected</h4>
-                                <p>Voice (deleted immediately), Telegram ID, usage stats.</p>
-                                <h4>Voice Data</h4>
-                                <p>Audio deleted after processing. Anonymized transcripts.</p>
-                                <h4>Cookies</h4>
-                                <p>Essential always on. Optional analytics/functional/marketing.</p>
-                                <h4>Third Parties</h4>
-                                <p>OpenAI, Stripe, Vercel, Telegram.</p>
-                                <h4>Your Rights</h4>
-                                <p>Access, delete, export at privacy@mindlang.ai</p>
-                                <h4>Retention</h4>
-                                <p>Transcripts 30 days → anonymized. Payments 10 years.</p>
-                                <h4>Imprint</h4>
-                                <p>MindLang GmbH<br>Berlin, Germany<br>HRB 123456</p>
-                            </div>
-                        </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 2rem 0;">
+                        <a href="#" class="button small">ROBLOX GROUP</a>
+                        <a href="#" class="button small">DISCORD</a>
+                        <a href="#" class="button small">TWITTER</a>
+                        <a href="#" class="button small">YOUTUBE</a>
                     </div>
                     
-                    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                        <button class="button small" onclick="showCookieModal()">COOKIE SETTINGS</button>
-                        <a href="#" class="button small">DATA REQUEST</a>
-                    </div>
+                    <p style="text-align: center; color: #666; margin-top: 2rem;">contact@pixelwarfare.studio</p>
                 </div>
             </section>
 
@@ -1749,39 +1078,29 @@
                 <div class="container">
                     <div class="footer-grid">
                         <div class="footer-col">
-                            <h4>MINDLANG</h4>
+                            <h4>PIXEL WARFARE</h4>
                             <ul>
-                                <li><a href="#philosophy">Philosophy</a></li>
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Innovation</a></li>
-                                <li><a href="#">Evolution</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-col">
-                            <h4>PRODUCT</h4>
-                            <ul>
-                                <li><a href="https://t.me/MindLangSpeachbot">Telegram Bot</a></li>
-                                <li><a href="#">API</a></li>
-                                <li><a href="#pricing">Pricing</a></li>
-                                <li><a href="#faq">FAQ</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-col">
-                            <h4>COMPANY</h4>
-                            <ul>
-                                <li><a href="#company">About</a></li>
+                                <li><a href="#studio">Studio</a></li>
+                                <li><a href="#games">Games</a></li>
+                                <li><a href="#team">Team</a></li>
                                 <li><a href="#">Blog</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <h4>COMMUNITY</h4>
+                            <ul>
+                                <li><a href="#">Roblox Group</a></li>
+                                <li><a href="#">Discord</a></li>
+                                <li><a href="#">Twitter</a></li>
+                                <li><a href="#">YouTube</a></li>
                             </ul>
                         </div>
                         <div class="footer-col">
                             <h4>LEGAL</h4>
                             <ul>
-                                <li><a href="#legal">Privacy</a></li>
-                                <li><a href="#legal">Terms</a></li>
-                                <li><a href="#legal">Imprint</a></li>
-                                <li><a href="#" onclick="showCookieModal(); return false;">Cookies</a></li>
+                                <li><a href="#">Terms</a></li>
+                                <li><a href="#">Privacy</a></li>
+                                <li><a href="#">Guidelines</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1790,13 +1109,11 @@
                         <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg></a>
                         <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 3c-3.88 0-7 3.12-7 7 0 3.47 2.52 6.34 5.83 6.88v-4.87H8.97V12h2.86V9.41c0-2.83 1.68-4.39 4.26-4.39 1.23 0 2.52.22 2.52.22v2.77h-1.42c-1.4 0-1.83.87-1.83 1.76V12h3.11l-.5 3.01h-2.61v4.87C19.48 18.34 22 15.47 22 12c0-3.88-3.12-7-7-7z"/></svg></a>
                         <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.62 4.35c-1.03-.42-2.12-.71-3.24-.85-.14.26-.3.61-.4.89-1.2-.18-2.4-.18-3.6 0-.1-.28-.26-.63-.4-.89-1.13.14-2.22.43-3.25.86-.44.66-.86 1.33-1.24 2.02-1.42 2.15-2.14 4.69-1.91 7.18 1.48 1.09 3.18 1.92 5.02 2.41.4-.54.76-1.11 1.06-1.71-.58-.22-1.13-.5-1.65-.84.14-.1.27-.21.4-.32 2.53 1.17 5.28 1.17 7.81 0 .13.11.26.22.4.32-.52.34-1.07.62-1.65.84.3.6.66 1.17 1.06 1.71 1.84-.49 3.54-1.32 5.02-2.41.26-2.93-.32-5.44-1.9-7.18-.38-.69-.8-1.36-1.24-2.02zM8.47 13.02c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5zm7.06 0c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5z"/></svg></a>
-                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.26 5 12 5 12 5s-6.26 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.74 2 12 2 12s0 3.26.42 4.81c.23.86.91 1.54 1.77 1.77C5.74 19 12 19 12 19s6.26 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77.42-1.55.42-4.81.42-4.81s0-3.26-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></a>
                     </div>
 
                     <div class="copyright">
-                        © 2026 MINDLANG · All rights reserved
+                        © 2026 PIXEL WARFARE STUDIO · All rights reserved
                     </div>
-                    
                     <div class="creator">
                         crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a>
                     </div>
@@ -1806,41 +1123,11 @@
             <!-- BOTTOM NAV -->
             <div class="container">
                 <div class="bottom-nav">
-                    <a href="#philosophy" class="bottom-nav-item"><span>01</span> philosophy</a>
-                    <a href="#product" class="bottom-nav-item"><span>02</span> product</a>
-                    <a href="#pricing" class="bottom-nav-item"><span>03</span> pricing</a>
-                    <a href="#company" class="bottom-nav-item"><span>04</span> company</a>
-                    <a href="#faq" class="bottom-nav-item"><span>05</span> faq</a>
-                    <a href="#cookies" class="bottom-nav-item"><span>06</span> cookies</a>
-                    <a href="#legal" class="bottom-nav-item"><span>07</span> legal</a>
+                    <a href="#studio" class="bottom-nav-item"><span>01</span> studio</a>
+                    <a href="#games" class="bottom-nav-item"><span>02</span> games</a>
+                    <a href="#team" class="bottom-nav-item"><span>03</span> team</a>
+                    <a href="#contact" class="bottom-nav-item"><span>04</span> contact</a>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- МОДАЛЬНОЕ ОКНО COOKIE -->
-    <div class="cookie-modal" id="cookieModal">
-        <div class="cookie-modal-content">
-            <h3>COOKIE SETTINGS</h3>
-            <div class="cookie-option">
-                <input type="checkbox" id="modal-essential" checked disabled>
-                <label><h4>ESSENTIAL</h4></label>
-            </div>
-            <div class="cookie-option">
-                <input type="checkbox" id="modal-analytics">
-                <label><h4>ANALYTICS</h4></label>
-            </div>
-            <div class="cookie-option">
-                <input type="checkbox" id="modal-functional">
-                <label><h4>FUNCTIONAL</h4></label>
-            </div>
-            <div class="cookie-option">
-                <input type="checkbox" id="modal-marketing">
-                <label><h4>MARKETING</h4></label>
-            </div>
-            <div class="cookie-buttons">
-                <button class="button small" onclick="saveModalSettings()">SAVE</button>
-                <button class="button small" onclick="closeCookieModal()">CLOSE</button>
             </div>
         </div>
     </div>
@@ -1924,18 +1211,6 @@
             }, { threshold: 0.1, rootMargin: '0px' });
             fadeElements.forEach(el => observer.observe(el));
 
-            // FAQ toggle
-            document.querySelectorAll('.faq-item').forEach(item => {
-                const question = item.querySelector('.faq-question');
-                const toggle = item.querySelector('.faq-toggle');
-                
-                question.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    item.classList.toggle('open');
-                    toggle.textContent = item.classList.contains('open') ? '−' : '+';
-                });
-            });
-
             // Слежение за мышкой (только десктоп)
             if (window.innerWidth > 768) {
                 document.addEventListener('mousemove', (e) => {
@@ -1950,56 +1225,7 @@
                     });
                 });
             }
-
-            // Видео - убираем кнопку
-            setTimeout(() => {
-                const playButton = document.getElementById('playButton');
-                if (playButton) playButton.classList.add('hidden');
-            }, 2000);
         })();
-
-        // COOKIE FUNCTIONS
-        function saveCookieSettings() {
-            alert('Cookie preferences saved!');
-        }
-
-        function acceptAllCookies() {
-            document.getElementById('analytics').checked = true;
-            document.getElementById('functional').checked = true;
-            document.getElementById('marketing').checked = true;
-            saveCookieSettings();
-        }
-
-        function rejectAllCookies() {
-            document.getElementById('analytics').checked = false;
-            document.getElementById('functional').checked = false;
-            document.getElementById('marketing').checked = false;
-            saveCookieSettings();
-        }
-
-        function showCookieModal() {
-            document.getElementById('cookieModal').classList.add('show');
-            document.getElementById('modal-analytics').checked = document.getElementById('analytics').checked;
-            document.getElementById('modal-functional').checked = document.getElementById('functional').checked;
-            document.getElementById('modal-marketing').checked = document.getElementById('marketing').checked;
-        }
-
-        function closeCookieModal() {
-            document.getElementById('cookieModal').classList.remove('show');
-        }
-
-        function saveModalSettings() {
-            document.getElementById('analytics').checked = document.getElementById('modal-analytics').checked;
-            document.getElementById('functional').checked = document.getElementById('modal-functional').checked;
-            document.getElementById('marketing').checked = document.getElementById('modal-marketing').checked;
-            saveCookieSettings();
-            closeCookieModal();
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('cookieModal');
-            if (event.target === modal) closeCookieModal();
-        }
     </script>
 </body>
 </html>
