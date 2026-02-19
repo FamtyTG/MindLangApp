@@ -24,33 +24,11 @@
             overflow-y: auto !important;
             height: auto !important;
             position: relative;
-            cursor: none; /* Убираем стандартный курсор */
         }
 
-        /* КАСТОМНЫЙ КУРСОР */
+        /* УБИРАЕМ КАСТОМНЫЙ КУРСОР - используем стандартный */
         .custom-cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.5);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease, width 0.2s, height 0.2s, border-color 0.2s;
-            transform: translate(-50%, -50%);
-            backdrop-filter: blur(2px);
-        }
-
-        .custom-cursor.hover {
-            width: 40px;
-            height: 40px;
-            border-color: rgba(255,255,255,0.8);
-            background: rgba(255,255,255,0.1);
-            transform: translate(-50%, -50%) scale(1.2);
-        }
-
-        .custom-cursor.glow {
-            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+            display: none;
         }
 
         /* Отключаем кастомный скролл на мобилках */
@@ -69,84 +47,42 @@
             body {
                 height: auto !important;
                 overflow-y: auto !important;
-                cursor: auto !important;
-            }
-            
-            .custom-cursor {
-                display: none !important;
             }
         }
 
-        /* ===== ТИПОГРАФИКА ===== */
-        h1, h2, h3, h4 {
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            transition: text-shadow 0.3s;
-        }
-
-        h1:hover {
-            text-shadow: 0 0 30px rgba(255,255,255,0.3);
-        }
-
-        h2 {
-            font-size: clamp(1.8rem, 5vw, 3.5rem);
-            line-height: 1.2;
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
+        /* ===== ОБЛОЖКА ИГРЫ НА ФОНЕ ===== */
+        .game-cover-bg {
+            position: fixed;
+            top: 0;
             left: 0;
-            width: 60px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.3);
-            transition: width 0.5s ease;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.15;
+            pointer-events: none;
+            overflow: hidden;
         }
 
-        h2:hover::after {
-            width: 100px;
-            background: rgba(255, 255, 255, 0.6);
+        .game-cover-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: blur(4px) grayscale(30%);
         }
 
-        .section-tag {
-            font-size: 0.7rem;
-            letter-spacing: 0.4em;
-            color: #6b6b6b;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            transition: color 0.3s, letter-spacing 0.3s;
+        .game-cover-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.7) 100%);
+            z-index: -1;
+            pointer-events: none;
         }
 
-        .section-tag:hover {
-            color: #fff;
-            letter-spacing: 0.5em;
-        }
-
-        p {
-            max-width: 600px;
-            margin-bottom: 2rem;
-            color: #a0a0a0;
-            font-size: 1rem;
-            line-height: 1.8;
-            transition: color 0.3s;
-        }
-
-        p:hover {
-            color: #d0d0d0;
-        }
-
-        /* ===== СТАРЫЙ ГЛУБОКИЙ ФОН ===== */
+        /* ===== СТАРЫЙ ГЛУБОКИЙ ФОН (поверх обложки) ===== */
         .background-gradients {
             position: fixed;
             top: 0;
@@ -374,30 +310,6 @@
 
         .logo:hover {
             transform: scale(1.05);
-        }
-
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(100,100,255,0.3);
-            transition: box-shadow 0.3s;
-        }
-
-        .logo-icon:hover {
-            box-shadow: 0 0 30px rgba(150,100,255,0.6);
-        }
-
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .logo-icon:hover img {
-            transform: scale(1.1);
         }
 
         .logo-text {
@@ -747,7 +659,7 @@
             color: #fff;
         }
 
-        /* ===== КОМАНДА ===== */
+        /* ===== КОМАНДА (ОБНОВЛЕНО С РОЛЯМИ) ===== */
         .team-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -786,7 +698,12 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            overflow: hidden;
+            background: linear-gradient(135deg, #666, #333);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
             border: 2px solid rgba(255,255,255,0.1);
             transition: all 0.4s;
             box-shadow: 0 0 20px rgba(0,0,0,0.3);
@@ -796,17 +713,6 @@
             border-color: rgba(255,255,255,0.3);
             transform: rotate(5deg) scale(1.05);
             box-shadow: 0 0 30px rgba(150,100,255,0.5);
-        }
-
-        .team-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .team-card:hover .team-avatar img {
-            transform: scale(1.1);
         }
 
         .team-info {
@@ -1136,18 +1042,14 @@
             background-size: 50px 50px;
             z-index: -1;
         }
-
-        /* ===== УЛУЧШЕННОЕ КАЧЕСТВО ИЗОБРАЖЕНИЯ ===== */
-        img {
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            -ms-interpolation-mode: nearest-neighbor;
-        }
     </style>
 </head>
 <body>
-    <!-- КАСТОМНЫЙ КУРСОР -->
-    <div class="custom-cursor" id="customCursor"></div>
+    <!-- ОБЛОЖКА ИГРЫ НА ФОНЕ -->
+    <div class="game-cover-bg">
+        <img src="https://i.yapx.ru/c9rD4.png" alt="Polygon Game Cover">
+    </div>
+    <div class="game-cover-overlay"></div>
 
     <!-- СТАРЫЙ ГЛУБОКИЙ ФОН -->
     <div class="background-gradients">
@@ -1181,9 +1083,6 @@
             <div class="container">
                 <nav>
                     <a href="#" class="logo">
-                        <div class="logo-icon">
-                            <img src="https://tr.rbxcdn.com/180DAY-c06d23df2002bb35aa6a59eb6e6b8062/150/150/Image/Webp/noFilter" alt="Pixel Warfare Studio" loading="eager">
-                        </div>
                         <span class="logo-text">PIXEL WARFARE</span>
                     </a>
                     <div class="nav-links">
@@ -1207,7 +1106,7 @@
                             <a href="#" class="button">JOIN GROUP</a>
                         </div>
                         <div class="hero-image fade-in">
-                            <img src="https://tr.rbxcdn.com/180DAY-c06d23df2002bb35aa6a59eb6e6b8062/150/150/Image/Webp/noFilter" alt="Pixel Warfare Studio" loading="eager">
+                            <img src="https://i.yapx.ru/c9rD4.png" alt="Pixel Warfare Studio">
                         </div>
                     </div>
                 </div>
@@ -1254,7 +1153,7 @@
                 </div>
             </section>
 
-            <!-- ИГРЫ (ОБНОВЛЕНО) -->
+            <!-- ИГРЫ -->
             <section id="games" class="section">
                 <div class="container">
                     <div class="section-tag">02 — GAMES</div>
@@ -1283,7 +1182,7 @@
                 </div>
             </section>
 
-            <!-- КОМАНДА (ОБНОВЛЕНО - ОБА ОВНЕРА) -->
+            <!-- КОМАНДА (С ПРАВИЛЬНЫМИ РОЛЯМИ) -->
             <section id="team" class="section">
                 <div class="container">
                     <div class="section-tag">03 — TEAM</div>
@@ -1291,26 +1190,27 @@
                     
                     <div class="team-grid">
                         <a href="https://www.roblox.com/users/3216907585/profile" target="_blank" class="team-card fade-in">
-                            <div class="team-avatar">
-                                <img src="https://tr.rbxcdn.com/180DAY-c06d23df2002bb35aa6a59eb6e6b8062/150/150/Image/Webp/noFilter" alt="FamtyTG">
-                            </div>
+                            <div class="team-avatar">F</div>
                             <div class="team-info">
                                 <div class="team-name">FAMTY</div>
-                                <div class="team-role">Co-Owner · Lead Developer</div>
+                                <div class="team-role">Owner · Scripter · Animator · Web Designer</div>
                                 <div class="team-link">@famtytg</div>
                             </div>
                         </a>
                         
                         <a href="https://www.roblox.com/users/3725520754/profile" target="_blank" class="team-card fade-in">
-                            <div class="team-avatar">
-                                <img src="https://tr.rbxcdn.com/180DAY-c06d23df2002bb35aa6a59eb6e6b8062/150/150/Image/Webp/noFilter" alt="Hoco_InDev">
-                            </div>
+                            <div class="team-avatar">H</div>
                             <div class="team-info">
                                 <div class="team-name">HOCO_INDEV</div>
-                                <div class="team-role">Co-Owner · Game Designer</div>
+                                <div class="team-role">Owner · Main Developer · Creator</div>
                                 <div class="team-link">@hoco_indev</div>
                             </div>
                         </a>
+                    </div>
+                    
+                    <!-- КРЕДИТ СОЗДАТЕЛЯ САЙТА -->
+                    <div style="text-align: center; margin-top: 2rem; color: #666; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem;">
+                        Website crafted by <span style="color: #888;">FamtyTG</span>
                     </div>
                 </div>
             </section>
@@ -1341,16 +1241,16 @@
                 </div>
             </section>
 
-            <!-- КОНТАКТЫ -->
+            <!-- КОНТАКТЫ (С ТВОИМИ ССЫЛКАМИ) -->
             <section id="contact" class="section">
                 <div class="container">
                     <div class="section-tag">05 — CONNECT</div>
                     <h2>JOIN THE<br>COMMUNITY</h2>
                     
                     <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 2rem 0;">
+                        <a href="https://t.me/polygonrbxm" target="_blank" class="button small">TELEGRAM</a>
+                        <a href="https://discord.gg/X4pYhJMc" target="_blank" class="button small">DISCORD</a>
                         <a href="#" class="button small">ROBLOX GROUP</a>
-                        <a href="#" class="button small">DISCORD</a>
-                        <a href="#" class="button small">TWITTER</a>
                     </div>
                     
                     <p style="text-align: center; color: #666; margin-top: 2rem;">contact@pixelwarfare.studio</p>
@@ -1372,9 +1272,9 @@
                         <div class="footer-col">
                             <h4>COMMUNITY</h4>
                             <ul>
+                                <li><a href="https://t.me/polygonrbxm" target="_blank">Telegram</a></li>
+                                <li><a href="https://discord.gg/X4pYhJMc" target="_blank">Discord</a></li>
                                 <li><a href="#">Roblox Group</a></li>
-                                <li><a href="#">Discord</a></li>
-                                <li><a href="#">Twitter</a></li>
                             </ul>
                         </div>
                         <div class="footer-col">
@@ -1387,9 +1287,8 @@
                     </div>
 
                     <div class="social-links">
-                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg></a>
-                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 3c-3.88 0-7 3.12-7 7 0 3.47 2.52 6.34 5.83 6.88v-4.87H8.97V12h2.86V9.41c0-2.83 1.68-4.39 4.26-4.39 1.23 0 2.52.22 2.52.22v2.77h-1.42c-1.4 0-1.83.87-1.83 1.76V12h3.11l-.5 3.01h-2.61v4.87C19.48 18.34 22 15.47 22 12c0-3.88-3.12-7-7-7z"/></svg></a>
-                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.62 4.35c-1.03-.42-2.12-.71-3.24-.85-.14.26-.3.61-.4.89-1.2-.18-2.4-.18-3.6 0-.1-.28-.26-.63-.4-.89-1.13.14-2.22.43-3.25.86-.44.66-.86 1.33-1.24 2.02-1.42 2.15-2.14 4.69-1.91 7.18 1.48 1.09 3.18 1.92 5.02 2.41.4-.54.76-1.11 1.06-1.71-.58-.22-1.13-.5-1.65-.84.14-.1.27-.21.4-.32 2.53 1.17 5.28 1.17 7.81 0 .13.11.26.22.4.32-.52.34-1.07.62-1.65.84.3.6.66 1.17 1.06 1.71 1.84-.49 3.54-1.32 5.02-2.41.26-2.93-.32-5.44-1.9-7.18-.38-.69-.8-1.36-1.24-2.02zM8.47 13.02c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5zm7.06 0c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5z"/></svg></a>
+                        <a href="https://t.me/polygonrbxm" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.06-.2-.07-.06-.18-.04-.26-.02-.11.02-1.84 1.17-5.2 3.44-.49.34-.94.5-1.34.49-.44-.01-1.29-.25-1.92-.46-.77-.25-1.39-.39-1.34-.83.03-.23.35-.47.96-.71 3.79-1.65 6.32-2.74 7.59-3.27 3.61-1.5 4.36-1.76 4.85-1.77.11 0 .35.02.51.13.13.09.17.21.18.27-.01.06-.03.19-.05.31z"/></svg></a>
+                        <a href="https://discord.gg/X4pYhJMc" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.62 4.35c-1.03-.42-2.12-.71-3.24-.85-.14.26-.3.61-.4.89-1.2-.18-2.4-.18-3.6 0-.1-.28-.26-.63-.4-.89-1.13.14-2.22.43-3.25.86-.44.66-.86 1.33-1.24 2.02-1.42 2.15-2.14 4.69-1.91 7.18 1.48 1.09 3.18 1.92 5.02 2.41.4-.54.76-1.11 1.06-1.71-.58-.22-1.13-.5-1.65-.84.14-.1.27-.21.4-.32 2.53 1.17 5.28 1.17 7.81 0 .13.11.26.22.4.32-.52.34-1.07.62-1.65.84.3.6.66 1.17 1.06 1.71 1.84-.49 3.54-1.32 5.02-2.41.26-2.93-.32-5.44-1.9-7.18-.38-.69-.8-1.36-1.24-2.02zM8.47 13.02c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5zm7.06 0c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5z"/></svg></a>
                     </div>
 
                     <div class="copyright">
@@ -1415,39 +1314,6 @@
 
     <script>
         (function() {
-            // КАСТОМНЫЙ КУРСОР
-            const cursor = document.getElementById('customCursor');
-            
-            if (cursor && window.innerWidth > 768) {
-                document.addEventListener('mousemove', (e) => {
-                    cursor.style.left = e.clientX + 'px';
-                    cursor.style.top = e.clientY + 'px';
-                });
-
-                // Эффект наведения на кликабельные элементы
-                const hoverElements = document.querySelectorAll('a, button, .stat-item, .card, .project-card, .team-card, .button, .logo, .nav-links a, .bottom-nav-item');
-                
-                hoverElements.forEach(el => {
-                    el.addEventListener('mouseenter', () => {
-                        cursor.classList.add('hover');
-                    });
-                    
-                    el.addEventListener('mouseleave', () => {
-                        cursor.classList.remove('hover');
-                    });
-                });
-
-                // Случайный глитч-эффект для курсора
-                setInterval(() => {
-                    if (Math.random() > 0.9) {
-                        cursor.classList.add('glow');
-                        setTimeout(() => {
-                            cursor.classList.remove('glow');
-                        }, 100);
-                    }
-                }, 2000);
-            }
-
             // ДЛЯ ДЕСКТОПА - плавный скролл
             if (window.innerWidth > 768) {
                 const content = document.getElementById('smooth-content');
