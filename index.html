@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important; /* Курсор всегда скрыт принудительно */
+            cursor: none !important;
         }
 
         body {
@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* КАСТОМНЫЙ КУРСОР (ВСЕГДА ВИДЕН) */
+        /* КАСТОМНЫЙ КУРСОР */
         .custom-cursor {
             width: 24px;
             height: 24px;
@@ -312,135 +312,129 @@
 
         /* ===== КОНТЕЙНЕР ===== */
         .container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
             position: relative;
             z-index: 200;
         }
 
         /* ===== НАВИГАЦИЯ ===== */
         nav {
-            padding: 1.5rem 0;
+            padding: 2rem 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        nav:hover {
-            border-color: rgba(255, 255, 255, 0.15);
+            margin-bottom: 2rem;
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
             color: #fff;
-            transition: transform 0.3s;
+            text-decoration: none;
+            transition: opacity 0.3s;
         }
 
         .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-text {
-            font-size: 1rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-
-        @media (min-width: 769px) {
-            .logo-text {
-                font-size: 1.2rem;
-            }
+            opacity: 0.7;
         }
 
         .nav-links {
-            display: none;
+            display: flex;
+            gap: 4rem;
         }
 
-        @media (min-width: 769px) {
-            .nav-links {
-                display: flex;
-                gap: 3rem;
-            }
-
-            .nav-links a {
-                color: #888;
-                text-decoration: none;
-                font-size: 0.8rem;
-                letter-spacing: 0.2em;
-                text-transform: uppercase;
-                transition: all 0.3s;
-                position: relative;
-            }
-
-            .nav-links a::after {
-                content: '';
-                position: absolute;
-                bottom: -5px;
-                left: 0;
-                width: 0;
-                height: 1px;
-                background: #fff;
-                transition: width 0.3s;
-            }
-
-            .nav-links a:hover {
-                color: #fff;
-            }
-
-            .nav-links a:hover::after {
-                width: 100%;
-            }
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            position: relative;
         }
 
-        .mobile-menu-btn {
-            display: block;
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #fff;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
             color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: transform 0.3s;
         }
 
-        .mobile-menu-btn:hover {
-            transform: scale(1.2);
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
-        @media (min-width: 769px) {
-            .mobile-menu-btn {
+        @media (max-width: 768px) {
+            .nav-links {
                 display: none;
             }
         }
 
-        /* ===== ГЕРОЙ ===== */
+        /* ===== ГЕРОЙ (АСИММЕТРИЧНЫЙ) ===== */
         .hero {
-            min-height: 70vh;
+            min-height: 80vh;
             display: flex;
             align-items: center;
-            padding: 2rem 0;
+            position: relative;
+            margin-bottom: 4rem;
         }
 
         .hero-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
             align-items: center;
         }
 
-        @media (min-width: 769px) {
+        @media (max-width: 768px) {
             .hero-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 4rem;
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
         }
 
         .hero-content {
-            max-width: 600px;
+            position: relative;
+        }
+
+        .hero-content .low-poly-badge {
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .hero-content h1::before {
+            content: '///';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            color: rgba(255,255,255,0.1);
+            font-size: 1rem;
+            letter-spacing: 0.5em;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin-bottom: 3rem;
+            color: #b0b0b0;
         }
 
         .hero-image {
@@ -448,294 +442,261 @@
             aspect-ratio: 1;
             width: 100%;
             max-width: 500px;
-            margin: 0 auto;
-            transition: transform 0.5s;
-        }
-
-        .hero-image:hover {
-            transform: scale(1.02) rotate(1deg);
+            margin-left: auto;
         }
 
         .hero-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 20px;
-            border: 2px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            transition: all 0.5s;
-        }
-
-        .hero-image:hover img {
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 30px 60px rgba(100,100,255,0.3);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
         .hero-image::before {
             content: '';
             position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
+            top: -20px;
+            right: -20px;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, rgba(100,100,255,0.2), rgba(150,100,255,0.2));
-            border-radius: 30px;
+            border-radius: 40px;
             z-index: -1;
-            filter: blur(20px);
-            transition: opacity 0.5s;
-            opacity: 0.5;
-        }
-
-        .hero-image:hover::before {
-            opacity: 1;
             filter: blur(30px);
         }
 
-        /* ===== СТАТИСТИКА ===== */
+        /* ===== СТАТИСТИКА (ГРИД 2+2 С РАЗМЕРАМИ) ===== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin: 3rem 0;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin: 5rem 0;
         }
 
-        @media (min-width: 769px) {
+        @media (max-width: 768px) {
             .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 2rem;
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         .stat-item {
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
             transition: all 0.3s;
-            cursor: default;
+        }
+
+        .stat-item:nth-child(2) {
+            transform: translateY(20px);
+        }
+
+        .stat-item:nth-child(4) {
+            transform: translateY(20px);
         }
 
         .stat-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.1);
+            transform: translateY(0) scale(1.02);
         }
 
         .stat-number {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 300;
             color: #fff;
             margin-bottom: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .stat-item:hover .stat-number {
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
-        }
-
-        @media (min-width: 769px) {
-            .stat-number {
-                font-size: 2.5rem;
-            }
         }
 
         .stat-label {
             font-size: 0.8rem;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.2em;
             color: #888;
             text-transform: uppercase;
-            transition: color 0.3s;
         }
 
-        .stat-item:hover .stat-label {
-            color: #fff;
-        }
-
-        /* ===== СЕТКА ===== */
-        .grid-2 {
+        /* ===== О СТУДИИ (АСИММЕТРИЯ) ===== */
+        .studio-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            margin: 4rem 0;
         }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        @media (min-width: 769px) {
-            .grid-2 {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 4rem;
-            }
-
-            .grid-3 {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 3rem;
+        @media (max-width: 768px) {
+            .studio-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* ===== КАРТОЧКИ ===== */
-        .card {
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.3s;
-            cursor: default;
+        .studio-left {
+            padding-right: 2rem;
         }
 
-        .card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
-        }
-
-        .card .number {
-            font-size: 0.8rem;
-            color: #666;
-            letter-spacing: 0.2em;
+        .studio-left .section-tag {
             margin-bottom: 1rem;
-            display: block;
-            transition: color 0.3s;
         }
 
-        .card:hover .number {
-            color: #fff;
+        .studio-left h2 {
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 2rem;
         }
 
-        .card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            transition: text-shadow 0.3s;
+        .studio-left h2::after {
+            display: none;
         }
 
-        .card:hover h3 {
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        .studio-right p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #b0b0b0;
         }
 
-        .card p {
-            font-size: 0.9rem;
-            color: #999;
-            margin-bottom: 0;
-            transition: color 0.3s;
+        .studio-right p:first-child {
+            margin-top: 4rem;
         }
 
-        .card:hover p {
-            color: #ccc;
+        /* ===== ПРОЕКТЫ (БЕЗ ИКОНОК) ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
         }
 
-        /* ===== ПРОЕКТЫ ===== */
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .project-card {
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.3s;
-            height: 100%;
-            cursor: default;
+            padding: 3rem 2rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
             text-decoration: none;
             color: inherit;
-            display: block;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(100,100,255,0.1), rgba(150,100,255,0.1));
+            opacity: 0;
+            transition: opacity 0.4s;
         }
 
         .project-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 30px 40px rgba(0,0,0,0.4);
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.2);
         }
 
-        .project-icon {
-            font-size: 2.5rem;
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-number {
+            font-size: 3rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.1);
             margin-bottom: 1rem;
-            color: #666;
-            transition: all 0.3s;
+            transition: color 0.3s;
         }
 
-        .project-card:hover .project-icon {
-            color: #fff;
-            transform: scale(1.1) rotate(2deg);
+        .project-card:hover .project-number {
+            color: rgba(255,255,255,0.2);
         }
 
         .project-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            transition: text-shadow 0.3s;
-        }
-
-        .project-card:hover .project-title {
-            text-shadow: 0 0 15px rgba(255,255,255,0.4);
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+            position: relative;
         }
 
         .project-desc {
             color: #999;
             font-size: 0.9rem;
-            transition: color 0.3s;
-            line-height: 1.6;
-        }
-
-        .project-card:hover .project-desc {
-            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            position: relative;
         }
 
         .project-tag {
             display: inline-block;
-            margin-top: 1rem;
             padding: 0.3rem 1rem;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             font-size: 0.7rem;
             letter-spacing: 0.1em;
             color: #888;
-            transition: all 0.3s;
+            position: relative;
         }
 
         .project-card:hover .project-tag {
-            background: rgba(255,255,255,0.1);
             border-color: rgba(255,255,255,0.3);
             color: #fff;
         }
 
-        /* ===== КОМАНДА ===== */
+        /* ===== КОМАНДА (НЕОБЫЧНОЕ РАСПОЛОЖЕНИЕ) ===== */
         .team-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin: 3rem 0;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 4rem 0;
+            position: relative;
         }
 
-        @media (min-width: 769px) {
+        @media (max-width: 768px) {
             .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 3rem;
+                grid-template-columns: 1fr;
             }
         }
 
         .team-card {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: block;
+            padding: 2rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
             text-decoration: none;
             color: inherit;
-            cursor: pointer;
+            transition: all 0.4s;
+        }
+
+        .team-card:first-child {
+            transform: translateX(-20px);
+        }
+
+        .team-card:last-child {
+            transform: translateX(20px);
+        }
+
+        @media (max-width: 768px) {
+            .team-card:first-child,
+            .team-card:last-child {
+                transform: none;
+            }
         }
 
         .team-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateX(20px) scale(1.02);
-            box-shadow: -10px 10px 30px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateX(0) scale(1.02);
         }
 
         .team-avatar {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: linear-gradient(135deg, #666, #333);
             display: flex;
@@ -743,274 +704,164 @@
             justify-content: center;
             font-size: 2rem;
             color: #fff;
-            border: 2px solid rgba(255,255,255,0.1);
-            transition: all 0.4s;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-        }
-
-        .team-card:hover .team-avatar {
-            border-color: rgba(255,255,255,0.3);
-            transform: rotate(3deg) scale(1.05);
-            box-shadow: 0 0 30px rgba(150,100,255,0.5);
-        }
-
-        .team-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .team-name {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             margin-bottom: 0.3rem;
-            transition: text-shadow 0.3s;
-        }
-
-        .team-card:hover .team-name {
-            text-shadow: 0 0 15px rgba(255,255,255,0.4);
         }
 
         .team-role {
             color: #888;
             font-size: 0.8rem;
-            margin-bottom: 0.5rem;
             letter-spacing: 0.1em;
-            transition: color 0.3s;
-        }
-
-        .team-card:hover .team-role {
-            color: #fff;
+            margin-bottom: 1rem;
         }
 
         .team-link {
             color: #666;
             font-size: 0.8rem;
-            transition: all 0.3s;
-            display: inline-block;
+            transition: color 0.3s;
         }
 
         .team-card:hover .team-link {
             color: #fff;
-            transform: translateX(5px);
         }
 
         /* ===== LOW POLY БЭЙДЖ ===== */
         .low-poly-badge {
             display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: linear-gradient(135deg, rgba(100,100,255,0.1), rgba(150,100,255,0.1));
+            padding: 0.3rem 1rem;
+            background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 30px;
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
-            color: #fff;
-            margin-bottom: 2rem;
-            transition: all 0.3s;
-            cursor: default;
-        }
-
-        .low-poly-badge:hover {
-            background: linear-gradient(135deg, rgba(100,100,255,0.2), rgba(150,100,255,0.2));
-            border-color: rgba(255,255,255,0.3);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(100,100,255,0.3);
-        }
-
-        /* ===== КНОПКА ===== */
-        .button {
-            display: inline-block;
-            background: transparent;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 0.8rem 2rem;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-size: 0.8rem;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        .button:hover {
-            background: #ffffff;
-            color: #0a0a0a;
-            border-color: #ffffff;
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .button:hover::before {
-            width: 200px;
-            height: 200px;
-        }
-
-        .button.small {
-            padding: 0.6rem 1.2rem;
             font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: #888;
+            text-transform: uppercase;
         }
 
         /* ===== СЕКЦИИ ===== */
         .section {
-            padding: 3rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: border-color 0.3s;
-        }
-
-        .section:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        @media (min-width: 769px) {
-            .section {
-                padding: 5rem 0;
-            }
+            padding: 5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .section:last-child {
             border-bottom: none;
         }
 
-        /* ===== ФУТЕР ===== */
-        footer {
-            padding: 3rem 0;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            transition: border-color 0.3s;
+        .section-tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
         }
 
-        footer:hover {
-            border-color: rgba(255, 255, 255, 0.15);
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            position: relative;
         }
 
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr;
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 1px;
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* ===== КОНТАКТЫ ===== */
+        .contact-links {
+            display: flex;
             gap: 2rem;
-            margin-bottom: 3rem;
+            justify-content: center;
+            margin: 4rem 0;
+            flex-wrap: wrap;
         }
 
-        @media (min-width: 769px) {
-            .footer-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 3rem;
-            }
-        }
-
-        .footer-col h4 {
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+        .contact-link {
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
             color: #fff;
-            transition: text-shadow 0.3s;
-        }
-
-        .footer-col h4:hover {
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col li {
-            margin-bottom: 0.7rem;
-            transition: transform 0.2s;
-        }
-
-        .footer-col li:hover {
-            transform: translateX(5px);
-        }
-
-        .footer-col a {
-            color: #888;
             text-decoration: none;
             font-size: 0.9rem;
+            letter-spacing: 0.2em;
             transition: all 0.3s;
-            display: inline-block;
         }
 
-        .footer-col a:hover {
-            color: #fff;
-            transform: translateX(5px);
+        .contact-link:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
         }
 
-        .social-links {
+        /* ===== ФУТЕР ===== */
+        footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-links {
             display: flex;
-            gap: 1.5rem;
+            gap: 3rem;
             justify-content: center;
             margin: 2rem 0;
+            flex-wrap: wrap;
         }
 
-        .social-links a {
+        .footer-links a {
             color: #666;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .social-links a:hover {
-            color: #fff;
-            transform: translateY(-5px) scale(1.2);
-        }
-
-        .copyright {
-            text-align: center;
-            color: #666;
-            font-size: 0.7rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
             transition: color 0.3s;
         }
 
-        .copyright:hover {
-            color: #888;
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            color: #444;
+            font-size: 0.7rem;
+            margin-top: 3rem;
         }
 
         .creator {
-            text-align: center;
             color: #444;
             font-size: 0.7rem;
             margin-top: 1rem;
-            letter-spacing: 0.1em;
         }
 
         .creator a {
             color: #666;
             text-decoration: none;
-            transition: all 0.3s;
+            transition: color 0.3s;
         }
 
         .creator a:hover {
             color: #fff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
         /* ===== БОТТОМ НАВ ===== */
         .bottom-nav {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem;
-            padding: 1.5rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 1rem;
-        }
-
-        @media (min-width: 769px) {
-            .bottom-nav {
-                gap: 4rem;
-            }
+            gap: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
 
         .bottom-nav-item {
@@ -1019,67 +870,29 @@
             font-size: 0.7rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .bottom-nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: #fff;
-            transition: all 0.3s;
-            transform: translateX(-50%);
+            transition: color 0.3s;
         }
 
         .bottom-nav-item:hover {
             color: #fff;
         }
 
-        .bottom-nav-item:hover::after {
-            width: 100%;
-        }
-
         .bottom-nav-item span {
             color: #fff;
-            margin-right: 0.3rem;
+            margin-right: 0.5rem;
             opacity: 0.5;
-            transition: opacity 0.3s;
         }
 
-        .bottom-nav-item:hover span {
-            opacity: 1;
-        }
-
-        /* ===== АНИМАЦИИ ПРИ СКРОЛЛЕ ===== */
+        /* ===== АНИМАЦИИ ===== */
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: opacity 0.8s, transform 0.8s;
         }
 
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        /* ===== LOW POLY ДЕКОР ===== */
-        .low-poly-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            opacity: 0.02;
-            background-image: 
-                linear-gradient(45deg, #fff 1px, transparent 1px),
-                linear-gradient(-45deg, #fff 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
         }
     </style>
 </head>
@@ -1124,16 +937,13 @@
             <!-- НАВИГАЦИЯ -->
             <div class="container">
                 <nav>
-                    <a href="#" class="logo">
-                        <span class="logo-text">PIXEL WARFARE</span>
-                    </a>
+                    <a href="#" class="logo">PIXEL WARFARE</a>
                     <div class="nav-links">
                         <a href="#studio">Studio</a>
                         <a href="#games">Games</a>
                         <a href="#team">Team</a>
                         <a href="#contact">Contact</a>
                     </div>
-                    <div class="mobile-menu-btn" onclick="alert('Pixel Warfare Studio · Low Poly Shooters')">☰</div>
                 </nav>
             </div>
 
@@ -1142,10 +952,10 @@
                 <div class="container">
                     <div class="hero-grid">
                         <div class="hero-content fade-in">
-                            <div class="low-poly-badge">LOW POLY · FPS · ROBLOX</div>
+                            <div class="low-poly-badge">EST. 2025</div>
                             <h1>PIXEL WARFARE<br>STUDIO</h1>
                             <p>Crafting low poly shooter experiences on Roblox. Precision engineering, blocky aesthetics, competitive gameplay. Built by gamers, for gamers.</p>
-                            <a href="https://www.roblox.com/groups/group.aspx?gid=YOUR_GROUP_ID" target="_blank" class="button" onclick="alert('Join group link - add your group ID')">JOIN GROUP</a>
+                            <a href="#" class="contact-link" style="display: inline-block;">JOIN GROUP</a>
                         </div>
                         <div class="hero-image fade-in">
                             <img src="https://i.yapx.ru/c9rD4.png" alt="Pixel Warfare Studio">
@@ -1159,11 +969,11 @@
                 <div class="container">
                     <div class="stats-grid">
                         <div class="stat-item fade-in">
-                            <div class="stat-number">2</div>
+                            <div class="stat-number">02</div>
                             <div class="stat-label">Founders</div>
                         </div>
                         <div class="stat-item fade-in">
-                            <div class="stat-number">2</div>
+                            <div class="stat-number">02</div>
                             <div class="stat-label">Games</div>
                         </div>
                         <div class="stat-item fade-in">
@@ -1181,46 +991,45 @@
             <!-- О СТУДИИ -->
             <section id="studio" class="section">
                 <div class="container">
-                    <div class="section-tag">01 — STUDIO</div>
-                    <h2>LOW POLY<br>WARFARE</h2>
-                    
-                    <div class="grid-2" style="margin-top: 2rem;">
-                        <div class="fade-in">
-                            <p>Pixel Warfare Studio specializes in creating fast-paced shooter experiences with a distinctive low poly aesthetic. Founded in 2025 by two passionate developers, we've grown to serve over 10,000 players.</p>
+                    <div class="studio-grid">
+                        <div class="studio-left fade-in">
+                            <div class="section-tag">01 — ABOUT</div>
+                            <h2>LOW POLY<br>WARFARE</h2>
                         </div>
-                        <div class="fade-in">
+                        <div class="studio-right fade-in">
+                            <p>Pixel Warfare Studio specializes in creating fast-paced shooter experiences with a distinctive low poly aesthetic. Founded in 2025 by two passionate developers, we've grown to serve over 10,000 players.</p>
                             <p>Our games combine the charm of blocky graphics with competitive gameplay mechanics. Every weapon, map, and mechanic is crafted with precision.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ИГРЫ (ОБНОВЛЕНО ОПИСАНИЕ PIXEL SKIES) -->
+            <!-- ИГРЫ (БЕЗ ИКОНОК) -->
             <section id="games" class="section">
                 <div class="container">
-                    <div class="section-tag">02 — GAMES</div>
-                    <h2>OUR<br>PROJECTS</h2>
+                    <div class="section-tag">02 — PROJECTS</div>
+                    <h2>CURRENT<br>GAMES</h2>
                     
-                    <div class="grid-3" style="margin-top: 2rem;">
+                    <div class="projects-grid">
                         <a href="https://www.roblox.com/games/114753752307453/Pixel-Skies" target="_blank" class="project-card fade-in">
-                            <div class="project-icon">✈️</div>
+                            <div class="project-number">01</div>
                             <div class="project-title">PIXELSKIES</div>
                             <div class="project-desc">Military aviation combat. Control Shahed drones, launch rockets, pilot helicopters, and operate anti-air defense systems. Low poly warfare in the skies.</div>
-                            <span class="project-tag">MILITARY · AVIATION</span>
+                            <div class="project-tag">MILITARY · AVIATION</div>
                         </a>
                         
                         <div class="project-card fade-in">
-                            <div class="project-icon">🔺</div>
+                            <div class="project-number">02</div>
                             <div class="project-title">POLYGON</div>
-                            <div class="project-desc">Geometric warfare. Sharp angles, clean design, competitive gameplay. Multiple game modes.</div>
-                            <span class="project-tag">TACTICAL · COMPETITIVE</span>
+                            <div class="project-desc">Geometric warfare. Sharp angles, clean design, competitive gameplay. Multiple game modes with tactical depth.</div>
+                            <div class="project-tag">TACTICAL · COMPETITIVE</div>
                         </div>
                         
                         <div class="project-card fade-in">
-                            <div class="project-icon">⚡</div>
+                            <div class="project-number">03</div>
                             <div class="project-title">COMING SOON</div>
-                            <div class="project-desc">New project in development. Stay tuned for announcements.</div>
-                            <span class="project-tag">2026</span>
+                            <div class="project-desc">New project in development. Strategic gameplay, innovative mechanics, and immersive environments.</div>
+                            <div class="project-tag">2026 · TBA</div>
                         </div>
                     </div>
                 </div>
@@ -1235,52 +1044,21 @@
                     <div class="team-grid">
                         <a href="https://www.roblox.com/users/3216907585/profile" target="_blank" class="team-card fade-in">
                             <div class="team-avatar">F</div>
-                            <div class="team-info">
-                                <div class="team-name">FAMTY</div>
-                                <div class="team-role">Owner · Scripter · Animator · Web Designer</div>
-                                <div class="team-link">@famtytg</div>
-                            </div>
+                            <div class="team-name">FAMTY</div>
+                            <div class="team-role">Owner · Scripter · Animator · Web Designer</div>
+                            <div class="team-link">@famtytg</div>
                         </a>
                         
                         <a href="https://www.roblox.com/users/3725520754/profile" target="_blank" class="team-card fade-in">
                             <div class="team-avatar">H</div>
-                            <div class="team-info">
-                                <div class="team-name">HOCO_INDEV</div>
-                                <div class="team-role">Owner · Main Developer · Creator</div>
-                                <div class="team-link">@hoco_indev</div>
-                            </div>
+                            <div class="team-name">HOCO_INDEV</div>
+                            <div class="team-role">Owner · Main Developer · Creator</div>
+                            <div class="team-link">@hoco_indev</div>
                         </a>
                     </div>
                     
-                    <!-- КРЕДИТ СОЗДАТЕЛЯ САЙТА -->
-                    <div style="text-align: center; margin-top: 2rem; color: #666; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem;">
+                    <div style="text-align: center; margin-top: 3rem; color: #666; font-size: 0.8rem;">
                         Website crafted by <span style="color: #888;">FamtyTG</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- СТИЛЬ -->
-            <section class="section">
-                <div class="container">
-                    <div class="section-tag">04 — AESTHETIC</div>
-                    <h2>LOW POLY<br>PHILOSOPHY</h2>
-                    
-                    <div class="grid-3" style="margin-top: 2rem;">
-                        <div class="card fade-in">
-                            <span class="number">01</span>
-                            <h3>BLOCKY</h3>
-                            <p>Embracing the cube. Our worlds are built from blocks, creating a unique visual identity.</p>
-                        </div>
-                        <div class="card fade-in">
-                            <span class="number">02</span>
-                            <h3>COLORFUL</h3>
-                            <p>Vibrant palettes that pop. Low poly doesn't mean boring — we use bold colors.</p>
-                        </div>
-                        <div class="card fade-in">
-                            <span class="number">03</span>
-                            <h3>SMOOTH</h3>
-                            <p>Rough visuals, buttery gameplay. We prioritize 60 FPS performance.</p>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -1288,55 +1066,31 @@
             <!-- КОНТАКТЫ -->
             <section id="contact" class="section">
                 <div class="container">
-                    <div class="section-tag">05 — CONNECT</div>
+                    <div class="section-tag">04 — CONNECT</div>
                     <h2>JOIN THE<br>COMMUNITY</h2>
                     
-                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 2rem 0;">
-                        <a href="https://t.me/polygonrbxm" target="_blank" class="button small">TELEGRAM</a>
-                        <a href="https://discord.gg/X4pYhJMc" target="_blank" class="button small">DISCORD</a>
-                        <a href="#" class="button small" onclick="alert('Roblox group link - add your group ID')">ROBLOX GROUP</a>
+                    <div class="contact-links">
+                        <a href="https://t.me/polygonrbxm" target="_blank" class="contact-link fade-in">TELEGRAM</a>
+                        <a href="https://discord.gg/X4pYhJMc" target="_blank" class="contact-link fade-in">DISCORD</a>
+                        <a href="#" class="contact-link fade-in" onclick="alert('Roblox group link - add your group ID')">ROBLOX</a>
                     </div>
-                    
-                    <p style="text-align: center; color: #666; margin-top: 2rem;">contact@pixelwarfare.studio</p>
                 </div>
             </section>
 
             <!-- ФУТЕР -->
             <footer>
                 <div class="container">
-                    <div class="footer-grid">
-                        <div class="footer-col">
-                            <h4>PIXEL WARFARE</h4>
-                            <ul>
-                                <li><a href="#studio">Studio</a></li>
-                                <li><a href="#games">Games</a></li>
-                                <li><a href="#team">Team</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-col">
-                            <h4>COMMUNITY</h4>
-                            <ul>
-                                <li><a href="https://t.me/polygonrbxm" target="_blank">Telegram</a></li>
-                                <li><a href="https://discord.gg/X4pYhJMc" target="_blank">Discord</a></li>
-                                <li><a href="#" onclick="alert('Roblox group link - add your group ID'); return false;">Roblox Group</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-col">
-                            <h4>LEGAL</h4>
-                            <ul>
-                                <li><a href="#">Terms</a></li>
-                                <li><a href="#">Privacy</a></li>
-                            </ul>
-                        </div>
+                    <div class="footer-links">
+                        <a href="#studio">Studio</a>
+                        <a href="#games">Games</a>
+                        <a href="#team">Team</a>
+                        <a href="#contact">Contact</a>
+                        <a href="#" onclick="alert('Terms of Use')">Terms</a>
+                        <a href="#" onclick="alert('Privacy Policy')">Privacy</a>
                     </div>
-
-                    <div class="social-links">
-                        <a href="https://t.me/polygonrbxm" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.06-.2-.07-.06-.18-.04-.26-.02-.11.02-1.84 1.17-5.2 3.44-.49.34-.94.5-1.34.49-.44-.01-1.29-.25-1.92-.46-.77-.25-1.39-.39-1.34-.83.03-.23.35-.47.96-.71 3.79-1.65 6.32-2.74 7.59-3.27 3.61-1.5 4.36-1.76 4.85-1.77.11 0 .35.02.51.13.13.09.17.21.18.27-.01.06-.03.19-.05.31z"/></svg></a>
-                        <a href="https://discord.gg/X4pYhJMc" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.62 4.35c-1.03-.42-2.12-.71-3.24-.85-.14.26-.3.61-.4.89-1.2-.18-2.4-.18-3.6 0-.1-.28-.26-.63-.4-.89-1.13.14-2.22.43-3.25.86-.44.66-.86 1.33-1.24 2.02-1.42 2.15-2.14 4.69-1.91 7.18 1.48 1.09 3.18 1.92 5.02 2.41.4-.54.76-1.11 1.06-1.71-.58-.22-1.13-.5-1.65-.84.14-.1.27-.21.4-.32 2.53 1.17 5.28 1.17 7.81 0 .13.11.26.22.4.32-.52.34-1.07.62-1.65.84.3.6.66 1.17 1.06 1.71 1.84-.49 3.54-1.32 5.02-2.41.26-2.93-.32-5.44-1.9-7.18-.38-.69-.8-1.36-1.24-2.02zM8.47 13.02c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5zm7.06 0c-.73 0-1.33-.67-1.33-1.5s.59-1.5 1.33-1.5 1.33.67 1.33 1.5-.6 1.5-1.33 1.5z"/></svg></a>
-                    </div>
-
+                    
                     <div class="copyright">
-                        © 2026 PIXEL WARFARE STUDIO · All rights reserved
+                        © 2026 PIXEL WARFARE STUDIO
                     </div>
                     <div class="creator">
                         crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a>
@@ -1358,11 +1112,10 @@
 
     <script>
         (function() {
-            // КАСТОМНЫЙ КУРСОР (ВСЕГДА СКРЫТ - ТОЛЬКО КАСТОМНЫЙ)
+            // КАСТОМНЫЙ КУРСОР
             const cursor = document.getElementById('customCursor');
             
             if (cursor && window.innerWidth > 768) {
-                // Плавное движение курсора
                 let mouseX = 0, mouseY = 0;
                 let cursorX = 0, cursorY = 0;
                 
@@ -1371,7 +1124,6 @@
                     mouseY = e.clientY;
                 });
 
-                // Анимация с отставанием для плавности
                 function animateCursor() {
                     cursorX += (mouseX - cursorX) * 0.15;
                     cursorY += (mouseY - cursorY) * 0.15;
@@ -1384,8 +1136,7 @@
                 
                 animateCursor();
 
-                // Эффект наведения на кликабельные элементы
-                const hoverElements = document.querySelectorAll('a, button, .stat-item, .card, .project-card, .team-card, .button, .logo, .nav-links a, .bottom-nav-item');
+                const hoverElements = document.querySelectorAll('a, button, .stat-item, .project-card, .team-card, .contact-link, .bottom-nav-item');
                 
                 hoverElements.forEach(el => {
                     el.addEventListener('mouseenter', () => {
@@ -1397,7 +1148,6 @@
                     });
                 });
 
-                // Случайное свечение
                 setInterval(() => {
                     if (Math.random() > 0.95) {
                         cursor.classList.add('glow');
@@ -1406,12 +1156,9 @@
                         }, 150);
                     }
                 }, 2000);
-                
-                // Принудительно скрываем стандартный курсор
-                document.body.style.cursor = 'none';
             }
 
-            // ДЛЯ ДЕСКТОПА - плавный скролл
+            // ПЛАВНЫЙ СКРОЛЛ
             if (window.innerWidth > 768) {
                 const content = document.getElementById('smooth-content');
                 
@@ -1437,7 +1184,6 @@
                         this.current += (this.target - this.current) * this.ease;
                         content.style.transform = `translateY(-${this.current}px)`;
                         
-                        // Анимация кругов
                         const circles = document.querySelectorAll('.circle');
                         circles.forEach((circle, i) => {
                             const speed = 0.02 + (i * 0.01);
@@ -1447,7 +1193,6 @@
                             circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px)`;
                         });
                         
-                        // Анимация градиентов
                         const gradient1 = document.getElementById('gradient1');
                         const gradient2 = document.getElementById('gradient2');
                         if (gradient1 && gradient2) {
@@ -1465,7 +1210,6 @@
                 window.addEventListener('wheel', (e) => smoothScroll.onWheel(e), { passive: false });
                 smoothScroll.animate();
 
-                // Плавный скролл к якорям
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                     anchor.addEventListener('click', function(e) {
                         e.preventDefault();
@@ -1477,7 +1221,7 @@
                 });
             }
 
-            // Анимация появления при скролле (для всех устройств)
+            // АНИМАЦИЯ ПОЯВЛЕНИЯ
             const fadeElements = document.querySelectorAll('.fade-in');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1485,10 +1229,10 @@
                         entry.target.classList.add('visible');
                     }
                 });
-            }, { threshold: 0.1, rootMargin: '0px' });
+            }, { threshold: 0.1 });
             fadeElements.forEach(el => observer.observe(el));
 
-            // Эффект параллакса для кругов (только десктоп)
+            // ПАРАЛЛАКС
             if (window.innerWidth > 768) {
                 document.addEventListener('mousemove', (e) => {
                     const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
