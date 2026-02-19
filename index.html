@@ -59,23 +59,20 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            animation: cubeRotate 3s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: cubeRotate 3s infinite linear;
         }
 
         .loader-cube-face {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: rgba(60, 60, 60, 0.95);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            background: rgba(40, 40, 40, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
-            backface-visibility: visible;
+            color: rgba(255,255,255,0.8);
         }
 
         .loader-cube-face.front { transform: translateZ(60px); }
@@ -99,20 +96,17 @@
             letter-spacing: 0.5em;
             color: #fff;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-            animation: textPulse 2s infinite;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes textPulse {
-            0%, 100% { opacity: 0.7; }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
 
         @media (max-width: 768px) {
             * { cursor: auto !important; }
             .custom-cursor { display: none !important; }
-            #smooth-wrapper { position: relative; height: auto; overflow: visible; }
-            #smooth-content { transform: none !important; }
         }
 
         /* ===== КАСТОМНЫЙ КУРСОР ===== */
@@ -125,9 +119,8 @@
             pointer-events: none;
             z-index: 99999;
             transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background 0.3s;
+            transition: all 0.3s;
             backdrop-filter: blur(4px);
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
 
         .custom-cursor.hover {
@@ -135,10 +128,9 @@
             height: 48px;
             background: rgba(255,255,255,0.15);
             border-color: #fff;
-            box-shadow: 0 0 30px rgba(255,255,255,0.6);
         }
 
-        /* ===== ОБЛОЖКА ИГРЫ НА ФОНЕ ===== */
+        /* ===== ФОН ===== */
         .game-cover-bg {
             position: fixed;
             top: 0;
@@ -147,7 +139,6 @@
             height: 100%;
             z-index: -2;
             opacity: 0.15;
-            pointer-events: none;
         }
 
         .game-cover-bg img {
@@ -167,7 +158,6 @@
             z-index: -1;
         }
 
-        /* ===== ФОН ===== */
         .background-gradients {
             position: fixed;
             top: 0;
@@ -178,20 +168,22 @@
             z-index: -1;
         }
 
-        .gradient-1, .gradient-2 {
+        .gradient-1 {
             position: absolute;
             width: 1650px;
             height: 1650px;
-            filter: blur(60px);
-            transition: transform 0.1s ease-out;
-        }
-        .gradient-1 {
             background: radial-gradient(circle at 30% 30%, rgba(180,180,180,0.08), transparent 70%);
             transform: translate(-900px, -350px);
+            filter: blur(60px);
         }
+
         .gradient-2 {
+            position: absolute;
+            width: 1880px;
+            height: 1880px;
             background: radial-gradient(circle at 70% 70%, rgba(200,200,200,0.06), transparent 70%);
             transform: translate(1020px, 699px);
+            filter: blur(80px);
         }
 
         .grain {
@@ -206,7 +198,6 @@
             mix-blend-mode: multiply;
         }
 
-        /* ===== ПЛЮСЫ ===== */
         .plus-frame {
             position: fixed;
             top: 0;
@@ -223,25 +214,26 @@
             position: relative;
             color: rgba(255,255,255,0.05);
         }
+
         .plus::before, .plus::after {
             content: '';
             position: absolute;
             background: currentColor;
         }
+
         .plus::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
         .plus::after { width: 1px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
 
-        .plus-1 { top: 5%; left: 5%; animation: rotateSlow 30s linear infinite; }
-        .plus-2 { bottom: 10%; right: 8%; animation: rotateSlow 45s linear infinite reverse; }
-        .plus-3 { top: 30%; right: 15%; transform: scale(2); animation: rotateSlow 60s linear infinite; }
-        .plus-4 { bottom: 20%; left: 10%; transform: scale(1.5); animation: rotateSlow 40s linear infinite reverse; }
+        .plus-1 { top: 5%; left: 5%; animation: rotate 30s linear infinite; }
+        .plus-2 { bottom: 10%; right: 8%; animation: rotate 45s linear infinite reverse; }
+        .plus-3 { top: 30%; right: 15%; transform: scale(2); animation: rotate 60s linear infinite; }
+        .plus-4 { bottom: 20%; left: 10%; transform: scale(1.5); animation: rotate 40s linear infinite reverse; }
 
-        @keyframes rotateSlow {
-            from { transform: rotate(0deg) scale(var(--scale, 1)); }
-            to { transform: rotate(360deg) scale(var(--scale, 1)); }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        /* ===== КРУГИ ===== */
         .circles {
             position: fixed;
             top: 0;
@@ -256,20 +248,23 @@
             position: absolute;
             border: 1px solid rgba(255,255,255,0.02);
             border-radius: 50%;
-            transition: transform 0.1s ease-out;
         }
+
         .circle-1 {
             width: 83.33vh; height: 83.33vh;
-            left: calc(-0.5 * 83.33vh); top: calc(-0.5 * 83.33vh + 50vh);
+            left: -20vh; top: 10vh;
         }
+
         .circle-2 {
             width: 64.81vh; height: 64.81vh;
-            left: calc(-0.5 * 64.81vh); top: calc(-0.5 * 64.81vh + 50vh);
+            right: -15vh; bottom: 5vh;
         }
+
         .circle-3 {
             width: 120vh; height: 120vh;
             right: -40vh; bottom: -40vh;
         }
+
         .circle-4 {
             width: 80vh; height: 80vh;
             left: -30vh; top: -20vh;
@@ -307,10 +302,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             margin-bottom: 1rem;
+            background: rgba(10,10,10,0.3);
             backdrop-filter: blur(10px);
-            background: rgba(10,10,10,0.2);
             border-radius: 0 0 20px 20px;
         }
 
@@ -319,13 +314,10 @@
             letter-spacing: 0.2em;
             color: #fff;
             text-decoration: none;
-            text-shadow: 0 0 15px rgba(255,255,255,0.3);
             transition: all 0.3s;
-            cursor: pointer;
         }
 
         .logo:hover {
-            text-shadow: 0 0 25px rgba(255,255,255,0.6);
             letter-spacing: 0.3em;
         }
 
@@ -345,22 +337,6 @@
                 letter-spacing: 0.2em;
                 transition: all 0.3s;
                 padding: 0.5rem 0;
-                position: relative;
-                cursor: pointer;
-            }
-            .nav-links a::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 0;
-                height: 1px;
-                background: #fff;
-                box-shadow: 0 0 10px rgba(255,255,255,0.5);
-                transition: width 0.3s;
-            }
-            .nav-links a:hover::after {
-                width: 100%;
             }
         }
 
@@ -391,23 +367,11 @@
             line-height: 1.1;
             margin-bottom: 1.5rem;
             color: #fff;
-            text-shadow: 0 0 20px rgba(255,255,255,0.2);
-            animation: glitch 5s infinite;
-        }
-
-        @keyframes glitch {
-            0%, 100% { transform: skew(0deg, 0deg); }
-            95% { transform: skew(0deg, 0deg); }
-            96% { transform: skew(5deg, 2deg); }
-            97% { transform: skew(-5deg, -2deg); }
-            98% { transform: skew(3deg, 1deg); }
-            99% { transform: skew(-3deg, -1deg); }
         }
 
         .hero-content p {
             color: #ccc;
             margin-bottom: 2rem;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
         .hero-image {
@@ -415,7 +379,6 @@
             max-width: 500px;
             margin: 0 auto;
             animation: float 6s infinite ease-in-out;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
         }
 
         @keyframes float {
@@ -426,14 +389,7 @@
         .hero-image img {
             width: 100%;
             border-radius: 20px;
-            border: 2px solid rgba(255,255,255,0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            transition: all 0.4s;
-        }
-
-        .hero-image:hover img {
-            border-color: rgba(255,255,255,0.4);
-            box-shadow: 0 30px 60px rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
         /* ===== СТАТИСТИКА ===== */
@@ -454,27 +410,23 @@
         .stat-item {
             text-align: center;
             padding: 1.5rem;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            transition: all 0.4s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            cursor: default;
+            transition: all 0.3s;
         }
 
         .stat-item:hover {
-            transform: translateY(-10px) scale(1.05);
-            background: rgba(255,255,255,0.12);
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
         }
 
         .stat-number {
             font-size: 2rem;
             color: #fff;
             margin-bottom: 0.5rem;
-            text-shadow: 0 0 15px rgba(255,255,255,0.3);
         }
 
         .stat-label {
@@ -486,9 +438,9 @@
         /* ===== КНОПКА ===== */
         .button {
             display: inline-block;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
             color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.15);
             padding: 0.8rem 2rem;
             text-decoration: none;
             text-transform: uppercase;
@@ -496,34 +448,14 @@
             font-size: 0.8rem;
             backdrop-filter: blur(10px);
             border-radius: 30px;
-            transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
             cursor: pointer;
-            z-index: 10;
-        }
-
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
         }
 
         .button:hover {
-            background: rgba(255,255,255,0.15);
-            border-color: rgba(255,255,255,0.4);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-        .button:hover::before {
-            left: 100%;
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
         .button.small {
@@ -547,36 +479,27 @@
 
         .project-card {
             padding: 2rem;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             text-decoration: none;
             color: #fff;
             display: block;
-            transition: all 0.4s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
             cursor: pointer;
-            z-index: 10;
         }
 
         .project-card:hover {
-            transform: translateY(-15px) scale(1.03);
-            background: rgba(255,255,255,0.12);
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 30px 40px rgba(0,0,0,0.4);
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
         }
 
         .project-number {
             font-size: 2rem;
             color: rgba(255,255,255,0.3);
             margin-bottom: 1rem;
-            transition: all 0.3s;
-        }
-
-        .project-card:hover .project-number {
-            color: rgba(255,255,255,0.5);
-            text-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
 
         .project-title {
@@ -595,15 +518,15 @@
             display: inline-block;
             padding: 0.3rem 1rem;
             background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.15);
             border-radius: 20px;
             color: #ccc;
             transition: all 0.3s;
         }
 
         .project-card:hover .project-tag {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.25);
             color: #fff;
         }
 
@@ -627,43 +550,33 @@
             grid-template-columns: 100px 1fr;
             gap: 1.5rem;
             padding: 1.5rem;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             text-decoration: none;
             color: #fff;
-            transition: all 0.4s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
             cursor: pointer;
-            z-index: 10;
         }
 
         .team-card:hover {
-            transform: translateX(15px) scale(1.02);
-            background: rgba(255,255,255,0.12);
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+            transform: translateX(5px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
         }
 
         .team-avatar {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #666, #333);
+            background: linear-gradient(135deg, #444, #222);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
             color: #fff;
-            border: 2px solid rgba(255,255,255,0.2);
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            transition: all 0.4s;
-        }
-
-        .team-card:hover .team-avatar {
-            transform: rotate(5deg) scale(1.05);
-            border-color: rgba(255,255,255,0.4);
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
         .team-name {
@@ -679,11 +592,6 @@
         .team-link {
             color: #aaa;
             font-size: 0.8rem;
-            transition: color 0.3s;
-        }
-
-        .team-card:hover .team-link {
-            color: #fff;
         }
 
         /* ===== СЕКЦИИ ===== */
@@ -703,7 +611,6 @@
             font-size: clamp(1.8rem, 5vw, 3rem);
             margin-bottom: 2rem;
             color: #fff;
-            text-shadow: 0 0 15px rgba(255,255,255,0.2);
         }
 
         /* ===== КОНТАКТЫ ===== */
@@ -719,8 +626,9 @@
         footer {
             padding: 3rem 0;
             border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(10,10,10,0.3);
             backdrop-filter: blur(10px);
-            background: rgba(10,10,10,0.2);
+            border-radius: 20px 20px 0 0;
         }
 
         .footer-grid {
@@ -755,7 +663,6 @@
             color: #aaa;
             text-decoration: none;
             transition: color 0.3s;
-            cursor: pointer;
         }
 
         .footer-col a:hover {
@@ -779,7 +686,6 @@
             color: #888;
             text-decoration: none;
             transition: color 0.3s;
-            cursor: pointer;
         }
 
         .creator a:hover {
@@ -802,30 +708,11 @@
             text-decoration: none;
             font-size: 0.7rem;
             letter-spacing: 0.2em;
-            transition: all 0.3s;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .bottom-nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(255,255,255,0.5);
-            transition: all 0.3s;
-            transform: translateX(-50%);
+            transition: color 0.3s;
         }
 
         .bottom-nav-item:hover {
             color: #fff;
-        }
-
-        .bottom-nav-item:hover::after {
-            width: 100%;
         }
 
         .bottom-nav-item span {
@@ -838,7 +725,7 @@
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s, transform 0.8s;
+            transition: all 0.8s;
         }
 
         .fade-in.visible {
@@ -943,18 +830,18 @@
                             <div class="project-desc">Military aviation. Drones, rockets, helicopters, anti-air defense.</div>
                             <span class="project-tag">MILITARY</span>
                         </a>
-                        <div class="project-card fade-in">
+                        <a href="#" class="project-card fade-in">
                             <div class="project-number">02</div>
                             <div class="project-title">POLYGON</div>
                             <div class="project-desc">Geometric warfare. Tactical combat, sharp angles.</div>
                             <span class="project-tag">TACTICAL</span>
-                        </div>
-                        <div class="project-card fade-in">
+                        </a>
+                        <a href="#" class="project-card fade-in">
                             <div class="project-number">03</div>
                             <div class="project-title">COMING SOON</div>
                             <div class="project-desc">New project in development.</div>
                             <span class="project-tag">2026</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -1004,11 +891,11 @@
                 <div class="container">
                     <div class="footer-grid">
                         <div class="footer-col"><h4>STUDIO</h4><ul><li><a href="#games">Games</a></li><li><a href="#team">Team</a></li><li><a href="#contact">Contact</a></li></ul></div>
-                        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="https://t.me/polygonrbxm" target="_blank">Telegram</a></li><li><a href="https://discord.gg/X4pYhJMc" target="_blank">Discord</a></li></ul></div>
+                        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="https://t.me/polygonrbxm">Telegram</a></li><li><a href="https://discord.gg/X4pYhJMc">Discord</a></li></ul></div>
                         <div class="footer-col"><h4>INFO</h4><ul><li><a href="#" onclick="alert('Terms'); return false;">Terms</a></li><li><a href="#" onclick="alert('Privacy'); return false;">Privacy</a></li></ul></div>
                     </div>
                     <div class="copyright">© 2026 PIXEL WARFARE STUDIO</div>
-                    <div class="creator">crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a></div>
+                    <div class="creator">crafted by <a href="https://t.me/FamtyTG">FamtyTG</a></div>
                 </div>
             </footer>
 
@@ -1039,14 +926,16 @@
                 mouseX = e.clientX;
                 mouseY = e.clientY;
             });
-            function animateCursor() {
-                cursorX += (mouseX - cursorX) * 0.12;
-                cursorY += (mouseY - cursorY) * 0.12;
+            
+            function animate() {
+                cursorX += (mouseX - cursorX) * 0.15;
+                cursorY += (mouseY - cursorY) * 0.15;
                 cursor.style.left = cursorX + 'px';
                 cursor.style.top = cursorY + 'px';
-                requestAnimationFrame(animateCursor);
+                requestAnimationFrame(animate);
             }
-            animateCursor();
+            animate();
+
             document.querySelectorAll('a, button, .stat-item, .project-card, .team-card, .button, .bottom-nav-item').forEach(el => {
                 el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
                 el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
@@ -1060,8 +949,8 @@
             setHeight();
             window.addEventListener('resize', setHeight);
 
-            const smoothScroll = {
-                target: 0, current: 0, ease: 0.06,
+            const smooth = {
+                target: 0, current: 0, ease: 0.075,
                 onWheel(e) {
                     e.preventDefault();
                     this.target += e.deltaY;
@@ -1071,20 +960,12 @@
                 animate() {
                     this.current += (this.target - this.current) * this.ease;
                     content.style.transform = `translateY(-${this.current}px)`;
-                    
-                    document.querySelectorAll('.circle').forEach((circle, i) => {
-                        const speed = 0.015 + (i * 0.008);
-                        const rotation = this.current * speed;
-                        const moveX = Math.sin(this.current * 0.0015 + i) * 15;
-                        const moveY = Math.cos(this.current * 0.0015 + i) * 15;
-                        circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px)`;
-                    });
-                    
                     requestAnimationFrame(this.animate.bind(this));
                 }
             };
-            window.addEventListener('wheel', (e) => smoothScroll.onWheel(e), { passive: false });
-            smoothScroll.animate();
+            
+            window.addEventListener('wheel', (e) => smooth.onWheel(e), { passive: false });
+            smooth.animate();
         }
 
         // АНИМАЦИЯ ПОЯВЛЕНИЯ
@@ -1095,6 +976,7 @@
                 }
             });
         }, { threshold: 0.1 });
+        
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
