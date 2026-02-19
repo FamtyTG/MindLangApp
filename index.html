@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none; /* Убираем стандартный курсор */
         }
 
         body {
@@ -26,13 +27,45 @@
             position: relative;
         }
 
-        /* УБИРАЕМ КАСТОМНЫЙ КУРСОР - используем стандартный */
+        /* КАСТОМНЫЙ КУРСОР (ИСПРАВЛЕННЫЙ) */
         .custom-cursor {
-            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.8);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(2px);
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.hover {
+            width: 40px;
+            height: 40px;
+            border-color: #fff;
+            background: rgba(255,255,255,0.1);
+            transform: translate(-50%, -50%) scale(1.1);
+            border-width: 3px;
+        }
+
+        .custom-cursor.glow {
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+            border-color: #fff;
         }
 
         /* Отключаем кастомный скролл на мобилках */
         @media (max-width: 768px) {
+            * {
+                cursor: auto !important;
+            }
+            
+            .custom-cursor {
+                display: none !important;
+            }
+            
             #smooth-wrapper {
                 position: relative !important;
                 height: auto !important;
@@ -82,7 +115,7 @@
             pointer-events: none;
         }
 
-        /* ===== СТАРЫЙ ГЛУБОКИЙ ФОН (поверх обложки) ===== */
+        /* ===== СТАРЫЙ ГЛУБОКИЙ ФОН ===== */
         .background-gradients {
             position: fixed;
             top: 0;
@@ -600,6 +633,9 @@
             transition: all 0.3s;
             height: 100%;
             cursor: default;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .project-card:hover {
@@ -610,7 +646,7 @@
         }
 
         .project-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #666;
             transition: all 0.3s;
@@ -618,7 +654,7 @@
 
         .project-card:hover .project-icon {
             color: #fff;
-            transform: scale(1.2) rotate(5deg);
+            transform: scale(1.1) rotate(2deg);
         }
 
         .project-title {
@@ -659,7 +695,7 @@
             color: #fff;
         }
 
-        /* ===== КОМАНДА (ОБНОВЛЕНО С РОЛЯМИ) ===== */
+        /* ===== КОМАНДА ===== */
         .team-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -676,7 +712,7 @@
 
         .team-card {
             display: grid;
-            grid-template-columns: 120px 1fr;
+            grid-template-columns: 100px 1fr;
             gap: 1.5rem;
             padding: 1.5rem;
             background: rgba(255, 255, 255, 0.02);
@@ -695,8 +731,8 @@
         }
 
         .team-avatar {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background: linear-gradient(135deg, #666, #333);
             display: flex;
@@ -711,7 +747,7 @@
 
         .team-card:hover .team-avatar {
             border-color: rgba(255,255,255,0.3);
-            transform: rotate(5deg) scale(1.05);
+            transform: rotate(3deg) scale(1.05);
             box-shadow: 0 0 30px rgba(150,100,255,0.5);
         }
 
@@ -722,7 +758,7 @@
         }
 
         .team-name {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 0.3rem;
             transition: text-shadow 0.3s;
         }
@@ -733,7 +769,7 @@
 
         .team-role {
             color: #888;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             margin-bottom: 0.5rem;
             letter-spacing: 0.1em;
             transition: color 0.3s;
@@ -1045,6 +1081,9 @@
     </style>
 </head>
 <body>
+    <!-- КАСТОМНЫЙ КУРСОР (ИСПРАВЛЕННЫЙ) -->
+    <div class="custom-cursor" id="customCursor"></div>
+
     <!-- ОБЛОЖКА ИГРЫ НА ФОНЕ -->
     <div class="game-cover-bg">
         <img src="https://i.yapx.ru/c9rD4.png" alt="Polygon Game Cover">
@@ -1153,25 +1192,27 @@
                 </div>
             </section>
 
-            <!-- ИГРЫ -->
+            <!-- ИГРЫ (С ССЫЛКОЙ НА PIXEL SKIES) -->
             <section id="games" class="section">
                 <div class="container">
                     <div class="section-tag">02 — GAMES</div>
                     <h2>OUR<br>PROJECTS</h2>
                     
                     <div class="grid-3" style="margin-top: 2rem;">
-                        <div class="project-card fade-in">
+                        <a href="https://www.roblox.com/games/114753752307453/Pixel-Skies" target="_blank" class="project-card fade-in">
                             <div class="project-icon">🌌</div>
                             <div class="project-title">PIXELSKIES</div>
                             <div class="project-desc">Low poly shooter set in the clouds. Fast-paced combat, unique weapons, and breathtaking views.</div>
                             <span class="project-tag">FPS · ARENA</span>
-                        </div>
+                        </a>
+                        
                         <div class="project-card fade-in">
                             <div class="project-icon">🔺</div>
                             <div class="project-title">POLYGON</div>
                             <div class="project-desc">Geometric warfare. Sharp angles, clean design, competitive gameplay. Multiple game modes.</div>
                             <span class="project-tag">TACTICAL · COMPETITIVE</span>
                         </div>
+                        
                         <div class="project-card fade-in">
                             <div class="project-icon">⚡</div>
                             <div class="project-title">COMING SOON</div>
@@ -1314,6 +1355,59 @@
 
     <script>
         (function() {
+            // КАСТОМНЫЙ КУРСОР (ИСПРАВЛЕННЫЙ)
+            const cursor = document.getElementById('customCursor');
+            
+            if (cursor && window.innerWidth > 768) {
+                // Плавное движение курсора
+                let mouseX = 0, mouseY = 0;
+                let cursorX = 0, cursorY = 0;
+                
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                // Анимация с отставанием для плавности
+                function animateCursor() {
+                    cursorX += (mouseX - cursorX) * 0.2;
+                    cursorY += (mouseY - cursorY) * 0.2;
+                    
+                    cursor.style.left = cursorX + 'px';
+                    cursor.style.top = cursorY + 'px';
+                    
+                    requestAnimationFrame(animateCursor);
+                }
+                
+                animateCursor();
+
+                // Эффект наведения на кликабельные элементы
+                const hoverElements = document.querySelectorAll('a, button, .stat-item, .card, .project-card, .team-card, .button, .logo, .nav-links a, .bottom-nav-item');
+                
+                hoverElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursor.classList.add('hover');
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        cursor.classList.remove('hover');
+                    });
+                });
+
+                // Случайное свечение
+                setInterval(() => {
+                    if (Math.random() > 0.95) {
+                        cursor.classList.add('glow');
+                        setTimeout(() => {
+                            cursor.classList.remove('glow');
+                        }, 150);
+                    }
+                }, 2000);
+                
+                // Убираем стандартный курсор
+                document.body.style.cursor = 'none';
+            }
+
             // ДЛЯ ДЕСКТОПА - плавный скролл
             if (window.innerWidth > 768) {
                 const content = document.getElementById('smooth-content');
