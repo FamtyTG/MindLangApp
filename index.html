@@ -2,793 +2,786 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixel Warfare Studio · Low Poly Shooters</title>
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ===== RESET & FONTS ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important;
         }
 
         body {
-            background-color: #0a0a0a;
+            background-color: #03050a;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
             font-weight: 300;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
-            overflow-y: auto !important;
-            height: auto !important;
+        }
+
+        /* ===== УНИКАЛЬНЫЙ ЗАГРУЗОЧНЫЙ ЭКРАН ===== */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #03050a;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            pointer-events: none;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+        }
+
+        .loader-content {
+            text-align: center;
             position: relative;
         }
 
-        /* КАСТОМНЫЙ КУРСОР */
-        .custom-cursor {
-            width: 24px;
-            height: 24px;
-            border: 2px solid rgba(255,255,255,0.9);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            backdrop-filter: blur(2px);
-            mix-blend-mode: difference;
-            transition: width 0.2s, height 0.2s, border-color 0.2s, background 0.2s, border-width 0.2s;
-            will-change: transform;
-            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        .loader-cube {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: cubeRotate 2s infinite linear;
         }
 
-        .custom-cursor.hover {
-            width: 48px;
-            height: 48px;
-            border-color: #fff;
-            background: rgba(255,255,255,0.15);
-            border-width: 3px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+        .loader-cube div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(100, 150, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(100, 150, 255, 0.3);
         }
 
-        .custom-cursor.glow {
-            box-shadow: 0 0 30px rgba(255,255,255,0.8);
-            border-color: #fff;
+        .loader-cube .front { transform: translateZ(40px); }
+        .loader-cube .back { transform: rotateY(180deg) translateZ(40px); }
+        .loader-cube .right { transform: rotateY(90deg) translateZ(40px); }
+        .loader-cube .left { transform: rotateY(-90deg) translateZ(40px); }
+        .loader-cube .top { transform: rotateX(90deg) translateZ(40px); }
+        .loader-cube .bottom { transform: rotateX(-90deg) translateZ(40px); }
+
+        @keyframes cubeRotate {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
         }
 
-        /* Отключаем кастомный курсор на мобилках */
-        @media (max-width: 768px) {
-            * {
-                cursor: auto !important;
-            }
-            
-            .custom-cursor {
-                display: none !important;
-            }
-            
-            #smooth-wrapper {
-                position: relative !important;
-                height: auto !important;
-                overflow: visible !important;
-            }
-            
-            #smooth-content {
-                transform: none !important;
-                height: auto !important;
-            }
-            
-            body {
-                height: auto !important;
-                overflow-y: auto !important;
-            }
+        .loader-text {
+            font-size: 0.9rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: #888;
+            animation: pulse 2s infinite;
         }
 
-        /* ===== ОБЛОЖКА ИГРЫ НА ФОНЕ ===== */
-        .game-cover-bg {
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== УНИКАЛЬНЫЙ ФОН С "ПИКСЕЛЬНЫМ ШУМОМ" ===== */
+        .pixel-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -2;
-            opacity: 0.15;
-            pointer-events: none;
-            overflow: hidden;
+            background: #03050a;
         }
 
-        .game-cover-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            filter: blur(4px) grayscale(30%);
-        }
-
-        .game-cover-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.7) 100%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* ===== СТАРЫЙ ГЛУБОКИЙ ФОН ===== */
-        .background-gradients {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .gradient-1 {
+        .pixel-grid {
             position: absolute;
-            width: 1650px;
-            height: 1650px;
-            background: radial-gradient(circle at 30% 30%, rgba(100, 100, 255, 0.15) 0%, transparent 70%);
-            transform: translate(-900px, -350px);
-            filter: blur(60px);
-            transition: transform 0.1s ease-out;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(100, 150, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 150, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
         }
 
-        .gradient-2 {
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .pixel-glow {
             position: absolute;
-            width: 1880px;
-            height: 1880px;
-            background: radial-gradient(circle at 70% 70%, rgba(150, 100, 255, 0.1) 0%, transparent 70%);
-            transform: translate(1020px, 699px);
-            filter: blur(80px);
-            transition: transform 0.1s ease-out;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(100, 150, 255, 0.1) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 80%, rgba(150, 100, 255, 0.1) 0%, transparent 60%);
+            filter: blur(40px);
         }
 
-        /* ===== ЗЕРНИСТОСТЬ ===== */
-        .grain {
+        /* ===== 3D-ПОДОБНЫЙ ДЕКОР ===== */
+        .floating-cubes {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.02;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4xIiAvPjwvc3ZnPg==');
-            background-repeat: repeat;
-            z-index: 1000;
-            mix-blend-mode: multiply;
+            z-index: -1;
         }
 
-        /* ===== ПЛЮСЫ ===== */
-        .plus-frame {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 100;
+        .cube-3d {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(100, 150, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transform-style: preserve-3d;
+            animation: float3D 20s infinite linear;
         }
 
-        .plus {
-            width: 49px;
-            height: 49px;
-            position: relative;
-            color: inherit;
-        }
-
-        .plus::before,
-        .plus::after {
+        .cube-3d::before,
+        .cube-3d::after {
             content: '';
             position: absolute;
-            background: currentColor;
-        }
-
-        .plus::before {
-            width: 100%;
-            height: 1px;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-        }
-
-        .plus::after {
-            width: 1px;
-            height: 100%;
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-        }
-
-        .plus-1 {
-            position: absolute;
-            top: 5%;
-            left: 5%;
-            color: rgba(255, 255, 255, 0.1);
-            animation: rotateSlow 30s linear infinite;
-        }
-
-        .plus-2 {
-            position: absolute;
-            bottom: 10%;
-            right: 8%;
-            color: rgba(255, 255, 255, 0.1);
-            animation: rotateSlow 45s linear infinite reverse;
-        }
-
-        .plus-3 {
-            position: absolute;
-            top: 30%;
-            right: 15%;
-            color: rgba(255, 255, 255, 0.05);
-            transform: scale(2);
-            animation: rotateSlow 60s linear infinite;
-        }
-
-        .plus-4 {
-            position: absolute;
-            bottom: 20%;
-            left: 10%;
-            color: rgba(255, 255, 255, 0.05);
-            transform: scale(1.5);
-            animation: rotateSlow 40s linear infinite reverse;
-        }
-
-        @keyframes rotateSlow {
-            from { transform: rotate(0deg) scale(var(--scale, 1)); }
-            to { transform: rotate(360deg) scale(var(--scale, 1)); }
-        }
-
-        /* ===== КРУГИ ===== */
-        .circles {
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 50;
+            background: inherit;
+            border: inherit;
         }
 
-        .circle {
-            position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            border-radius: 50%;
-            transition: transform 0.1s ease-out;
+        .cube-3d::before {
+            transform: rotateY(90deg);
+            transform-origin: left;
+            left: 100%;
         }
 
-        .circle-1 {
-            width: 83.33vh;
-            height: 83.33vh;
-            left: calc(-0.5 * 83.33vh + 0px);
-            top: calc(-0.5 * 83.33vh + 50vh);
+        .cube-3d::after {
+            transform: rotateX(90deg);
+            transform-origin: bottom;
+            bottom: 100%;
         }
 
-        .circle-2 {
-            width: 64.81vh;
-            height: 64.81vh;
-            left: calc(-0.5 * 64.81vh + 0px);
-            top: calc(-0.5 * 64.81vh + 50vh);
+        .cube-3d-1 {
+            top: 10%;
+            left: -5%;
+            animation: float3D 25s infinite;
         }
 
-        .circle-3 {
-            width: 120vh;
-            height: 120vh;
-            right: -40vh;
-            bottom: -40vh;
-            border-color: rgba(255, 255, 255, 0.02);
+        .cube-3d-2 {
+            bottom: 15%;
+            right: -5%;
+            width: 150px;
+            height: 150px;
+            animation: float3D 30s infinite reverse;
         }
 
-        .circle-4 {
-            width: 80vh;
-            height: 80vh;
-            left: -30vh;
-            top: -20vh;
-            border-color: rgba(255, 255, 255, 0.02);
+        @keyframes float3D {
+            0% { transform: translate(0, 0) rotateX(0deg) rotateY(0deg); }
+            33% { transform: translate(30px, -30px) rotateX(120deg) rotateY(180deg); }
+            66% { transform: translate(-30px, 30px) rotateX(240deg) rotateY(360deg); }
+            100% { transform: translate(0, 0) rotateX(360deg) rotateY(720deg); }
         }
 
-        /* ===== ПЛАВНЫЙ СКРОЛЛ (только для десктопа) ===== */
-        @media (min-width: 769px) {
-            #smooth-wrapper {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-
-            #smooth-content {
-                position: relative;
-                width: 100%;
-                overflow: visible;
-                will-change: transform;
-            }
+        /* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
+        .site-wrapper {
+            position: relative;
+            z-index: 1;
         }
 
-        /* ===== КОНТЕЙНЕР ===== */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 4rem;
             position: relative;
-            z-index: 200;
         }
 
-        /* ===== НАВИГАЦИЯ ===== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 2rem;
+            }
+        }
+
+        /* ===== УНИКАЛЬНАЯ НАВИГАЦИЯ ===== */
         nav {
             padding: 2rem 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 2rem;
+            position: relative;
         }
 
-        .logo {
+        .nav-logo {
             font-size: 1.2rem;
+            font-weight: 400;
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: #fff;
             text-decoration: none;
-            transition: opacity 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
         }
 
-        .logo:hover {
-            opacity: 0.7;
+        .nav-logo::before {
+            content: '<';
+            position: absolute;
+            left: -1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
         }
 
-        .nav-links {
+        .nav-logo::after {
+            content: '/>';
+            position: absolute;
+            right: -2rem;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .nav-logo:hover::before {
+            opacity: 1;
+            transform: translateX(-5px);
+        }
+
+        .nav-logo:hover::after {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .nav-menu {
             display: flex;
             gap: 4rem;
         }
 
-        .nav-links a {
+        .nav-menu a {
             color: #888;
             text-decoration: none;
             font-size: 0.8rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            transition: color 0.3s;
+            transition: all 0.3s;
             position: relative;
         }
 
-        .nav-links a::after {
-            content: '';
+        .nav-menu a span {
             position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: #fff;
-            transition: width 0.3s;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            color: rgba(100, 150, 255, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .nav-links a:hover {
+        .nav-menu a:hover {
             color: #fff;
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
+        .nav-menu a:hover span {
+            opacity: 1;
         }
 
         @media (max-width: 768px) {
-            .nav-links {
+            .nav-menu {
                 display: none;
             }
         }
 
-        /* ===== ГЕРОЙ (АСИММЕТРИЧНЫЙ) ===== */
+        /* ===== УНИКАЛЬНЫЙ ГЕРОЙ С "ОБЪЁМНЫМ" ЭФФЕКТОМ ===== */
         .hero {
-            min-height: 80vh;
+            min-height: 85vh;
             display: flex;
             align-items: center;
             position: relative;
-            margin-bottom: 4rem;
         }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 4rem;
-            align-items: center;
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: rgba(100, 150, 255, 0.1);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: #fff;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            100% { left: 100%; }
+        }
+
+        .hero h1 {
+            font-size: clamp(4rem, 8vw, 7rem);
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .hero h1 .line {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 1s forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .hero h1 .line:nth-child(1) { animation-delay: 0.2s; }
+        .hero h1 .line:nth-child(2) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 .glitch {
+            position: relative;
+        }
+
+        .hero h1 .glitch::before,
+        .hero h1 .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #03050a;
+        }
+
+        .hero h1 .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            animation: glitch-1 0.3s infinite linear alternate-reverse;
+        }
+
+        .hero h1 .glitch::after {
+            left: -2px;
+            text-shadow: 2px 0 #00ffff;
+            animation: glitch-2 0.3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-1 {
+            0% { clip-path: inset(20% 0 30% 0); }
+            100% { clip-path: inset(80% 0 10% 0); }
+        }
+
+        @keyframes glitch-2 {
+            0% { clip-path: inset(60% 0 10% 0); }
+            100% { clip-path: inset(10% 0 70% 0); }
+        }
+
+        .hero-description {
+            max-width: 500px;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fadeIn 1s 0.6s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeIn 1s 0.8s forwards;
+        }
+
+        .hero-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .hero-cta:hover {
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .hero-cta:hover::before {
+            left: 100%;
+        }
+
+        .hero-stats {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s 1s forwards;
         }
 
         @media (max-width: 768px) {
-            .hero-grid {
+            .hero-stats {
+                position: relative;
+                top: auto;
+                transform: none;
+                flex-direction: row;
+                margin-top: 3rem;
+                justify-content: center;
+            }
+        }
+
+        .hero-stat {
+            text-align: right;
+        }
+
+        .hero-stat-number {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #fff;
+            position: relative;
+        }
+
+        .hero-stat-number::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 30px;
+            height: 1px;
+            background: rgba(100,150,255,0.5);
+        }
+
+        .hero-stat-label {
+            font-size: 0.7rem;
+            color: #888;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== "ГОРИЗОНТАЛЬНАЯ" СЕКЦИЯ ИГР ===== */
+        .games-section {
+            padding: 6rem 0;
+            overflow: hidden;
+        }
+
+        .games-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+        }
+
+        .games-title {
+            font-size: 0.9rem;
+            letter-spacing: 0.5em;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .games-counter {
+            font-size: 3rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.1);
+        }
+
+        .games-horizontal {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding-bottom: 2rem;
+            scrollbar-width: none;
+            cursor: grab;
+        }
+
+        .games-horizontal::-webkit-scrollbar {
+            display: none;
+        }
+
+        .game-card-h {
+            min-width: 400px;
+            padding: 3rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            transition: all 0.5s;
+            transform-origin: center;
+        }
+
+        @media (max-width: 768px) {
+            .game-card-h {
+                min-width: 300px;
+                padding: 2rem;
+            }
+        }
+
+        .game-card-h:hover {
+            background: rgba(255,255,255,0.03);
+            border-color: rgba(100,150,255,0.3);
+            transform: scale(0.98) translateY(-10px);
+        }
+
+        .game-number {
+            font-size: 5rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.03);
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            line-height: 1;
+        }
+
+        .game-title {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-desc {
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 300px;
+        }
+
+        .game-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .game-tag {
+            padding: 0.2rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: #888;
+        }
+
+        .game-card-h:hover .game-tag {
+            border-color: rgba(100,150,255,0.3);
+            color: #fff;
+        }
+
+        /* ===== СЕКЦИЯ КОМАНДЫ С "ОБЪЁМНЫМИ" КАРТОЧКАМИ ===== */
+        .team-section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .team-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
         }
 
-        .hero-content {
-            position: relative;
+        .team-member-3d {
+            perspective: 1000px;
         }
 
-        .hero-content .low-poly-badge {
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-content h1 {
-            font-size: clamp(3rem, 6vw, 5rem);
-            line-height: 1.1;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .hero-content h1::before {
-            content: '///';
-            position: absolute;
-            top: -20px;
-            left: 0;
-            color: rgba(255,255,255,0.1);
-            font-size: 1rem;
-            letter-spacing: 0.5em;
-        }
-
-        .hero-content p {
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin-bottom: 3rem;
-            color: #b0b0b0;
-        }
-
-        .hero-image {
-            position: relative;
-            aspect-ratio: 1;
-            width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-        }
-
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-        }
-
-        .hero-image::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(100,100,255,0.2), rgba(150,100,255,0.2));
-            border-radius: 40px;
-            z-index: -1;
-            filter: blur(30px);
-        }
-
-        /* ===== СТАТИСТИКА (ГРИД 2+2 С РАЗМЕРАМИ) ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin: 5rem 0;
-        }
-
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .stat-item {
-            padding: 2rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: all 0.3s;
-        }
-
-        .stat-item:nth-child(2) {
-            transform: translateY(20px);
-        }
-
-        .stat-item:nth-child(4) {
-            transform: translateY(20px);
-        }
-
-        .stat-item:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.1);
-            transform: translateY(0) scale(1.02);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 300;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            color: #888;
-            text-transform: uppercase;
-        }
-
-        /* ===== О СТУДИИ (АСИММЕТРИЯ) ===== */
-        .studio-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 4rem;
-            margin: 4rem 0;
-        }
-
-        @media (max-width: 768px) {
-            .studio-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .studio-left {
-            padding-right: 2rem;
-        }
-
-        .studio-left .section-tag {
-            margin-bottom: 1rem;
-        }
-
-        .studio-left h2 {
-            font-size: 3rem;
-            line-height: 1.1;
-            margin-bottom: 2rem;
-        }
-
-        .studio-left h2::after {
-            display: none;
-        }
-
-        .studio-right p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            color: #b0b0b0;
-        }
-
-        .studio-right p:first-child {
-            margin-top: 4rem;
-        }
-
-        /* ===== ПРОЕКТЫ (БЕЗ ИКОНОК) ===== */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-
-        @media (max-width: 768px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .project-card {
-            padding: 3rem 2rem;
+        .team-card-3d {
+            padding: 3rem;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.03);
             text-decoration: none;
             color: inherit;
-            transition: all 0.4s;
+            display: block;
+            transition: all 0.3s;
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+            position: relative;
+        }
+
+        .team-member-3d:hover .team-card-3d {
+            transform: rotateY(5deg) translateZ(20px);
+            border-color: rgba(100,150,255,0.3);
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .team-avatar-3d {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #1a1a2a, #16213e);
+            border: 2px solid rgba(100,150,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            transform: translateZ(10px);
+        }
+
+        .team-name-3d {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            transform: translateZ(15px);
+        }
+
+        .team-role-3d {
+            color: #888;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1.5rem;
+            transform: translateZ(10px);
+        }
+
+        .team-link-3d {
+            color: #666;
+            font-size: 0.8rem;
+            transition: color 0.3s;
+            display: inline-block;
+            transform: translateZ(20px);
+        }
+
+        .team-member-3d:hover .team-link-3d {
+            color: #fff;
+        }
+
+        /* ===== "ЛАБИРИНТ" СТАТИСТИКИ ===== */
+        .stats-maze {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: rgba(255,255,255,0.03);
+            margin: 6rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .stats-maze {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .maze-cell {
+            background: #03050a;
+            padding: 3rem 2rem;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .project-card::before {
+        .maze-cell::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(100,100,255,0.1), rgba(150,100,255,0.1));
-            opacity: 0;
-            transition: opacity 0.4s;
+            background: linear-gradient(135deg, transparent, rgba(100,150,255,0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
         }
 
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255,255,255,0.2);
+        .maze-cell:hover::before {
+            transform: translateX(100%);
         }
 
-        .project-card:hover::before {
-            opacity: 1;
-        }
-
-        .project-number {
+        .maze-number {
             font-size: 3rem;
             font-weight: 300;
-            color: rgba(255,255,255,0.1);
-            margin-bottom: 1rem;
-            transition: color 0.3s;
-        }
-
-        .project-card:hover .project-number {
-            color: rgba(255,255,255,0.2);
-        }
-
-        .project-title {
-            font-size: 1.8rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            letter-spacing: 0.1em;
-            position: relative;
-        }
-
-        .project-desc {
-            color: #999;
-            font-size: 0.9rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .project-tag {
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            color: #888;
-            position: relative;
-        }
-
-        .project-card:hover .project-tag {
-            border-color: rgba(255,255,255,0.3);
             color: #fff;
+            margin-bottom: 0.5rem;
         }
 
-        /* ===== КОМАНДА (НЕОБЫЧНОЕ РАСПОЛОЖЕНИЕ) ===== */
-        .team-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin: 4rem 0;
-            position: relative;
-        }
-
-        @media (max-width: 768px) {
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .team-card {
-            display: block;
-            padding: 2rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.03);
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.4s;
-        }
-
-        .team-card:first-child {
-            transform: translateX(-20px);
-        }
-
-        .team-card:last-child {
-            transform: translateX(20px);
-        }
-
-        @media (max-width: 768px) {
-            .team-card:first-child,
-            .team-card:last-child {
-                transform: none;
-            }
-        }
-
-        .team-card:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.2);
-            transform: translateX(0) scale(1.02);
-        }
-
-        .team-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #666, #333);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: #fff;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .team-name {
-            font-size: 1.5rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .team-role {
-            color: #888;
+        .maze-label {
             font-size: 0.8rem;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-
-        .team-link {
-            color: #666;
-            font-size: 0.8rem;
-            transition: color 0.3s;
-        }
-
-        .team-card:hover .team-link {
-            color: #fff;
-        }
-
-        /* ===== LOW POLY БЭЙДЖ ===== */
-        .low-poly-badge {
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.7rem;
             letter-spacing: 0.2em;
             color: #888;
             text-transform: uppercase;
         }
 
-        /* ===== СЕКЦИИ ===== */
-        .section {
-            padding: 5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .section:last-child {
-            border-bottom: none;
-        }
-
-        .section-tag {
-            font-size: 0.7rem;
-            letter-spacing: 0.4em;
-            color: #666;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            margin-bottom: 2rem;
+        /* ===== КОНТАКТЫ С "ПАРЯЩИМИ" ЭЛЕМЕНТАМИ ===== */
+        .contact-section {
+            padding: 6rem 0;
+            text-align: center;
             position: relative;
         }
 
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 1px;
-            background: rgba(255,255,255,0.3);
+        .contact-title {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
         }
 
-        /* ===== КОНТАКТЫ ===== */
-        .contact-links {
+        .contact-sub {
+            color: #666;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 4rem;
+        }
+
+        .contact-links-3d {
             display: flex;
             gap: 2rem;
             justify-content: center;
-            margin: 4rem 0;
             flex-wrap: wrap;
+            perspective: 1000px;
         }
 
-        .contact-link {
-            padding: 1rem 2rem;
+        .contact-link-3d {
+            padding: 1.5rem 3rem;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.03);
             color: #fff;
@@ -796,19 +789,36 @@
             font-size: 0.9rem;
             letter-spacing: 0.2em;
             transition: all 0.3s;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg);
+            position: relative;
         }
 
-        .contact-link:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.2);
-            transform: translateY(-3px);
+        .contact-link-3d:hover {
+            transform: rotateX(10deg) translateZ(20px);
+            border-color: rgba(100,150,255,0.5);
+            background: rgba(100,150,255,0.05);
+        }
+
+        .contact-link-3d span {
+            display: block;
+            font-size: 0.6rem;
+            color: #888;
+            margin-top: 0.3rem;
         }
 
         /* ===== ФУТЕР ===== */
         footer {
             padding: 4rem 0;
+            border-top: 1px solid rgba(255,255,255,0.03);
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-year {
+            font-size: 5rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.03);
+            margin-bottom: 2rem;
         }
 
         .footer-links {
@@ -825,16 +835,28 @@
             font-size: 0.8rem;
             letter-spacing: 0.2em;
             transition: color 0.3s;
+            position: relative;
+        }
+
+        .footer-links a::before {
+            content: '//';
+            position: absolute;
+            left: -1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .footer-links a:hover {
             color: #fff;
         }
 
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
         .copyright {
             color: #444;
             font-size: 0.7rem;
-            margin-top: 3rem;
         }
 
         .creator {
@@ -853,400 +875,333 @@
             color: #fff;
         }
 
-        /* ===== БОТТОМ НАВ ===== */
-        .bottom-nav {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .bottom-nav-item {
-            color: #666;
-            text-decoration: none;
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-
-        .bottom-nav-item:hover {
-            color: #fff;
-        }
-
-        .bottom-nav-item span {
-            color: #fff;
-            margin-right: 0.5rem;
-            opacity: 0.5;
-        }
-
-        /* ===== АНИМАЦИИ ===== */
-        .fade-in {
+        /* ===== АНИМАЦИИ ПРИ СКРОЛЛЕ ===== */
+        .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s, transform 0.8s;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .fade-in.visible {
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
         }
     </style>
 </head>
 <body>
-    <!-- КАСТОМНЫЙ КУРСОР -->
-    <div class="custom-cursor" id="customCursor"></div>
-
-    <!-- ОБЛОЖКА ИГРЫ НА ФОНЕ -->
-    <div class="game-cover-bg">
-        <img src="https://i.yapx.ru/c9rD4.png" alt="Polygon Game Cover">
-    </div>
-    <div class="game-cover-overlay"></div>
-
-    <!-- СТАРЫЙ ГЛУБОКИЙ ФОН -->
-    <div class="background-gradients">
-        <div class="gradient-1" id="gradient1"></div>
-        <div class="gradient-2" id="gradient2"></div>
-    </div>
-
-    <!-- ЗЕРНИСТОСТЬ -->
-    <div class="grain"></div>
-
-    <!-- ПЛЮСЫ -->
-    <div class="plus-frame">
-        <div class="plus-1 plus"></div>
-        <div class="plus-2 plus"></div>
-        <div class="plus-3 plus"></div>
-        <div class="plus-4 plus"></div>
-    </div>
-
-    <!-- КРУГИ -->
-    <div class="circles">
-        <div class="circle circle-1" id="circle1"></div>
-        <div class="circle circle-2" id="circle2"></div>
-        <div class="circle circle-3" id="circle3"></div>
-        <div class="circle circle-4" id="circle4"></div>
-    </div>
-
-    <!-- ПЛАВНЫЙ СКРОЛЛ -->
-    <div id="smooth-wrapper">
-        <div id="smooth-content">
-            <!-- НАВИГАЦИЯ -->
-            <div class="container">
-                <nav>
-                    <a href="#" class="logo">PIXEL WARFARE</a>
-                    <div class="nav-links">
-                        <a href="#studio">Studio</a>
-                        <a href="#games">Games</a>
-                        <a href="#team">Team</a>
-                        <a href="#contact">Contact</a>
-                    </div>
-                </nav>
+    <!-- УНИКАЛЬНЫЙ ЗАГРУЗОЧНЫЙ ЭКРАН -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-cube">
+                <div class="front"></div>
+                <div class="back"></div>
+                <div class="right"></div>
+                <div class="left"></div>
+                <div class="top"></div>
+                <div class="bottom"></div>
             </div>
-
-            <!-- ГЕРОЙ -->
-            <section class="hero">
-                <div class="container">
-                    <div class="hero-grid">
-                        <div class="hero-content fade-in">
-                            <div class="low-poly-badge">EST. 2025</div>
-                            <h1>PIXEL WARFARE<br>STUDIO</h1>
-                            <p>Crafting low poly shooter experiences on Roblox. Precision engineering, blocky aesthetics, competitive gameplay. Built by gamers, for gamers.</p>
-                            <a href="#" class="contact-link" style="display: inline-block;">JOIN GROUP</a>
-                        </div>
-                        <div class="hero-image fade-in">
-                            <img src="https://i.yapx.ru/c9rD4.png" alt="Pixel Warfare Studio">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- СТАТИСТИКА -->
-            <section class="section">
-                <div class="container">
-                    <div class="stats-grid">
-                        <div class="stat-item fade-in">
-                            <div class="stat-number">02</div>
-                            <div class="stat-label">Founders</div>
-                        </div>
-                        <div class="stat-item fade-in">
-                            <div class="stat-number">02</div>
-                            <div class="stat-label">Games</div>
-                        </div>
-                        <div class="stat-item fade-in">
-                            <div class="stat-number">10K+</div>
-                            <div class="stat-label">Players</div>
-                        </div>
-                        <div class="stat-item fade-in">
-                            <div class="stat-number">2025</div>
-                            <div class="stat-label">Founded</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- О СТУДИИ -->
-            <section id="studio" class="section">
-                <div class="container">
-                    <div class="studio-grid">
-                        <div class="studio-left fade-in">
-                            <div class="section-tag">01 — ABOUT</div>
-                            <h2>LOW POLY<br>WARFARE</h2>
-                        </div>
-                        <div class="studio-right fade-in">
-                            <p>Pixel Warfare Studio specializes in creating fast-paced shooter experiences with a distinctive low poly aesthetic. Founded in 2025 by two passionate developers, we've grown to serve over 10,000 players.</p>
-                            <p>Our games combine the charm of blocky graphics with competitive gameplay mechanics. Every weapon, map, and mechanic is crafted with precision.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ИГРЫ (БЕЗ ИКОНОК) -->
-            <section id="games" class="section">
-                <div class="container">
-                    <div class="section-tag">02 — PROJECTS</div>
-                    <h2>CURRENT<br>GAMES</h2>
-                    
-                    <div class="projects-grid">
-                        <a href="https://www.roblox.com/games/114753752307453/Pixel-Skies" target="_blank" class="project-card fade-in">
-                            <div class="project-number">01</div>
-                            <div class="project-title">PIXELSKIES</div>
-                            <div class="project-desc">Military aviation combat. Control Shahed drones, launch rockets, pilot helicopters, and operate anti-air defense systems. Low poly warfare in the skies.</div>
-                            <div class="project-tag">MILITARY · AVIATION</div>
-                        </a>
-                        
-                        <div class="project-card fade-in">
-                            <div class="project-number">02</div>
-                            <div class="project-title">POLYGON</div>
-                            <div class="project-desc">Geometric warfare. Sharp angles, clean design, competitive gameplay. Multiple game modes with tactical depth.</div>
-                            <div class="project-tag">TACTICAL · COMPETITIVE</div>
-                        </div>
-                        
-                        <div class="project-card fade-in">
-                            <div class="project-number">03</div>
-                            <div class="project-title">COMING SOON</div>
-                            <div class="project-desc">New project in development. Strategic gameplay, innovative mechanics, and immersive environments.</div>
-                            <div class="project-tag">2026 · TBA</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- КОМАНДА -->
-            <section id="team" class="section">
-                <div class="container">
-                    <div class="section-tag">03 — TEAM</div>
-                    <h2>THE FOUNDERS</h2>
-                    
-                    <div class="team-grid">
-                        <a href="https://www.roblox.com/users/3216907585/profile" target="_blank" class="team-card fade-in">
-                            <div class="team-avatar">F</div>
-                            <div class="team-name">FAMTY</div>
-                            <div class="team-role">Owner · Scripter · Animator · Web Designer</div>
-                            <div class="team-link">@famtytg</div>
-                        </a>
-                        
-                        <a href="https://www.roblox.com/users/3725520754/profile" target="_blank" class="team-card fade-in">
-                            <div class="team-avatar">H</div>
-                            <div class="team-name">HOCO_INDEV</div>
-                            <div class="team-role">Owner · Main Developer · Creator</div>
-                            <div class="team-link">@hoco_indev</div>
-                        </a>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 3rem; color: #666; font-size: 0.8rem;">
-                        Website crafted by <span style="color: #888;">FamtyTG</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- КОНТАКТЫ -->
-            <section id="contact" class="section">
-                <div class="container">
-                    <div class="section-tag">04 — CONNECT</div>
-                    <h2>JOIN THE<br>COMMUNITY</h2>
-                    
-                    <div class="contact-links">
-                        <a href="https://t.me/polygonrbxm" target="_blank" class="contact-link fade-in">TELEGRAM</a>
-                        <a href="https://discord.gg/X4pYhJMc" target="_blank" class="contact-link fade-in">DISCORD</a>
-                        <a href="#" class="contact-link fade-in" onclick="alert('Roblox group link - add your group ID')">ROBLOX</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ФУТЕР -->
-            <footer>
-                <div class="container">
-                    <div class="footer-links">
-                        <a href="#studio">Studio</a>
-                        <a href="#games">Games</a>
-                        <a href="#team">Team</a>
-                        <a href="#contact">Contact</a>
-                        <a href="#" onclick="alert('Terms of Use')">Terms</a>
-                        <a href="#" onclick="alert('Privacy Policy')">Privacy</a>
-                    </div>
-                    
-                    <div class="copyright">
-                        © 2026 PIXEL WARFARE STUDIO
-                    </div>
-                    <div class="creator">
-                        crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a>
-                    </div>
-                </div>
-            </footer>
-
-            <!-- BOTTOM NAV -->
-            <div class="container">
-                <div class="bottom-nav">
-                    <a href="#studio" class="bottom-nav-item"><span>01</span> studio</a>
-                    <a href="#games" class="bottom-nav-item"><span>02</span> games</a>
-                    <a href="#team" class="bottom-nav-item"><span>03</span> team</a>
-                    <a href="#contact" class="bottom-nav-item"><span>04</span> contact</a>
-                </div>
-            </div>
+            <div class="loader-text">PIXEL WARFARE STUDIO</div>
         </div>
     </div>
 
+    <!-- УНИКАЛЬНЫЙ ФОН -->
+    <div class="pixel-bg">
+        <div class="pixel-grid"></div>
+        <div class="pixel-glow"></div>
+    </div>
+
+    <!-- 3D-ДЕКОР -->
+    <div class="floating-cubes">
+        <div class="cube-3d cube-3d-1"></div>
+        <div class="cube-3d cube-3d-2"></div>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="site-wrapper">
+        <!-- НАВИГАЦИЯ -->
+        <div class="container">
+            <nav>
+                <a href="#" class="nav-logo">PIXEL WARFARE</a>
+                <div class="nav-menu">
+                    <a href="#games"><span>01</span>GAMES</a>
+                    <a href="#team"><span>02</span>TEAM</a>
+                    <a href="#contact"><span>03</span>CONTACT</a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- ГЕРОЙ -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-tag">EST. 2025</div>
+                    <h1>
+                        <span class="line">PIXEL</span>
+                        <span class="line glitch" data-text="WARFARE">WARFARE</span>
+                    </h1>
+                    <p class="hero-description">Low poly shooters, military aviation, and tactical combat. Built by gamers, for gamers.</p>
+                    <a href="#" class="hero-cta">EXPLORE</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">02</div>
+                        <div class="hero-stat-label">GAMES</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">10K+</div>
+                        <div class="hero-stat-label">PLAYERS</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">2025</div>
+                        <div class="hero-stat-label">FOUNDED</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ГОРИЗОНТАЛЬНАЯ СЕКЦИЯ ИГР -->
+        <section id="games" class="games-section">
+            <div class="container">
+                <div class="games-header reveal">
+                    <div class="games-title">CURRENT PROJECTS</div>
+                    <div class="games-counter">02/03</div>
+                </div>
+            </div>
+
+            <div class="games-horizontal" id="gamesScroller">
+                <a href="https://www.roblox.com/games/114753752307453/Pixel-Skies" target="_blank" class="game-card-h reveal-scale">
+                    <div class="game-number">01</div>
+                    <div class="game-title">PIXELSKIES</div>
+                    <div class="game-desc">Military aviation. Drones, rockets, helicopters, anti-air defense. Low poly warfare in the skies.</div>
+                    <div class="game-tags">
+                        <span class="game-tag">MILITARY</span>
+                        <span class="game-tag">AVIATION</span>
+                        <span class="game-tag">FPS</span>
+                    </div>
+                </a>
+
+                <div class="game-card-h reveal-scale">
+                    <div class="game-number">02</div>
+                    <div class="game-title">POLYGON</div>
+                    <div class="game-desc">Geometric warfare. Tactical combat, sharp angles, competitive gameplay. Multiple modes.</div>
+                    <div class="game-tags">
+                        <span class="game-tag">TACTICAL</span>
+                        <span class="game-tag">COMPETITIVE</span>
+                        <span class="game-tag">ARENA</span>
+                    </div>
+                </div>
+
+                <div class="game-card-h reveal-scale">
+                    <div class="game-number">03</div>
+                    <div class="game-title">CLASSIFIED</div>
+                    <div class="game-desc">New project in development. Strategic gameplay, innovative mechanics.</div>
+                    <div class="game-tags">
+                        <span class="game-tag">2026</span>
+                        <span class="game-tag">TBA</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- СТАТИСТИКА "ЛАБИРИНТ" -->
+        <section class="container">
+            <div class="stats-maze">
+                <div class="maze-cell reveal">
+                    <div class="maze-number">02</div>
+                    <div class="maze-label">FOUNDERS</div>
+                </div>
+                <div class="maze-cell reveal">
+                    <div class="maze-number">02</div>
+                    <div class="maze-label">GAMES</div>
+                </div>
+                <div class="maze-cell reveal">
+                    <div class="maze-number">10K+</div>
+                    <div class="maze-label">PLAYERS</div>
+                </div>
+                <div class="maze-cell reveal">
+                    <div class="maze-number">2025</div>
+                    <div class="maze-label">FOUNDED</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- КОМАНДА (3D КАРТОЧКИ) -->
+        <section id="team" class="team-section">
+            <div class="container">
+                <div class="games-header reveal">
+                    <div class="games-title">THE FOUNDERS</div>
+                    <div class="games-counter">02/02</div>
+                </div>
+
+                <div class="team-grid">
+                    <div class="team-member-3d reveal-left">
+                        <a href="https://www.roblox.com/users/3216907585/profile" target="_blank" class="team-card-3d">
+                            <div class="team-avatar-3d">F</div>
+                            <div class="team-name-3d">FAMTY</div>
+                            <div class="team-role-3d">OWNER · SCRIPTER · ANIMATOR · WEB</div>
+                            <div class="team-link-3d">@famtytg</div>
+                        </a>
+                    </div>
+
+                    <div class="team-member-3d reveal-right">
+                        <a href="https://www.roblox.com/users/3725520754/profile" target="_blank" class="team-card-3d">
+                            <div class="team-avatar-3d">H</div>
+                            <div class="team-name-3d">HOCO_INDEV</div>
+                            <div class="team-role-3d">OWNER · MAIN DEV · CREATOR</div>
+                            <div class="team-link-3d">@hoco_indev</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- КОНТАКТЫ -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2 class="contact-title reveal">CONNECT</h2>
+                <div class="contact-sub reveal">JOIN THE COMMUNITY</div>
+
+                <div class="contact-links-3d reveal-scale">
+                    <a href="https://t.me/polygonrbxm" target="_blank" class="contact-link-3d">
+                        TELEGRAM <span>@polygonrbxm</span>
+                    </a>
+                    <a href="https://discord.gg/X4pYhJMc" target="_blank" class="contact-link-3d">
+                        DISCORD <span>join server</span>
+                    </a>
+                    <a href="#" class="contact-link-3d" onclick="alert('Roblox group coming soon')">
+                        ROBLOX <span>group</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ФУТЕР -->
+        <footer>
+            <div class="container">
+                <div class="footer-year">2026</div>
+
+                <div class="footer-links">
+                    <a href="#games">GAMES</a>
+                    <a href="#team">TEAM</a>
+                    <a href="#contact">CONTACT</a>
+                    <a href="#" onclick="alert('Terms of Use')">TERMS</a>
+                    <a href="#" onclick="alert('Privacy Policy')">PRIVACY</a>
+                </div>
+
+                <div class="copyright">
+                    © 2026 PIXEL WARFARE STUDIO
+                </div>
+                <div class="creator">
+                    crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
     <script>
-        (function() {
-            // КАСТОМНЫЙ КУРСОР
-            const cursor = document.getElementById('customCursor');
+        // ЗАГРУЗОЧНЫЙ ЭКРАН
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ МЫШЬЮ
+        const scroller = document.getElementById('gamesScroller');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        if (scroller) {
+            scroller.addEventListener('mousedown', (e) => {
+                isDown = true;
+                scroller.style.cursor = 'grabbing';
+                startX = e.pageX - scroller.offsetLeft;
+                scrollLeft = scroller.scrollLeft;
+            });
+
+            scroller.addEventListener('mouseleave', () => {
+                isDown = false;
+                scroller.style.cursor = 'grab';
+            });
+
+            scroller.addEventListener('mouseup', () => {
+                isDown = false;
+                scroller.style.cursor = 'grab';
+            });
+
+            scroller.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scroller.offsetLeft;
+                const walk = (x - startX) * 2;
+                scroller.scrollLeft = scrollLeft - walk;
+            });
+
+            scroller.style.cursor = 'grab';
+        }
+
+        // АНИМАЦИЯ ПРИ СКРОЛЛЕ
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
             
-            if (cursor && window.innerWidth > 768) {
-                let mouseX = 0, mouseY = 0;
-                let cursorX = 0, cursorY = 0;
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
                 
-                document.addEventListener('mousemove', (e) => {
-                    mouseX = e.clientX;
-                    mouseY = e.clientY;
-                });
-
-                function animateCursor() {
-                    cursorX += (mouseX - cursorX) * 0.15;
-                    cursorY += (mouseY - cursorY) * 0.15;
-                    
-                    cursor.style.left = cursorX + 'px';
-                    cursor.style.top = cursorY + 'px';
-                    
-                    requestAnimationFrame(animateCursor);
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
                 }
-                
-                animateCursor();
+            });
+        }
 
-                const hoverElements = document.querySelectorAll('a, button, .stat-item, .project-card, .team-card, .contact-link, .bottom-nav-item');
-                
-                hoverElements.forEach(el => {
-                    el.addEventListener('mouseenter', () => {
-                        cursor.classList.add('hover');
-                    });
-                    
-                    el.addEventListener('mouseleave', () => {
-                        cursor.classList.remove('hover');
-                    });
-                });
+        window.addEventListener('scroll', reveal);
+        reveal(); // Запускаем сразу для видимых элементов
 
-                setInterval(() => {
-                    if (Math.random() > 0.95) {
-                        cursor.classList.add('glow');
-                        setTimeout(() => {
-                            cursor.classList.remove('glow');
-                        }, 150);
-                    }
-                }, 2000);
+        // ГЛИТЧ-ЭФФЕКТ ДЛЯ ЗАГОЛОВКА (случайный)
+        setInterval(() => {
+            const glitch = document.querySelector('.glitch');
+            if (glitch && Math.random() > 0.7) {
+                glitch.style.animation = 'none';
+                glitch.offsetHeight;
+                glitch.style.animation = null;
             }
-
-            // ПЛАВНЫЙ СКРОЛЛ
-            if (window.innerWidth > 768) {
-                const content = document.getElementById('smooth-content');
-                
-                function setHeight() {
-                    document.body.style.height = content.offsetHeight + 'px';
-                }
-                setHeight();
-                window.addEventListener('resize', setHeight);
-
-                const smoothScroll = {
-                    target: 0,
-                    current: 0,
-                    ease: 0.075,
-                    
-                    onWheel(e) {
-                        e.preventDefault();
-                        this.target += e.deltaY;
-                        const max = content.offsetHeight - window.innerHeight;
-                        this.target = Math.max(0, Math.min(this.target, max));
-                    },
-                    
-                    animate() {
-                        this.current += (this.target - this.current) * this.ease;
-                        content.style.transform = `translateY(-${this.current}px)`;
-                        
-                        const circles = document.querySelectorAll('.circle');
-                        circles.forEach((circle, i) => {
-                            const speed = 0.02 + (i * 0.01);
-                            const rotation = this.current * speed;
-                            const moveX = Math.sin(this.current * 0.002 + i) * 20;
-                            const moveY = Math.cos(this.current * 0.002 + i) * 20;
-                            circle.style.transform = `rotate(${rotation}deg) translate(${moveX}px, ${moveY}px)`;
-                        });
-                        
-                        const gradient1 = document.getElementById('gradient1');
-                        const gradient2 = document.getElementById('gradient2');
-                        if (gradient1 && gradient2) {
-                            const maxScroll = content.offsetHeight - window.innerHeight;
-                            const progress = maxScroll > 0 ? this.current / maxScroll : 0;
-                            
-                            gradient1.style.transform = `translate(${-900 + progress * 200}px, ${-350 + progress * 100}px)`;
-                            gradient2.style.transform = `translate(${1020 - progress * 300}px, ${699 - progress * 200}px)`;
-                        }
-                        
-                        requestAnimationFrame(this.animate.bind(this));
-                    }
-                };
-
-                window.addEventListener('wheel', (e) => smoothScroll.onWheel(e), { passive: false });
-                smoothScroll.animate();
-
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const target = document.querySelector(this.getAttribute('href'));
-                        if (target) {
-                            smoothScroll.target = target.offsetTop;
-                        }
-                    });
-                });
-            }
-
-            // АНИМАЦИЯ ПОЯВЛЕНИЯ
-            const fadeElements = document.querySelectorAll('.fade-in');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            fadeElements.forEach(el => observer.observe(el));
-
-            // ПАРАЛЛАКС
-            if (window.innerWidth > 768) {
-                document.addEventListener('mousemove', (e) => {
-                    const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-                    const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-                    
-                    document.querySelectorAll('.circle').forEach((circle, i) => {
-                        const strength = 10 + i * 5;
-                        const currentTransform = circle.style.transform || '';
-                        const baseTransform = currentTransform.replace(/translate\([^)]*\)/g, '');
-                        circle.style.transform = baseTransform + ` translate(${mouseX * strength}px, ${mouseY * strength}px)`;
-                    });
-                });
-            }
-        })();
+        }, 3000);
     </script>
 </body>
 </html>
