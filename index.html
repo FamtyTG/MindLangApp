@@ -115,7 +115,7 @@
             #smooth-content { transform: none !important; }
         }
 
-        /* ===== КАСТОМНЫЙ КУРСОР С LIQUID ЭФФЕКТОМ ===== */
+        /* ===== КАСТОМНЫЙ КУРСОР ===== */
         .custom-cursor {
             width: 24px;
             height: 24px;
@@ -125,9 +125,7 @@
             pointer-events: none;
             z-index: 99999;
             transform: translate(-50%, -50%);
-            transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                        background 0.2s;
+            transition: width 0.3s, height 0.3s, background 0.3s;
             backdrop-filter: blur(4px);
             box-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
@@ -138,25 +136,6 @@
             background: rgba(255,255,255,0.15);
             border-color: #fff;
             box-shadow: 0 0 30px rgba(255,255,255,0.6);
-        }
-
-        .custom-cursor::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            filter: blur(8px);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .custom-cursor.hover::before {
-            opacity: 1;
         }
 
         /* ===== ОБЛОЖКА ИГРЫ НА ФОНЕ ===== */
@@ -188,7 +167,7 @@
             z-index: -1;
         }
 
-        /* ===== ФОН С ЖИДКИМИ ГРАДИЕНТАМИ ===== */
+        /* ===== ФОН ===== */
         .background-gradients {
             position: fixed;
             top: 0;
@@ -342,6 +321,7 @@
             text-decoration: none;
             text-shadow: 0 0 15px rgba(255,255,255,0.3);
             transition: all 0.3s;
+            cursor: pointer;
         }
 
         .logo:hover {
@@ -366,6 +346,7 @@
                 transition: all 0.3s;
                 padding: 0.5rem 0;
                 position: relative;
+                cursor: pointer;
             }
             .nav-links a::after {
                 content: '';
@@ -376,7 +357,7 @@
                 height: 1px;
                 background: #fff;
                 box-shadow: 0 0 10px rgba(255,255,255,0.5);
-                transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transition: width 0.3s;
             }
             .nav-links a:hover::after {
                 width: 100%;
@@ -477,8 +458,9 @@
             border: 1px solid rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: default;
         }
 
         .stat-item:hover {
@@ -514,10 +496,12 @@
             font-size: 0.8rem;
             backdrop-filter: blur(10px);
             border-radius: 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s;
             position: relative;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 10;
         }
 
         .button::before {
@@ -570,8 +554,10 @@
             text-decoration: none;
             color: #fff;
             display: block;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 10;
         }
 
         .project-card:hover {
@@ -647,8 +633,10 @@
             border-radius: 20px;
             text-decoration: none;
             color: #fff;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 10;
         }
 
         .team-card:hover {
@@ -767,6 +755,7 @@
             color: #aaa;
             text-decoration: none;
             transition: color 0.3s;
+            cursor: pointer;
         }
 
         .footer-col a:hover {
@@ -790,6 +779,7 @@
             color: #888;
             text-decoration: none;
             transition: color 0.3s;
+            cursor: pointer;
         }
 
         .creator a:hover {
@@ -814,6 +804,7 @@
             letter-spacing: 0.2em;
             transition: all 0.3s;
             position: relative;
+            cursor: pointer;
         }
 
         .bottom-nav-item::after {
@@ -847,8 +838,7 @@
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: opacity 0.8s, transform 0.8s;
         }
 
         .fade-in.visible {
@@ -1004,7 +994,7 @@
                     <div class="contact-links">
                         <a href="https://t.me/polygonrbxm" target="_blank" class="button small">TELEGRAM</a>
                         <a href="https://discord.gg/X4pYhJMc" target="_blank" class="button small">DISCORD</a>
-                        <a href="#" class="button small" onclick="alert('Roblox group coming soon')">ROBLOX</a>
+                        <a href="#" class="button small" onclick="alert('Roblox group coming soon'); return false;">ROBLOX</a>
                     </div>
                 </div>
             </section>
@@ -1014,11 +1004,11 @@
                 <div class="container">
                     <div class="footer-grid">
                         <div class="footer-col"><h4>STUDIO</h4><ul><li><a href="#games">Games</a></li><li><a href="#team">Team</a></li><li><a href="#contact">Contact</a></li></ul></div>
-                        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="https://t.me/polygonrbxm">Telegram</a></li><li><a href="https://discord.gg/X4pYhJMc">Discord</a></li></ul></div>
-                        <div class="footer-col"><h4>INFO</h4><ul><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li></ul></div>
+                        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="https://t.me/polygonrbxm" target="_blank">Telegram</a></li><li><a href="https://discord.gg/X4pYhJMc" target="_blank">Discord</a></li></ul></div>
+                        <div class="footer-col"><h4>INFO</h4><ul><li><a href="#" onclick="alert('Terms'); return false;">Terms</a></li><li><a href="#" onclick="alert('Privacy'); return false;">Privacy</a></li></ul></div>
                     </div>
                     <div class="copyright">© 2026 PIXEL WARFARE STUDIO</div>
-                    <div class="creator">crafted by <a href="https://t.me/FamtyTG">FamtyTG</a></div>
+                    <div class="creator">crafted by <a href="https://t.me/FamtyTG" target="_blank">FamtyTG</a></div>
                 </div>
             </footer>
 
@@ -1082,7 +1072,6 @@
                     this.current += (this.target - this.current) * this.ease;
                     content.style.transform = `translateY(-${this.current}px)`;
                     
-                    // Плавная анимация кругов
                     document.querySelectorAll('.circle').forEach((circle, i) => {
                         const speed = 0.015 + (i * 0.008);
                         const rotation = this.current * speed;
