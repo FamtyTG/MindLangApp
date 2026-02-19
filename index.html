@@ -27,13 +27,45 @@
             position: relative;
         }
 
+        /* ===== ОБЛОЖКА ИГРЫ НА ФОНЕ ===== */
+        .game-cover-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .game-cover-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: blur(3px) grayscale(20%);
+        }
+
+        .game-cover-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.7) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /* ===== 3D ЗАГРУЗОЧНЫЙ ЭКРАН ===== */
         .loader-3d {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             background: #0a0a0a;
             z-index: 10000;
             display: flex;
@@ -52,6 +84,10 @@
             height: 120px;
             perspective: 600px;
             margin-bottom: 2rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .loader-cube {
@@ -73,33 +109,33 @@
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.5);
             backface-visibility: visible;
         }
 
         .loader-cube-face.front {
             transform: translateZ(60px);
-            background: rgba(40, 40, 40, 0.9);
+            background: rgba(50, 50, 50, 0.9);
         }
         .loader-cube-face.back {
             transform: rotateY(180deg) translateZ(60px);
-            background: rgba(20, 20, 20, 0.9);
+            background: rgba(30, 30, 30, 0.9);
         }
         .loader-cube-face.right {
             transform: rotateY(90deg) translateZ(60px);
-            background: rgba(30, 30, 30, 0.9);
+            background: rgba(40, 40, 40, 0.9);
         }
         .loader-cube-face.left {
             transform: rotateY(-90deg) translateZ(60px);
-            background: rgba(30, 30, 30, 0.9);
+            background: rgba(40, 40, 40, 0.9);
         }
         .loader-cube-face.top {
             transform: rotateX(90deg) translateZ(60px);
-            background: rgba(50, 50, 50, 0.9);
+            background: rgba(60, 60, 60, 0.9);
         }
         .loader-cube-face.bottom {
             transform: rotateX(-90deg) translateZ(60px);
-            background: rgba(10, 10, 10, 0.9);
+            background: rgba(20, 20, 20, 0.9);
         }
 
         @keyframes cubeRotate {
@@ -111,11 +147,16 @@
         }
 
         .loader-text-3d {
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 0.9rem;
             letter-spacing: 0.5em;
-            color: #666;
+            color: #888;
             text-transform: uppercase;
             animation: textPulse 2s infinite;
+            white-space: nowrap;
         }
 
         @keyframes textPulse {
@@ -167,7 +208,7 @@
             }
         }
 
-        /* ===== ФОН ===== */
+        /* ===== ФОН (ДОПОЛНИТЕЛЬНЫЙ) ===== */
         .background-gradients {
             position: fixed;
             top: 0;
@@ -305,7 +346,7 @@
 
         .circle {
             position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 50%;
             transition: transform 0.1s ease-out;
         }
@@ -329,7 +370,7 @@
             height: 120vh;
             right: -40vh;
             bottom: -40vh;
-            border-color: rgba(255, 255, 255, 0.01);
+            border-color: rgba(255, 255, 255, 0.02);
         }
 
         .circle-4 {
@@ -337,7 +378,7 @@
             height: 80vh;
             left: -30vh;
             top: -20vh;
-            border-color: rgba(255, 255, 255, 0.01);
+            border-color: rgba(255, 255, 255, 0.02);
         }
 
         /* ===== ПЛАВНЫЙ СКРОЛЛ ===== */
@@ -385,7 +426,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             margin-bottom: 2rem;
         }
 
@@ -407,7 +448,7 @@
         }
 
         .nav-links a {
-            color: #888;
+            color: #aaa;
             text-decoration: none;
             font-size: 0.8rem;
             letter-spacing: 0.2em;
@@ -469,7 +510,7 @@
         .hero-tag {
             font-size: 0.7rem;
             letter-spacing: 0.4em;
-            color: #666;
+            color: #aaa;
             margin-bottom: 1rem;
             animation: slideDown 0.8s forwards;
         }
@@ -478,6 +519,7 @@
             font-size: clamp(3rem, 6vw, 5rem);
             line-height: 1.1;
             margin-bottom: 2rem;
+            color: #fff;
         }
 
         .hero h1 .line {
@@ -502,7 +544,7 @@
 
         .hero p {
             max-width: 500px;
-            color: #999;
+            color: #bbb;
             margin-bottom: 3rem;
             animation: fadeIn 1s 0.6s forwards;
             opacity: 0;
@@ -592,8 +634,8 @@
 
         .stat-item {
             padding: 2rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
@@ -613,7 +655,8 @@
 
         .stat-item:hover {
             transform: translateY(-5px) scale(1.02);
-            border-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
         }
 
         .stat-item:hover::before {
@@ -630,7 +673,8 @@
         .stat-label {
             font-size: 0.7rem;
             letter-spacing: 0.2em;
-            color: #666;
+            color: #999;
+            text-transform: uppercase;
         }
 
         /* ===== ПРОЕКТЫ ===== */
@@ -649,8 +693,8 @@
 
         .project-card {
             padding: 3rem 2rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
             text-decoration: none;
             color: inherit;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -673,7 +717,8 @@
 
         .project-card:hover {
             transform: translateY(-15px);
-            border-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
         }
 
         .project-card:hover::before {
@@ -683,23 +728,24 @@
         .project-number {
             font-size: 3rem;
             font-weight: 300;
-            color: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.1);
             margin-bottom: 1rem;
             transition: all 0.3s;
         }
 
         .project-card:hover .project-number {
-            color: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.2);
         }
 
         .project-title {
             font-size: 1.8rem;
             font-weight: 300;
             margin-bottom: 1rem;
+            color: #fff;
         }
 
         .project-desc {
-            color: #999;
+            color: #bbb;
             font-size: 0.9rem;
             line-height: 1.8;
             margin-bottom: 2rem;
@@ -708,11 +754,11 @@
         .project-tag {
             display: inline-block;
             padding: 0.3rem 1rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
             font-size: 0.6rem;
             letter-spacing: 0.1em;
-            color: #888;
+            color: #aaa;
             transition: all 0.3s;
         }
 
@@ -737,8 +783,8 @@
 
         .team-card {
             padding: 2rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
             text-decoration: none;
             color: inherit;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -760,7 +806,8 @@
 
         .team-card:hover {
             transform: translateY(-5px) scale(1.02);
-            border-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
         }
 
         .team-card:hover::before {
@@ -771,7 +818,7 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #222, #111);
+            background: linear-gradient(135deg, #333, #222);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -789,17 +836,18 @@
         .team-name {
             font-size: 1.5rem;
             margin-bottom: 0.3rem;
+            color: #fff;
         }
 
         .team-role {
-            color: #888;
+            color: #aaa;
             font-size: 0.8rem;
             letter-spacing: 0.1em;
             margin-bottom: 1rem;
         }
 
         .team-link {
-            color: #666;
+            color: #888;
             font-size: 0.8rem;
             transition: color 0.3s;
         }
@@ -819,8 +867,8 @@
 
         .contact-link {
             padding: 1rem 2rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
             color: #fff;
             text-decoration: none;
             font-size: 0.8rem;
@@ -843,7 +891,8 @@
 
         .contact-link:hover {
             transform: translateY(-3px);
-            border-color: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
         }
 
         .contact-link:hover::before {
@@ -853,7 +902,7 @@
         /* ===== СЕКЦИИ ===== */
         .section {
             padding: 5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .section:last-child {
@@ -863,7 +912,7 @@
         .section-tag {
             font-size: 0.7rem;
             letter-spacing: 0.4em;
-            color: #666;
+            color: #aaa;
             margin-bottom: 1rem;
         }
 
@@ -873,6 +922,7 @@
             letter-spacing: 0.1em;
             margin-bottom: 2rem;
             position: relative;
+            color: #fff;
         }
 
         h2::after {
@@ -905,7 +955,7 @@
         }
 
         .footer-links a {
-            color: #666;
+            color: #888;
             text-decoration: none;
             font-size: 0.8rem;
             letter-spacing: 0.2em;
@@ -931,19 +981,19 @@
         }
 
         .copyright {
-            color: #444;
+            color: #666;
             font-size: 0.7rem;
             margin-top: 3rem;
         }
 
         .creator {
-            color: #444;
+            color: #666;
             font-size: 0.7rem;
             margin-top: 1rem;
         }
 
         .creator a {
-            color: #666;
+            color: #888;
             text-decoration: none;
             transition: color 0.3s;
         }
@@ -964,7 +1014,7 @@
         }
 
         .bottom-nav-item {
-            color: #666;
+            color: #888;
             text-decoration: none;
             font-size: 0.7rem;
             letter-spacing: 0.2em;
@@ -1054,27 +1104,31 @@
     </style>
 </head>
 <body>
+    <!-- ОБЛОЖКА ИГРЫ НА ФОНЕ -->
+    <div class="game-cover-bg">
+        <img src="https://i.yapx.ru/c9rD4.png" alt="Polygon Game Cover">
+    </div>
+    <div class="game-cover-overlay"></div>
+
     <!-- 3D ЗАГРУЗОЧНЫЙ ЭКРАН -->
     <div class="loader-3d" id="loader3d">
-        <div style="text-align: center;">
-            <div class="loader-cube-container">
-                <div class="loader-cube">
-                    <div class="loader-cube-face front">P</div>
-                    <div class="loader-cube-face back">W</div>
-                    <div class="loader-cube-face right">S</div>
-                    <div class="loader-cube-face left"></div>
-                    <div class="loader-cube-face top"></div>
-                    <div class="loader-cube-face bottom"></div>
-                </div>
+        <div class="loader-cube-container">
+            <div class="loader-cube">
+                <div class="loader-cube-face front">P</div>
+                <div class="loader-cube-face back">W</div>
+                <div class="loader-cube-face right">S</div>
+                <div class="loader-cube-face left"></div>
+                <div class="loader-cube-face top"></div>
+                <div class="loader-cube-face bottom"></div>
             </div>
-            <div class="loader-text-3d">PIXEL WARFARE</div>
         </div>
+        <div class="loader-text-3d">PIXEL WARFARE</div>
     </div>
 
     <!-- КАСТОМНЫЙ КУРСОР -->
     <div class="custom-cursor" id="customCursor"></div>
 
-    <!-- ФОН -->
+    <!-- ФОН (ДОПОЛНИТЕЛЬНЫЙ) -->
     <div class="background-gradients">
         <div class="gradient-1" id="gradient1"></div>
         <div class="gradient-2" id="gradient2"></div>
@@ -1209,8 +1263,8 @@
                         </a>
                     </div>
 
-                    <div style="text-align: center; margin-top: 3rem; color: #666; font-size: 0.8rem;">
-                        Website crafted by <span style="color: #888;">FamtyTG</span>
+                    <div style="text-align: center; margin-top: 3rem; color: #888; font-size: 0.8rem;">
+                        Website crafted by <span style="color: #aaa;">FamtyTG</span>
                     </div>
                 </div>
             </section>
