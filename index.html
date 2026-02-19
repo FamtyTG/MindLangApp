@@ -83,11 +83,10 @@
             width: 120px;
             height: 120px;
             perspective: 600px;
-            margin-bottom: 2rem;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -60%);
         }
 
         .loader-cube {
@@ -102,40 +101,40 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: rgba(30, 30, 30, 0.9);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            background: rgba(40, 40, 40, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.8);
             backface-visibility: visible;
         }
 
         .loader-cube-face.front {
             transform: translateZ(60px);
-            background: rgba(50, 50, 50, 0.9);
+            background: rgba(60, 60, 60, 0.95);
         }
         .loader-cube-face.back {
             transform: rotateY(180deg) translateZ(60px);
-            background: rgba(30, 30, 30, 0.9);
+            background: rgba(40, 40, 40, 0.95);
         }
         .loader-cube-face.right {
             transform: rotateY(90deg) translateZ(60px);
-            background: rgba(40, 40, 40, 0.9);
+            background: rgba(50, 50, 50, 0.95);
         }
         .loader-cube-face.left {
             transform: rotateY(-90deg) translateZ(60px);
-            background: rgba(40, 40, 40, 0.9);
+            background: rgba(50, 50, 50, 0.95);
         }
         .loader-cube-face.top {
             transform: rotateX(90deg) translateZ(60px);
-            background: rgba(60, 60, 60, 0.9);
+            background: rgba(70, 70, 70, 0.95);
         }
         .loader-cube-face.bottom {
             transform: rotateX(-90deg) translateZ(60px);
-            background: rgba(20, 20, 20, 0.9);
+            background: rgba(30, 30, 30, 0.95);
         }
 
         @keyframes cubeRotate {
@@ -153,14 +152,14 @@
             transform: translateX(-50%);
             font-size: 0.9rem;
             letter-spacing: 0.5em;
-            color: #888;
+            color: #aaa;
             text-transform: uppercase;
             animation: textPulse 2s infinite;
             white-space: nowrap;
         }
 
         @keyframes textPulse {
-            0%, 100% { opacity: 0.3; }
+            0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
 
@@ -448,7 +447,7 @@
         }
 
         .nav-links a {
-            color: #aaa;
+            color: #ccc;
             text-decoration: none;
             font-size: 0.8rem;
             letter-spacing: 0.2em;
@@ -544,7 +543,7 @@
 
         .hero p {
             max-width: 500px;
-            color: #bbb;
+            color: #ccc;
             margin-bottom: 3rem;
             animation: fadeIn 1s 0.6s forwards;
             opacity: 0;
@@ -557,7 +556,7 @@
         .hero-cta {
             display: inline-block;
             padding: 1rem 3rem;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             color: #fff;
             text-decoration: none;
             font-size: 0.8rem;
@@ -567,6 +566,7 @@
             opacity: 0;
             position: relative;
             overflow: hidden;
+            background: rgba(255,255,255,0.02);
         }
 
         .hero-cta::before {
@@ -609,7 +609,7 @@
             height: 100%;
             object-fit: cover;
             border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 30px 60px rgba(0,0,0,0.5);
             transition: transform 0.3s;
         }
@@ -634,11 +634,12 @@
 
         .stat-item {
             padding: 2rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
         }
 
         .stat-item::before {
@@ -655,8 +656,8 @@
 
         .stat-item:hover {
             transform: translateY(-5px) scale(1.02);
-            border-color: rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(30, 30, 30, 0.7);
         }
 
         .stat-item:hover::before {
@@ -673,7 +674,7 @@
         .stat-label {
             font-size: 0.7rem;
             letter-spacing: 0.2em;
-            color: #999;
+            color: #bbb;
             text-transform: uppercase;
         }
 
@@ -693,13 +694,15 @@
 
         .project-card {
             padding: 3rem 2rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
             text-decoration: none;
             color: inherit;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
+            display: block;
         }
 
         .project-card::before {
@@ -717,8 +720,8 @@
 
         .project-card:hover {
             transform: translateY(-15px);
-            border-color: rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(30, 30, 30, 0.7);
         }
 
         .project-card:hover::before {
@@ -728,13 +731,13 @@
         .project-number {
             font-size: 3rem;
             font-weight: 300;
-            color: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.15);
             margin-bottom: 1rem;
             transition: all 0.3s;
         }
 
         .project-card:hover .project-number {
-            color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.25);
         }
 
         .project-title {
@@ -745,7 +748,7 @@
         }
 
         .project-desc {
-            color: #bbb;
+            color: #ccc;
             font-size: 0.9rem;
             line-height: 1.8;
             margin-bottom: 2rem;
@@ -754,16 +757,16 @@
         .project-tag {
             display: inline-block;
             padding: 0.3rem 1rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             font-size: 0.6rem;
             letter-spacing: 0.1em;
-            color: #aaa;
+            color: #ccc;
             transition: all 0.3s;
         }
 
         .project-card:hover .project-tag {
-            border-color: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
             color: #fff;
         }
 
@@ -783,13 +786,15 @@
 
         .team-card {
             padding: 2rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
             text-decoration: none;
             color: inherit;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
+            display: block;
         }
 
         .team-card::before {
@@ -806,8 +811,8 @@
 
         .team-card:hover {
             transform: translateY(-5px) scale(1.02);
-            border-color: rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(30, 30, 30, 0.7);
         }
 
         .team-card:hover::before {
@@ -818,14 +823,14 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #333, #222);
+            background: linear-gradient(135deg, #444, #222);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
             color: #fff;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
             transition: transform 0.3s;
         }
 
@@ -840,14 +845,14 @@
         }
 
         .team-role {
-            color: #aaa;
+            color: #ccc;
             font-size: 0.8rem;
             letter-spacing: 0.1em;
             margin-bottom: 1rem;
         }
 
         .team-link {
-            color: #888;
+            color: #aaa;
             font-size: 0.8rem;
             transition: color 0.3s;
         }
@@ -867,8 +872,8 @@
 
         .contact-link {
             padding: 1rem 2rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255,255,255,0.2);
             color: #fff;
             text-decoration: none;
             font-size: 0.8rem;
@@ -876,6 +881,9 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
+            min-width: 140px;
+            text-align: center;
         }
 
         .contact-link::before {
@@ -891,8 +899,8 @@
 
         .contact-link:hover {
             transform: translateY(-3px);
-            border-color: rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.4);
+            background: rgba(30, 30, 30, 0.7);
         }
 
         .contact-link:hover::before {
@@ -955,7 +963,7 @@
         }
 
         .footer-links a {
-            color: #888;
+            color: #aaa;
             text-decoration: none;
             font-size: 0.8rem;
             letter-spacing: 0.2em;
@@ -981,19 +989,19 @@
         }
 
         .copyright {
-            color: #666;
+            color: #888;
             font-size: 0.7rem;
             margin-top: 3rem;
         }
 
         .creator {
-            color: #666;
+            color: #888;
             font-size: 0.7rem;
             margin-top: 1rem;
         }
 
         .creator a {
-            color: #888;
+            color: #aaa;
             text-decoration: none;
             transition: color 0.3s;
         }
@@ -1014,7 +1022,7 @@
         }
 
         .bottom-nav-item {
-            color: #888;
+            color: #aaa;
             text-decoration: none;
             font-size: 0.7rem;
             letter-spacing: 0.2em;
@@ -1179,7 +1187,7 @@
                                 <span class="line">WARFARE</span>
                             </h1>
                             <p>Low poly shooters, military aviation, and tactical combat. Built by gamers, for gamers.</p>
-                            <a href="#" class="hero-cta">ENTER</a>
+                            <a href="#games" class="hero-cta">ENTER</a>
                         </div>
                         <div class="hero-image">
                             <img src="https://i.yapx.ru/c9rD4.png" alt="Pixel Warfare Studio">
@@ -1263,8 +1271,8 @@
                         </a>
                     </div>
 
-                    <div style="text-align: center; margin-top: 3rem; color: #888; font-size: 0.8rem;">
-                        Website crafted by <span style="color: #aaa;">FamtyTG</span>
+                    <div style="text-align: center; margin-top: 3rem; color: #aaa; font-size: 0.8rem;">
+                        Website crafted by <span style="color: #ccc;">FamtyTG</span>
                     </div>
                 </div>
             </section>
@@ -1290,8 +1298,8 @@
                         <a href="#games">GAMES</a>
                         <a href="#team">TEAM</a>
                         <a href="#contact">CONTACT</a>
-                        <a href="#" onclick="alert('Terms')">TERMS</a>
-                        <a href="#" onclick="alert('Privacy')">PRIVACY</a>
+                        <a href="#" onclick="alert('Terms of Use')">TERMS</a>
+                        <a href="#" onclick="alert('Privacy Policy')">PRIVACY</a>
                     </div>
                     
                     <div class="copyright">
